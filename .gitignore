@@ -17,4 +17,4 @@
 .byebug_history
 
 # Ignore folder settings (set by Dillon)
-./DS_Store
+/.DS_Store
