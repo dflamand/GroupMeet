@@ -6,6 +6,7 @@ class UserTest < ActiveSupport::TestCase
   	@user = User.new
   	@user.email = "      "
   	@user.password = "password"
+  	@user.password_confirmation = "password"
 
   	assert_not @user.valid?
   end
@@ -14,6 +15,7 @@ class UserTest < ActiveSupport::TestCase
   	@user = User.new
   	@user.email = "email@test.ca"
   	@user.password = "   "
+  	@user.password_confirmation = "password"
 
   	assert_not @user.valid?	
   end
@@ -22,11 +24,13 @@ class UserTest < ActiveSupport::TestCase
   	@first = User.new
   	@first.email = "email@test.com"
   	@first.password = "password"
+  	@first.password_confirmation = "password"
   	@first.save
 
   	@second = User.new
   	@second.email = "email@test.com"
-  	@first.password = "password"
+  	@second.password = "password"
+  	@second.password_confirmation = "password"
 
   	assert_not @second.valid?
   end
@@ -35,6 +39,7 @@ class UserTest < ActiveSupport::TestCase
   	@user = User.new
   	@user.email = "D"*70 + "@email.com"
   	@user.password = "password"
+  	@user.password_confirmation = "password"
 
   	assert_not @user.valid?
   end
@@ -42,6 +47,8 @@ class UserTest < ActiveSupport::TestCase
   test "email format" do
   	@user = User.new
   	@user.password = "password"
+  	@user.password_confirmation = "password"
+
   	addresses = %w[test@email,com test_email.com test@email.]
 
   	addresses.each do |a|
