@@ -1,9 +1,6 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
 
   test "email present" do
   	@user = User.new
@@ -33,4 +30,25 @@ class UserTest < ActiveSupport::TestCase
 
   	assert_not @second.valid?
   end
+
+  test "email length" do
+  	@user = User.new
+  	@user.email = "D"*70 + "@email.com"
+  	@user.password = "password"
+
+  	assert_not @user.valid?
+  end
+
+  test "email format" do
+  	@user = User.new
+  	@user.password = "password"
+  	addresses = %w[test@email,com test_email.com test@email.]
+
+  	addresses.each do |a|
+  		@user.email = a
+  		assert_not @user.valid?
+  	end
+
+  end
+
 end
