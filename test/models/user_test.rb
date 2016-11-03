@@ -4,7 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "email present" do
   	@user = User.new
-  	@user.email = "     "
+  	@user.email = "      "
   	@user.password = "password"
 
   	assert_not @user.valid?
