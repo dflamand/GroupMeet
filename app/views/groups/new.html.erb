@@ -2,7 +2,17 @@
 
 <%= simple_form_for @group do |g|%>
 
-	<!--<%= render 'shared/error_messages'%> -->
+	<% if @group.errors.any? %>
+		<div>
+			<h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+
+			<ul>
+				<% @group.errors.full_messages.each do |message| %>
+				<li><%= message %></li>
+				<% end %>
+			</ul>
+		</div>
+		<% end %>
 
 	<%= g.input :gname %>
 	<%= g.submit "Create"%>
