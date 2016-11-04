@@ -1,0 +1,9 @@
+<h1>Create Group</h1>
+
+<%= simple_form_for @group do |g|%>
+
+	<!--<%= render 'shared/error_messages'%> -->
+
+	<%= g.input :gname %>
+	<%= g.submit "Create"%>
+<% end %>
