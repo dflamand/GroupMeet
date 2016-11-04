@@ -1,0 +1,7 @@
+<h1>Login</h1>
+
+<%= simple_form_for(:user, url: login_path) do |u|%>
+	<%= u.input :email%>
+	<%= u.input :password%>
+	<%= u.submit 'login'%>
+<% end %>
