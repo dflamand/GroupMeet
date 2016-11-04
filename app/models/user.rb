@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-	belongs_to :group
+	belongs_to :group, optional:true
 	
 	before_save {self.email = self.email.downcase}
 
@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
 	validates :email, :presence => true, :uniqueness => { :case_sensitive => false }, :length => {maximum: 60}, :format => {with: EMAIL_REGEX}
 	validates :password, :presence => true
+	validates :group, {presence: true, allow_nil: true}
 
 	has_secure_password
 end
