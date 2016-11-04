@@ -1,10 +1,10 @@
 <h1>Create Group</h1>
 
-<%= simple_form_for @group do |g|%>
+<%= form_for @group do |g|%>
 
 	<% if @group.errors.any? %>
 		<div>
-			<h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+			<h4><%= pluralize(@group.errors.count, "error") %> occurred</h4>
 
 			<ul>
 				<% @group.errors.full_messages.each do |message| %>
@@ -14,6 +14,7 @@
 		</div>
 		<% end %>
 
-	<%= g.input :gname %>
+	<%= g.label :gname, "Group Name" %>
+	<%= g.text_field :gname %>
 	<%= g.submit "Create"%>
 <% end %>
