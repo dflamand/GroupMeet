@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Simple Map</title>
+		<meta name="viewport" content="initial-scale=1.0">
+		<meta charset="utf-8">
+		<style>
+			/* Always set the map height explicitly to define the size of the div
+			 * element that contains the map. */
+			#map {
+				height: 80%;
+			}
+			/* Optional: Makes the sample page fill the window. */
+			html, body, map {
+				height: 100%;
+				width: 80%;
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT1vykYc_wmmkjw6FSd3i_s58eQcI-OP4&callback=initMap&libraries=places"
+		async defer></script>
+		<script src="map.js"></script>
+		
+	</head>
+	<body>
+	
+		<div id="map"></div>
+		<div id = "controls" style="height = 1em;"> 
+			Address 1: <input id="addr1" type="text" name="addr1"><br>
+			Address 2: <input id="addr2" type="text" name="addr2"><br>
+			<input type="button" value="Submit" onclick="calculateAddr()"/>
+		</div>
+	</body>
+</html>
