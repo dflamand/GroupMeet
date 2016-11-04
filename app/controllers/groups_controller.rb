@@ -11,6 +11,7 @@ class GroupsController < ApplicationController
       redirect_to @group
     else
       render('new')
+    end
   end
   
   private
