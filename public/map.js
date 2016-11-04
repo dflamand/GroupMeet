@@ -8,7 +8,10 @@ var bounds;
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 49.277469, lng: -122.914338},
-		zoom: 13
+		zoom: 13,
+		mapTypeControl: false,
+		streetViewControl: false,
+  		mapTypeId: google.maps.MapTypeId.ROADMAP
 	});
 }
 
