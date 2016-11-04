@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   	user = User.find_by(email: params[:user][:email])
   	if user && user.authenticate(params[:user][:password])
   		login user
-  		redirect_to '/map.html'
+  		redirect_to user
   	else
   		render 'new'
   	end
