@@ -8,13 +8,24 @@ class GroupsController < ApplicationController
   end
   
   def create
-    @group = Group.new(get_group_params)
     
-    if @group.save
-      redirect_to @group
+    if currentUser.group_id
+      raise "You already have a group"
     else
-      render('new')
+      @group = Group.new(get_group_params)
+      @group.users << currentUser
+      @group.groupowner = currentUser.id
+      
+      if @group.save
+        redirect_to @group
+      else
+        render('new')
+      end
     end
+    
+  end
+  
+  def show
   end
   
   private
