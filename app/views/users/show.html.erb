@@ -2,5 +2,7 @@
 
 <%= link_to "Create Group", :controller => "groups", :action => "new" %><br>
 
-Group
-<%= currentUser.group %>
+Group<br>
+<% currentUser.groups.each do |g| %>
+<%= g.gname %>
+<% end %>

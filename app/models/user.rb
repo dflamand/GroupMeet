@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-	belongs_to :group, optional:true
+	has_and_belongs_to_many :groups, optional:true
 	
 	before_save {self.email = self.email.downcase}
 
