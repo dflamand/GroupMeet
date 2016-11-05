@@ -5,7 +5,9 @@
 Groups<br>
 <ul>
 <% currentUser.groups.each do |g| %>
-<li><%= g.gname %></li>
+<li><%= g.gname %>
+<%= link_to "Delete", g, method: :delete %>
+</li>
 <% end %>
 </ul>
 

@@ -8,24 +8,24 @@ class GroupsController < ApplicationController
   end
   
   def create
-      puts "***"
-      
-      puts "***"
-      @group = Group.new(get_group_params)
-      @group.users << currentUser
-      
-      @group.groupowner = currentUser.id
-      
-      if @group.save
-        redirect_to @group
-      else
-        render('new')
-      end
+    @group = Group.new(get_group_params)
+    @group.users << currentUser
+    @group.groupowner = currentUser.id
     
-    
+    if @group.save
+      redirect_to @group
+    else
+      render('new')
+    end
   end
   
   def show
+  end
+  
+  def destroy
+    @group = Group.find(params[:id])
+    @group.destroy
+    redirect_to currentUser
   end
   
   private
