@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
   
   def create
       puts "***"
-      puts currentUser.groups.id
+      
       puts "***"
       @group = Group.new(get_group_params)
       @group.users << currentUser
@@ -17,8 +17,6 @@ class GroupsController < ApplicationController
       @group.groupowner = currentUser.id
       
       if @group.save
-        currentUser.groups << @group
-        currentUser.save
         redirect_to @group
       else
         render('new')
