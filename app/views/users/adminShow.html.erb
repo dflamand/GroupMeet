@@ -1,0 +1,15 @@
+<h1>Admin: <%= @user.email%></h1>
+
+<table>
+	<tr>
+		<th>ID</th>
+		<th>Email</th>
+	</tr>
+	<% @users.each do |u|%>
+	<tr>
+		<td><%= u.id%></td>
+		<td><%= u.email%></td>
+	</tr>
+	<% end %>
+</table>
+<%= link_to "Logout", logout_path, method: :delete%>
