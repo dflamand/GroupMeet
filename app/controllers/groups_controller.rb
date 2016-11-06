@@ -27,6 +27,7 @@ class GroupsController < ApplicationController
   end
   
   def show
+    @members = Group.find(params[:id]).users
   end
   
   def destroy

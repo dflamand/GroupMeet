@@ -1,4 +1,11 @@
 <h1>Showing Group for user <%= currentUser.email %> </h1>
 
+<p>Members</p>
+<% @members.each do |t| %>
+<ul>
+<li><%= t.username %></li>
+</ul>
+
+<% end %>
 <%= link_to "Back to profile", currentUser %>
 

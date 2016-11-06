@@ -20,3 +20,5 @@
 	<%= g.collection_select(:user_ids, @all_users, :id, :username, {}, {:multiple => true}) %>
 	<%= g.submit "Create"%>
 <% end %>
+
+<%= link_to "Back", currentUser %>
