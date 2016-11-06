@@ -74,10 +74,6 @@ img {
       .sidebar-tabs > li.active, .sidebar-tabs > ul > li.active {
         color: #000;
         background-color: #4286f4; 
-/*        background-image: "arrowLeft.png";
-        background-repeat: no-repeat;
-        background-position: left;
-        padding-left: 128px;*/
       }
       .sidebar-tabs > li.disabled, .sidebar-tabs > ul > li.disabled {
         color: rgba(102, 102, 102, 0.4); }
