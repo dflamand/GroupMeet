@@ -6,7 +6,7 @@ Groups<br>
 <ul>
 <% currentUser.groups.each do |g| %>
 <li><%= g.gname %>
-<%= link_to "Delete", g, method: :delete %>
+<%= link_to "Delete", g, method: :delete, data: {confirm: "Are you sure?"} %>
 </li>
 <% end %>
 </ul>
