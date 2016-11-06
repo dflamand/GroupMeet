@@ -1,7 +1,7 @@
-<h1>Showing Group for user <%= currentUser.email %> </h1>
+<h1>Showing Group <%= @group.gname %>  for user <%= currentUser.email %> </h1>
 
 <p>Members</p>
-<% @members.each do |t| %>
+<% @group.users.each do |t| %>
 <ul>
 <li><%= t.u_email %></li>
 </ul>

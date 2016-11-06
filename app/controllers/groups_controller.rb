@@ -28,7 +28,7 @@ class GroupsController < ApplicationController
   
   def show
     #@group = Group.find(params[:id])
-    @members = Group.find(params[:id]).users
+    @group = Group.find(params[:id])
   end
   
   def destroy
