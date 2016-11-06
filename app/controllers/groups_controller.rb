@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
   def new
     @group = Group.new
     #All users except for the one currently logged in
-    @all_users = User.all.where.not(id: currentUser.id)
+    #@all_users = User.all.where.not(id: currentUser.id)
   end
   
   def create
@@ -27,7 +27,8 @@ class GroupsController < ApplicationController
   end
   
   def show
-    @members = Group.find(params[:id]).users
+    #@group = Group.find(params[:id])
+    @group = Group.find(params[:id])
   end
   
   def destroy

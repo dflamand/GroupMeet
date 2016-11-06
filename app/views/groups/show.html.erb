@@ -3,7 +3,7 @@
 </head>
 
 <div class="blue-bar">
-	<p class ="top-header">Showing Group For User <%= currentUser.email %></p>
+	<p class ="top-header">Showing Group <%= @group.gname %> For User <%= currentUser.email %></p>
 </div>
 
 <div align="center" class="forms">
@@ -13,14 +13,15 @@
 			<tr>
 				<th>Members</th>
 			</tr>
-			<% @members.each do |t| %>
+			<% @group.users.each do |t| %>
 			<tr>
-				<td><%= t.username %></td>
+				<td><%= t.u_email %></td>
 			</tr>
 			<% end %>
 		</table>
 
 <br>
+
 
 <%= link_to "Back to profile", currentUser %>
 

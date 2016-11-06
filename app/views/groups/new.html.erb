@@ -24,6 +24,7 @@
 		</div>
 		<% end %>
 
+
 	<table>
 		<tr>
 			<th>Group Name</th>
@@ -31,9 +32,10 @@
 		</tr>
 		<tr>
 			<th>Add users (CTRL+click to select multiple)</th>
-			<td><%= g.collection_select(:user_ids, @all_users, :id, :username, {}, {:multiple => true}) %></td>
+			<td><%= g.collection_select(:user_ids, User.all.where.not(id: currentUser.id), :id, :username, {}, {:multiple => true}) %></td>
 		</tr>
 	</table>
+
 
 	<%= g.submit "Create"%>
 <% end %>
