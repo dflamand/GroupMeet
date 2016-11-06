@@ -15,8 +15,19 @@ class UsersController < ApplicationController
   end
 
   def show
-    if loggedIn?
+    if loggedIn? && !currentUser.isAdmin
       @user = currentUser
+    elsif loggedIn? && currentUser.isAdmin
+      redirect_to admin_path
+    else
+      redirect_to login_path
+    end
+  end
+
+  def adminShow
+    if loggedIn? && currentUser.isAdmin
+        @users = User.all
+        @user = currentUser
     else
       redirect_to login_path
     end
