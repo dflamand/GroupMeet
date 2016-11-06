@@ -17,7 +17,7 @@
 	<%= g.label :gname, "Group Name" %><br>
 	<%= g.text_field :gname %><br>
 	<%= g.label "Add users (CTRL+click to select multiple)" %><br>
-	<%= g.collection_select(:user_ids, @all_users, :id, :username, {}, {:multiple => true}) %>
+	<%= g.collection_select(:user_ids, User.all.where.not(id: currentUser.id), :id, :u_email, {}, {:multiple => true}) %>
 	<%= g.submit "Create"%>
 <% end %>
 

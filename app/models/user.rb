@@ -8,8 +8,8 @@ class User < ApplicationRecord
 	validates :email, :presence => true, :uniqueness => { :case_sensitive => false }, :length => {maximum: 60}, :format => {with: EMAIL_REGEX}
 	validates :password, :presence => true
 	
-	def username
-		"#{firstName}" + " #{lastName}"
+	def u_email
+		"#{email}"
 	end
 	
 
