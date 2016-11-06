@@ -1,6 +1,22 @@
+
 <h1>Profile</h1>
 
-<%= link_to "Create New Group"%>
+<%= link_to "Create Group", :controller => "groups", :action => "new" %><br>
 
+<br>
 <p>Groups Joined:</p>
+<ul>
+<% currentUser.groups.each do |g| %>
+<li><%= g.gname %>
+<%= link_to "Delete", g, method: :delete, data: {confirm: "Are you sure?"} %>
+</li>
+<% end %>
+</ul>
+
+
+
+<%= link_to "Back to home", root_url %>
+
+
+
 
