@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
   def show
     if loggedIn?
-      @user = User.find(params[:id])
+      @user = currentUser
     else
       redirect_to login_path
     end
