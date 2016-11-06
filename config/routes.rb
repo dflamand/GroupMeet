@@ -5,8 +5,10 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
 
+  get "/pages/:page" => "pages#show"
 
-  root 'sessions#new'
+
+  root 'pages#map'
   resources :users
   resources :groups
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

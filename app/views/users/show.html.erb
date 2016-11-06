@@ -1,8 +1,10 @@
-<h1>SHOWING USER</h1>
+
+<h1>Profile</h1>
 
 <%= link_to "Create Group", :controller => "groups", :action => "new" %><br>
 
-Groups<br>
+<br>
+<p>Groups Joined:</p>
 <ul>
 <% currentUser.groups.each do |g| %>
 <li><%= g.gname %>
@@ -10,5 +12,7 @@ Groups<br>
 </li>
 <% end %>
 </ul>
+
+
 
 
