@@ -1,8 +1,29 @@
-<h1>Login</h1>
+<head>
+	<%= stylesheet_link_tag('application', :media => 'all') %>
+</head>
 
-<%= simple_form_for(:user, url: login_path) do |u|%>
-	<%= u.input :email%>
-	<%= u.input :password%>
-	<%= u.submit 'login'%>
-<% end %>
-<%= link_to "Back", root_path%>
+<div class="blue-bar">
+	<p class ="top-header" >Login</p>
+</div>
+
+<div align="center" class="forms">
+  <%= simple_form_for(:user, url: login_path) do |u|%>
+
+    <table summary="Page form fields">
+      <tr>
+        <th>Email</th>
+        <td><%= u.text_field(:email)%></td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td><%= u.text_field(:password)%></td>
+      </tr>
+    </table>
+
+    <div class="form-buttons">
+      <%= u.submit 'login'%>
+    </div>
+
+  <% end %>
+  <%= link_to "Back", root_path%>
+</div>

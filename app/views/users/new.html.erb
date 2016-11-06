@@ -1,14 +1,41 @@
-<h1>Sign Up</h1>
+<head>
+	<%= stylesheet_link_tag('application', :media => 'all') %>
+</head>
 
-<%= simple_form_for @user do |u|%>
+<div class="blue-bar">
+	<p class ="top-header">Register</p>
+</div>
+
+<div align="center" class="forms">
+	<%= simple_form_for @user do |u|%>
 
 	<%= render 'shared/error_messages'%>
 
-	<%= u.input :email%>
-	<%= u.input :password%>
-	<%= u.input :password_confirmation%>
-	<%= u.input :firstName%>
-	<%= u.input :lastName%>
-	<%= u.submit "Sign Up"%>
+	<table summary="Page form fields">
+      <tr>
+        <th>Email</th>
+        <td><%= u.text_field(:email)%></td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td><%= u.text_field(:password)%></td>
+      </tr>
+       <tr>
+        <th>Confirms Password</th>
+        <td><%= u.text_field(:password_confirmation)%></td>
+      </tr>
+      <tr>
+        <th>First Name</th>
+        <td><%= u.text_field(:firstName)%></td>
+      </tr>
+      <tr>
+        <th>Last Name</th>
+        <td><%= u.text_field(:lastName)%></td>
+      </tr>
+    </table>
+
+    <div class="form-buttons">
+      <%= u.submit "Sign Up"%>
+    </div>
 <% end %>
 <%= link_to "Back", root_path%>
