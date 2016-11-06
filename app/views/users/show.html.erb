@@ -1,29 +1,56 @@
+<head>
+<%= stylesheet_link_tag('application', :media => 'all') %>	
+</head>
 
-<h1>Profile</h1>
-<p>
-<b>Username:</b>
-  <%= @user.firstName %>
-  <%= @user.lastName %>
-</p>
-<p>
-  <b>Email:</b>
-  <%= @user.email %>
-</p>
+<body>
+	<div class="blue-bar">
+		<p class ="top-header">Profile</p>
+	</div>
 
-<%= link_to "Create Group", :controller => "groups", :action => "new" %><br>
+	<div align="center">
+		<h4>Profile Information:</h4>
+		<table class="profile_info">
+			<tr>
+				<th><b>Name:</b></th>
+				<td><%= @user.firstName %><%= @user.lastName %></td>
+			</tr>
+			<tr>
+				<th><b>Email:</b></th>
+				<td><%= @user.email %></td>
+			</tr>
+		</table>
+		<br>
 
-<br>
-<p>Groups Joined:</p>
-<ul>
-<% currentUser.groups.each do |g| %>
-<li><%= g.gname %>
-<%= link_to "View", g %>
-<%= link_to "Delete", g, method: :delete, data: {confirm: "Are you sure?"} %>
-</li>
-<% end %>
-</ul>
+		<%= link_to "Create Group", :controller => "groups", :action => "new" %><br>
 
-<%= link_to "Logout", root_url %>
+		<br>
+
+		<h4>Groups Joined:</h4>
+		<table class ="groups">
+			<tr>
+				<th>Group Name</th>
+				<th>Actions</th>
+			</tr>
+			<% currentUser.groups.each do |g| %>
+			<tr>
+				<td><%= g.gname %></td>
+				<td>
+					<%= link_to "View", g %>
+<!-- 					<%= link_to "Delete", g, method: :delete, data: {confirm: "Are you sure?"} %> -->
+				</td>
+
+			</tr>
+			<% end %>
+		</table>
+
+		<br>
+
+		<%= link_to "Logout", root_url %>
+
+	</div>
+
+</body>
+>>>>>>> 096bf8d9b7b4b1f634bf5266afc9ba602fb70005
 
 
 

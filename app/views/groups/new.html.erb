@@ -1,4 +1,14 @@
-<h1>Create Group</h1>
+<head>
+<%= stylesheet_link_tag('application', :media => 'all') %>	
+</head>
+
+<div class="blue-bar">
+	<p class ="top-header">Group Page</p>
+</div>
+
+<br>
+
+<div align="center" class="forms">
 
 <%= form_for @group do |g|%>
 
@@ -14,10 +24,19 @@
 		</div>
 		<% end %>
 
-	<%= g.label :gname, "Group Name" %><br>
-	<%= g.text_field :gname %><br>
-	<%= g.label "Add users (CTRL+click to select multiple)" %><br>
-	<%= g.collection_select(:user_ids, User.all.where.not(id: currentUser.id), :id, :u_email, {}, {:multiple => true}) %>
+
+	<table>
+		<tr>
+			<th>Group Name</th>
+			<td><%= g.text_field :gname %></td>
+		</tr>
+		<tr>
+			<th>Add users (CTRL+click to select multiple)</th>
+			<td><%= g.collection_select(:user_ids, User.all.where.not(id: currentUser.id), :id, :username, {}, {:multiple => true}) %></td>
+		</tr>
+	</table>
+
+
 	<%= g.submit "Create"%>
 <% end %>
 
