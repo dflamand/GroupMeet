@@ -1,26 +1,11 @@
-# README
+# GroupMeet
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The idea of GroupMeet is simple - given a group of addresses, this app will find a meetup location that is central to the given points. However, GroupMeet will not only provide the central coordinate - it will look up places to meet based on a user selected category (ex. coffeeshop, restaurant, pub, park, etc.). GroupMeet will take into account modes of transportation for each person in attendance (bike, transit, car), such that the time necessary to travel to the final meeting point is minimized across all users. Group chat will be added, so that once a location is selected, users can voice their opinion and choose a different location if necessary.
 
-Things you may want to cover:
+This app will make it easier for groups of people who are not entirely familiar with each other, or perhaps the area they want to meet in, to get together and start work. Rather than wasting time arguing about where to meet, users will simply enter their current location and the app will determine a location which is fair for all member to meet. This will free up time for users to get productive work done and forget about the logistics of the group. It will also help to circumvent possible sources of conflict that could harm the relationship of the group members.
 
-* Ruby version
+Solutions similar to the one provided by GroupMeet do exist, but they are outdated and unmaintained. There are other apps online that facilitate group get togethers but these are mostly aimed at bringing strangers together rather than bringing together previously-made contacts. GroupMeet is primarily focused on serving the latter: people who have already made contact and are searching for the absolute best place to meet.
 
-* System dependencies
+### User Story
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* Tesstetsetgseuyg
-
-* ...
+A group of university students have recently formed a group to work on a school project. The students have met and exchanged contact information with each other, and have added each other on Facebook. The group convenes on Facebook chat to discuss possible meeting locations. The group agrees that a coffee shop would be a good place to meet, but unfortunately the students live in disparate locations and so it is difficult to tell which meeting place is the most fair. To determine the meeting space that results in the fairest meeting spot, each group member inputs their location into GroupMeet. The app returns the most central Starbucks location given the group members’ inputs.
