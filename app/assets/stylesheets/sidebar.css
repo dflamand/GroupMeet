@@ -6,7 +6,9 @@ img {
     top: 50%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%) 
+    -webkit-transform: translate(-50%, -50%)
+    -ms-transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%)
 }
 
 .sidebar {
@@ -32,7 +34,7 @@ img {
       width: 390px; } }
   @media (min-width: 1200px) {
     .sidebar {
-      width: 460px; } 
+      width: 460px; }
 }
 
 .sidebar-left {
@@ -73,7 +75,7 @@ img {
         background-color: #b2cfff; }
       .sidebar-tabs > li.active, .sidebar-tabs > ul > li.active {
         color: #000;
-        background-color: #4286f4; 
+        background-color: #4286f4;
       }
       .sidebar-tabs > li.disabled, .sidebar-tabs > ul > li.disabled {
         color: rgba(102, 102, 102, 0.4); }
