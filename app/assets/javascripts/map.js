@@ -3,8 +3,19 @@ var addressPoints;
 var markers;
 var bounds;
 
+var addrCount = 2;
 //Note: this gets called from a callback on the script include in the html!
 //Although, probably a better way to do it...
+function addAddressHTML() {
+	console.log("asuh dudes");
+
+	addrCount++;
+	var addrStr = 'addr' + addrCount;
+	var newHTML = 'Address ' + addrCount + ': <input id="' + addrStr + '" type="text" name="'+ addrStr +'"><br>'
+
+	$( "#addressList" ).append(newHTML);
+}
+
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 49.277469, lng: -122.914338},
