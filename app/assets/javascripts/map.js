@@ -3,8 +3,22 @@ var addressPoints;
 var markers;
 var bounds;
 
+var addrCount = 2;
+var addrLength = 0;
+var addrMinimum = 2;
+
 //Note: this gets called from a callback on the script include in the html!
 //Although, probably a better way to do it...
+function addAddressHTML() {
+	console.log("asuh dudes");
+
+	addrCount++;
+	var addrStr = 'addr' + addrCount;
+	var newHTML = 'Address ' + addrCount + ': <input id="' + addrStr + '" type="text" class="addrInput" name="'+ addrStr +'"><br>'
+
+	$( "#addressList" ).append(newHTML);
+}
+
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 49.277469, lng: -122.914338},
@@ -29,13 +43,20 @@ function calculateAddr() {
 
 	clearMarkers();
 	markers = [];
+	addrLength = 0;
 
-	console.log("asuh dudes");
-	var addr1 = $('#addr1').val();
-	var addr2 = $('#addr2').val();
+	//gets expected count of addresses, so not calculating >1 time
+	$(".addrInput").each(function() {
+		console.log($(this));
+		if($(this) != null && $(this).val().length > 0)
+			addrLength += 1;
+	});
 
-	addAddress(addr1);
-	addAddress(addr2);
+	$(".addrInput").each(function() {
+		var addr = $(this).val();
+		addAddress(addr);
+	});
+
 }
 
 function addAddress(addr) {
@@ -62,20 +83,29 @@ function addAddressToArray(data) {
 	if(data != null) {
 		var address = data.results[0].geometry.location;
 		addressPoints.push(address);
-		if(addressPoints.length >= 2) {
+
+		if(addressPoints.length == addrLength && addrLength >= addrMinimum) {
+			console.log("calculating midpoint...");
 			calculateMidpoint();
 		}
 	}
 }
 
 function calculateMidpoint() {
-	console.log("calculating middle...");
-	console.log(addressPoints);
 
-	console.log(addressPoints[1].lat);
+	var lat = 0.0;
+	var lng = 0.0;
 
-	var lat = (addressPoints[1].lat + addressPoints[0].lat) / 2;
-	var lng = (addressPoints[1].lng + addressPoints[0].lng) / 2;
+	console.log("addresspoints len: " + addressPoints.length);
+
+	for(var i = 0; i < addressPoints.length; i++) {
+		console.log("adding: lat:" + addressPoints[i].lat + " lng: " + addressPoints[i].lng);
+		lat = lat + addressPoints[i].lat;
+		lng = lng + addressPoints[i].lng;
+	}
+
+	lat = lat / addressPoints.length;
+	lng = lng / addressPoints.length;
 
 	var pointStr = lat + "," + lng;
 	console.log(pointStr);
@@ -93,8 +123,12 @@ function calculateMidpoint() {
 }
 
 //Adds calculated midpoint to the map, looks for surround locations by keyword
-function addPointToMap(addr) {
+function addPointToMap(addr, isUserLocation) {
 	if(addr != null) { //don't really need to check for null, as this only gets called on success of ajax function
+		var iconColor = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+		if(isUserLocation != undefined && isUserLocation == true)
+			iconColor = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+
 		var infoWindow = new google.maps.InfoWindow({
 			  content: buildContentString('Calculated Location', addr.formatted_address)
 			});
@@ -103,7 +137,7 @@ function addPointToMap(addr) {
 			position: addr.geometry.location,
 			map: map,
 			title: addr.formatted_address,
-			icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+			icon: iconColor
 		});
 
 		addMarkerToMap(marker, infoWindow);

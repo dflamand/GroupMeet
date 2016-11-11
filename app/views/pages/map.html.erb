@@ -37,10 +37,15 @@
                     <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
                 </h1><br>
                 <p>Enter two locations. GroupMeet will automatically find the most central Starbucks location in between those two points!</p>
-                <div id = "controls" style="height = 1em;">
-                	Address 1: <input id="addr1" type="text" name="addr1"><br>
-                	Address 2: <input id="addr2" type="text" name="addr2"><br>
-                	<input type="button" value="Submit" onclick="calculateAddr()"/>
+
+                <div id ="controls" style="height = 1em;">
+                    <span id="addressList">
+                    	Address 1: <input id="addr1" class="addrInput" type="text" name="addr1"><br>
+                    	Address 2: <input id="addr2" class="addrInput" type="text" name="addr2"><br>
+                    </span>
+
+                    <br><button type="button" class="btn btn-secondary" onclick="addAddressHTML()"> Add Address</button>
+                    <button type="button" class="btn btn-primary" onclick="calculateAddr()">Submit</button>
                 </div>
             </div>
             <div class="sidebar-pane" id="profile">
