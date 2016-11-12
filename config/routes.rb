@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
 
-  get '/admin', to: 'users#adminShow'
+  get '/admin', to: 'admin#index'
 
   get "/pages/:page" => "pages#show"
 
