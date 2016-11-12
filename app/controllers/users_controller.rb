@@ -18,11 +18,12 @@ class UsersController < ApplicationController
     if loggedIn? && !currentUser.isAdmin
       @user = currentUser
     elsif loggedIn? && currentUser.isAdmin
-      redirect_to admin_path
+      redirect_to admin_index_path
     else
       redirect_to login_path
     end
   end
+  
   private
 
 	  def get_user_params
