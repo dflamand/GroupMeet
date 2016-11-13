@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
 
-  get '/admin', to: 'users#adminShow'
+
+
 
   get "/pages/:page" => "pages#show"
 
@@ -13,5 +14,8 @@ Rails.application.routes.draw do
   root 'pages#map'
   resources :users
   resources :groups
+  resources :admin
+
+  get '/admin/group/:id', to: 'admin#showGroup', as: 'admin_group'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
