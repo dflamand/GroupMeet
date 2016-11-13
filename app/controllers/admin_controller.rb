@@ -10,11 +10,19 @@ class AdminController < ApplicationController
 	end
 
 	def show
-		@regUser = User.find(params[:id])
+		if loggedIn? && currentUser.isAdmin
+			@regUser = User.find(params[:id])
+		else
+			redirect_to login_path
+		end
 	end
 
 	def showGroup
-		@group = Group.find(params[:id])
+		if loggedIn? && currentUser.isAdmin
+			@group = Group.find(params[:id])
+		else
+			redirect_to login_path
+		end
 	end
 
 end
