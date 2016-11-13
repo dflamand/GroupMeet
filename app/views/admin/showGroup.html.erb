@@ -1,1 +1,16 @@
-SHOW GROUP
+<h1>Showing Group: <%= @group.gname%></h1>
+
+<h2>Group Users</h2>
+<table>
+	<tr>
+		<th>User ID</th>
+		<th>Email</th>
+	</tr>
+	<% @group.users.each do |u|%>
+		<tr>
+			<td><%= u.id%></td>
+			<td><%= u.email%></td>
+			<td><%= link_to 'view', admin_path(u)%></td>
+		</tr>
+	<% end%>
+</table>
