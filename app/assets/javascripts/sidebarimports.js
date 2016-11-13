@@ -1,3 +1,28 @@
+
+$(function(){
+  var $lemail = $("#lemail");
+  var $lpassword = $("#lpassword");
+  
+  $('#lbutton').on('click', function()
+  {
+    var userdata = {
+      email: $lemail.val(),
+      password: $lpassword.val(),
+    };
+    
+    $.ajax({
+      type: "POST", 
+      url: "/login",
+      data: {user: userdata}, 
+      success: function(resp)
+      {
+        alert(resp);
+      }
+    });
+  });
+});
+
+
 function loadpages()
 {
   $(document).ready(function(){

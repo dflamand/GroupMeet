@@ -15,18 +15,19 @@
     <table summary="Page form fields">
       <tr>
         <th>Email</th>
-        <td><%= u.text_field(:email)%></td>
+        <td><%= u.text_field(:email, :id => "lemail")%></td>
       </tr>
       <tr>
         <th>Password</th>
-        <td><%= u.password_field(:password)%></td>
+        <td><%= u.password_field(:password, :id => "lpassword")%></td>
       </tr>
     </table>
 
     <div class="form-buttons">
-      <%= u.submit 'login'%>
+			<button type="button" id="lbutton">Login</button>
     </div>
 
   <% end %>
+	<button type="button" id="backtoggle" onclick="togglelogin()">Minimize</button>
   <%= link_to "Back", root_path%>
 </div>
