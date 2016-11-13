@@ -10,7 +10,11 @@ class AdminController < ApplicationController
 	end
 
 	def show
-		
+		@regUser = User.find(params[:id])
+	end
+
+	def showGroup
+		@group = Group.find(params[:id])
 	end
 
 end

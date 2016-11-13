@@ -1,1 +1,42 @@
-SHOW
+<h1>Displaying User: <%= @regUser.email%></h1>
+
+<h2>User Information</h2>
+<table>
+	<tr>
+		<td>ID: </td>
+		<td> <%= @regUser.id%></td>
+	</tr>
+	<tr>
+		<td>Email: </td>
+		<td> <%= @regUser.email%></td>
+	</tr>
+	<tr>
+		<td>First Name: </td>
+		<td> <%= @regUser.firstName%></td>
+	</tr>
+	<tr>
+		<td>Last Name: </td>
+		<td> <%= @regUser.lastName%></td>
+	</tr>
+</table>
+
+<h2>User Groups</h2>
+<% if @regUser.groups.count != 0 %>
+	<table>
+		<tr>
+			<th>Group ID</th>
+			<th>Group Name</th>
+		</tr>
+		<% @regUser.groups.each do |g|%>
+			<tr>
+				<td><%= g.id%></td>
+				<td><%= g.gname%></td>
+				<td><%= link_to 'view', admin_group_path(g)%></td>
+			</tr>
+		<% end %>
+	</table>
+<% else %>
+	<p>User is apart of no groups.</p>
+<% end %>
+
+<%= link_to 'back', admin_index_path%>
