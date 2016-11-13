@@ -1,5 +1,22 @@
 <h1>Showing Group: <%= @group.gname%></h1>
 
+<h2>Group Information</h2>
+<table>
+	<tr>
+		<td>Group ID:</td>
+		<td><%= @group.id%></td>
+	</tr>
+	<tr>
+		<td>Group Name:</td>
+		<td><%= @group.gname%></td>
+	</tr>
+	<tr>
+		<td>Member Count:</td>
+		<td><%= @group.users.count%></td>
+	</tr>
+</table>
+
+
 <h2>Group Users</h2>
 <table>
 	<tr>
