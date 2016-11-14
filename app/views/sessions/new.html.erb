@@ -10,7 +10,7 @@
 <br>
 
 <div align="center" class="forms">
-  <%= simple_form_for(:user, url: login_path) do |u|%>
+  <%= simple_form_for(:user, url: login_path, html: {id: :loginform}) do |u|%>
 
     <table summary="Page form fields">
       <tr>
@@ -20,11 +20,12 @@
       <tr>
         <th>Password</th>
         <td><%= u.password_field(:password, :id => "lpassword")%></td>
+				<td><%= u.submit "Login" %></td>
       </tr>
     </table>
 
     <div class="form-buttons">
-			<button type="button" id="lbutton">Login</button>
+			
     </div>
 
   <% end %>

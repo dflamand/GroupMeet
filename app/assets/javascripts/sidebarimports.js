@@ -1,9 +1,14 @@
 
+$("#loginform").submit(function(e)
+{
+  e.preventDefault();
+});
+
 $(function(){
   var $lemail = $("#lemail");
   var $lpassword = $("#lpassword");
   
-  $('#lbutton').on('click', function()
+  $(document).on('submit', '#loginform', function()
   {
     var userdata = {
       email: $lemail.val(),
@@ -15,8 +20,7 @@ $(function(){
       url: "/login",
       data: {user: userdata}, 
       success: function(resp)
-      {
-      }
+      {}
     });
   });
 });
