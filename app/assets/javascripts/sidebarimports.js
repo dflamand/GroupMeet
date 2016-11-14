@@ -16,7 +16,6 @@ $(function(){
       data: {user: userdata}, 
       success: function(resp)
       {
-        alert(resp);
       }
     });
   });
@@ -39,12 +38,14 @@ function togglelogin()
     var login = document.getElementById("loginbutton");
     if(login.value == "off")
     {
+      login.textContent = "Minimize";
       $("#loginholder").slideDown();
       login.value = "on";
     }
       
     else if(login.value == "on")
     {
+      login.textContent = "Login";
       $("#loginholder").slideUp();
       login.value = "off";
     }
