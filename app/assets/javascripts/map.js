@@ -26,6 +26,8 @@ function initMap() {
 		streetViewControl: false,
   		mapTypeId: google.maps.MapTypeId.ROADMAP
 	});
+
+	setOptionModal();
 }
 
 function clearMarkers() {
@@ -34,6 +36,21 @@ function clearMarkers() {
 			markers[i].setMap(null);
 		}
 	}
+}
+
+function setOptionModal() {
+	$('#locList').change(function(){
+
+	  if($('#locList').val() == "Other...") {
+			console.log("showing modal...");
+			$('#optionModal').addClass("show").removeClass("fade");
+
+	  }
+	  else {
+	  	console.log("hiding modal...");
+			$('#optionModal').addClass("fade").removeClass("show");
+	  }
+	})
 }
 
 function loadLocation() {
