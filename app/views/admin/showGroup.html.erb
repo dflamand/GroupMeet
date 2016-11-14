@@ -1,0 +1,39 @@
+<h1>Showing Group: <%= @group.gname%></h1>
+
+<h2>Group Information</h2>
+<table>
+	<tr>
+		<td>Group ID:</td>
+		<td><%= @group.id%></td>
+	</tr>
+	<tr>
+		<td>Group Name:</td>
+		<td><%= @group.gname%></td>
+	</tr>
+	<tr>
+		<td>Member Count:</td>
+		<td><%= @group.users.count%></td>
+	</tr>
+	<tr>
+		<td>Date Created:</td>
+		<td><%= @group.created_at%></td>
+	</tr>
+</table>
+
+
+<h2>Group Users</h2>
+<table>
+	<tr>
+		<th>User ID</th>
+		<th>Email</th>
+	</tr>
+	<% @group.users.each do |u|%>
+		<tr>
+			<td><%= u.id%></td>
+			<td><%= u.email%></td>
+			<td><%= link_to 'view', admin_path(u)%></td>
+		</tr>
+	<% end%>
+</table>
+
+<%= link_to 'Home', admin_index_path%>

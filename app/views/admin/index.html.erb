@@ -1,5 +1,4 @@
 <h1>Admin: <%= @user.email%></h1>
-
 <table>
 	<tr>
 		<th>ID</th>
@@ -9,6 +8,7 @@
 	<tr>
 		<td><%= u.id%></td>
 		<td><%= u.email%></td>
+		<td><%= link_to "view", admin_path(u)%></td>
 	</tr>
 	<% end %>
 </table>
