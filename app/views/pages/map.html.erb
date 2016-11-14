@@ -36,9 +36,23 @@
                     Enter Locations
                     <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
                 </h1><br>
-                <p>Enter two locations. GroupMeet will automatically find the most central Starbucks location in between those two points!</p>
+                <p>Enter at least two locations. GroupMeet will automatically find the most central location to meet between those points!</p>
 
                 <div id ="controls" style="height = 1em;">
+                    <span id="locationType">
+                        <div class="form-group">
+                          <label for="sel1">Select Location Type:</label>
+                          <select class="form-control" id="locTypeControl">
+                            <option>Coffee Shop</option>
+                            <option>Restaurant</option>
+                            <option>Park</option>
+                            <option>Library</option>
+                            <option>Other...</option>
+                          </select>
+                        </div>
+                    </span>
+
+
                     <span id="addressList">
                     	Address 1: <input id="addr1" class="addrInput" type="text" name="addr1"><br>
                     	Address 2: <input id="addr2" class="addrInput" type="text" name="addr2"><br>

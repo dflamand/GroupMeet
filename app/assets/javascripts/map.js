@@ -1,3 +1,4 @@
+var locationType;
 var map;
 var addressPoints;
 var markers;
@@ -37,13 +38,21 @@ function clearMarkers() {
 	}
 }
 
+function loadLocation() {
+	locationType = $("#locTypeControl").val();
+	console.log(locationType);
+}
+
 function calculateAddr() {
 	addressPoints = [];
 	bounds = new google.maps.LatLngBounds();
 
+	locationType = "";
 	clearMarkers();
 	markers = [];
 	addrLength = 0;
+
+	loadLocation();
 
 	//gets expected count of addresses, so not calculating >1 time
 	$(".addrInput").each(function() {
@@ -141,8 +150,7 @@ function addPointToMap(addr, isUserLocation) {
 		});
 
 		addMarkerToMap(marker, infoWindow);
-		//find them starbucks!
-		loadLocationsForMarkerByKeyword('Starbucks', marker.getPosition());
+		loadLocationsForMarkerByKeyword(locationType, marker.getPosition());
 	}
 }
 
