@@ -21,18 +21,18 @@
           <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button id="optionModalClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title">Enter Location Type</h4>
               </div>
               <div class="modal-body">
                 <div class="form-group" id="optionModalForm">
-                  <input type="text" class="form-control" id="customLocation">
+                  <input type="text" class="form-control" id="optionModalInput">
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Add Location</button>
+                <button id="optionModalSave" type="button" class="btn btn-primary">Add Location</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
@@ -65,11 +65,11 @@
                             <div class="form-group">
                               <label for="sel1">Select Location Type:</label>
                               <select id="locList" class="form-control" id="locTypeControl">
-                                <option>Coffee Shop</option>
-                                <option>Restaurant</option>
-                                <option>Park</option>
-                                <option>Library</option>
-                                <option id="otherOption" data-toggle="modal" data-target="#optionModal">Other...</option>
+                                <option index="1" id="initOption">Coffee Shop</option>
+                                <option index="2">Restaurant</option>
+                                <option index="3">Park</option>
+                                <option index="4">Library</option>
+                                <option index="5" id="otherOption" data-toggle="modal" data-target="#optionModal">Other...</option>
                               </select>
                             </div>
                         </span>

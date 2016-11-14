@@ -1,4 +1,5 @@
 var locationType;
+var locationIndex = 5;
 var map;
 var addressPoints;
 var markers;
@@ -40,17 +41,44 @@ function clearMarkers() {
 
 function setOptionModal() {
 	$('#locList').change(function(){
-
 	  if($('#locList').val() == "Other...") {
-			console.log("showing modal...");
 			$('#optionModal').addClass("show").removeClass("fade");
 
 	  }
 	  else {
-	  	console.log("hiding modal...");
 			$('#optionModal').addClass("fade").removeClass("show");
 	  }
-	})
+	});
+
+	//Click function to hide modal on 'x' press
+	$('#optionModalClose').click(function() {
+		$('#optionModal').addClass("fade").removeClass("show");
+		$("#locList").val($('#initOption').val()).trigger('change');
+	});
+
+	//Add user specified option, re-order so 'Other...' is @ bottom of list
+	$('#optionModalSave').click(function() {
+		if($('#optionModalInput').val().length > 0) {
+			$('#optionModalClose').click(); //hide the modal
+
+			$('#otherOption').remove();
+
+			//Add user option
+			$('#locList').append($('<option/>', {
+        text : $('#optionModalInput').val(),
+    	}).attr('index', locationIndex));
+			$("#locList").val($('#optionModalInput').val()).trigger('change');
+
+			//Re add "other" at bottom of list
+			$('#locList').append($('<option/>', {
+        text : 'Other...',
+        id : 'otherOption'
+    	}).attr('index', locationIndex += 1).attr('data-toggle', 'modal').attr('data-target', '#optionModal'));
+
+    	//Reset modal val
+    	$('#optionModalInput').val('');
+		}
+	});
 }
 
 function loadLocation() {
