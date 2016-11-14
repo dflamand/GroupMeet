@@ -11,8 +11,6 @@ var addrMinimum = 2;
 //Note: this gets called from a callback on the script include in the html!
 //Although, probably a better way to do it...
 function addAddressHTML() {
-	console.log("asuh dudes");
-
 	addrCount++;
 	var addrStr = 'addr' + addrCount;
 	var newHTML = 'Address ' + addrCount + ': <input id="' + addrStr + '" type="text" class="addrInput" name="'+ addrStr +'"><br>'
@@ -40,7 +38,9 @@ function clearMarkers() {
 
 function loadLocation() {
 	locationType = $("#locTypeControl").val();
-	console.log(locationType);
+
+	if(locationType == undefined || locationType == null)
+		locationType = "";
 }
 
 function calculateAddr() {
@@ -56,7 +56,6 @@ function calculateAddr() {
 
 	//gets expected count of addresses, so not calculating >1 time
 	$(".addrInput").each(function() {
-		console.log($(this));
 		if($(this) != null && $(this).val().length > 0)
 			addrLength += 1;
 	});
