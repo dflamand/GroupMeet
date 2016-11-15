@@ -32,8 +32,6 @@ function addAutoCompleteToInputField(input) {
 	autocompletes.push(autocomplete);
 }
 
-//Note: this gets called from a callback on the script include in the html!
-//Although, probably a better way to do it...
 function addAddressHTML() {
 	addrCount++;
 	var addrStr = 'addr' + addrCount;
@@ -110,7 +108,6 @@ function loadLocation() {
 		locationType = "";
 	else
 		locationType = $("#locList").val();
-
 }
 
 function calculateAddr() {
@@ -168,7 +165,30 @@ function addAddressToArray(data) {
 	}
 }
 
+function addUserPointsToMap() {
+	for(var i = 0; i < addressPoints.length; i++) {
+		console.log(addressPoints[i]);
+		var lat = addressPoints[i].lat;
+		var lng = addressPoints[i].lng;
+		var pointStr = lat + "," + lng;
+
+		$.getJSON( {
+			url  : 'https://maps.googleapis.com/maps/api/geocode/json',
+			data : {
+				latlng : pointStr
+			},
+			success : function( data, textStatus ) {
+				addPointToMap(data.results[0], true);
+			} //should add popup window on error
+		});
+	}
+
+
+}
+
 function calculateMidpoint() {
+
+	addUserPointsToMap();
 
 	var lat = 0.0;
 	var lng = 0.0;
@@ -206,8 +226,17 @@ function addPointToMap(addr, isUserLocation) {
 		if(isUserLocation != undefined && isUserLocation == true)
 			iconColor = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
 
+		//Build Location popup window
+		var infoString;
+
+		if(isUserLocation == undefined || isUserLocation == false)
+			infoString = 'Calculated Location';
+		else
+			infoString = 'User Location';
+
+
 		var infoWindow = new google.maps.InfoWindow({
-			  content: buildContentString('Calculated Location', addr.formatted_address)
+			  content: buildContentString(infoString, addr.formatted_address)
 			});
 
 		var marker = new google.maps.Marker({
@@ -218,7 +247,10 @@ function addPointToMap(addr, isUserLocation) {
 		});
 
 		addMarkerToMap(marker, infoWindow);
-		loadLocationsForMarkerByKeyword(locationType, marker.getPosition());
+
+		//Only looks up locations if this is not a user provided location
+		if(isUserLocation == undefined || isUserLocation == false)
+			loadLocationsForMarkerByKeyword(locationType, marker.getPosition());
 	}
 }
 
