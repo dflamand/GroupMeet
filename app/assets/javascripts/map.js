@@ -1,3 +1,5 @@
+var locationType;
+var locationIndex = 5;
 var map;
 var addressPoints;
 var markers;
@@ -10,8 +12,6 @@ var addrMinimum = 2;
 //Note: this gets called from a callback on the script include in the html!
 //Although, probably a better way to do it...
 function addAddressHTML() {
-	console.log("asuh dudes");
-
 	addrCount++;
 	var addrStr = 'addr' + addrCount;
 	var newHTML = 'Address ' + addrCount + ': <input id="' + addrStr + '" type="text" class="addrInput" name="'+ addrStr +'"><br>'
@@ -27,6 +27,8 @@ function initMap() {
 		streetViewControl: false,
   		mapTypeId: google.maps.MapTypeId.ROADMAP
 	});
+
+	setOptionModal();
 }
 
 function clearMarkers() {
@@ -37,17 +39,68 @@ function clearMarkers() {
 	}
 }
 
+function setOptionModal() {
+	$('#locList').change(function(){
+	  if($('#locList').val() == "Other...") {
+			$('#optionModal').addClass("show").removeClass("fade");
+
+	  }
+	  else {
+			$('#optionModal').addClass("fade").removeClass("show");
+	  }
+	});
+
+	//Click function to hide modal on 'x' press
+	$('#optionModalClose').click(function() {
+		$('#optionModal').addClass("fade").removeClass("show");
+		$("#locList").val($('#initOption').val()).trigger('change');
+	});
+
+	//Add user specified option, re-order so 'Other...' is @ bottom of list
+	$('#optionModalSave').click(function() {
+		if($('#optionModalInput').val().length > 0) {
+			$('#optionModalClose').click(); //hide the modal
+
+			$('#otherOption').remove();
+
+			//Add user option
+			$('#locList').append($('<option/>', {
+        text : $('#optionModalInput').val(),
+    	}).attr('index', locationIndex));
+			$("#locList").val($('#optionModalInput').val()).trigger('change');
+
+			//Re add "other" at bottom of list
+			$('#locList').append($('<option/>', {
+        text : 'Other...',
+        id : 'otherOption'
+    	}).attr('index', locationIndex += 1).attr('data-toggle', 'modal').attr('data-target', '#optionModal'));
+
+    	//Reset modal val
+    	$('#optionModalInput').val('');
+		}
+	});
+}
+
+function loadLocation() {
+	locationType = $("#locTypeControl").val();
+
+	if(locationType == undefined || locationType == null)
+		locationType = "";
+}
+
 function calculateAddr() {
 	addressPoints = [];
 	bounds = new google.maps.LatLngBounds();
 
+	locationType = "";
 	clearMarkers();
 	markers = [];
 	addrLength = 0;
 
+	loadLocation();
+
 	//gets expected count of addresses, so not calculating >1 time
 	$(".addrInput").each(function() {
-		console.log($(this));
 		if($(this) != null && $(this).val().length > 0)
 			addrLength += 1;
 	});
@@ -141,8 +194,7 @@ function addPointToMap(addr, isUserLocation) {
 		});
 
 		addMarkerToMap(marker, infoWindow);
-		//find them starbucks!
-		loadLocationsForMarkerByKeyword('Starbucks', marker.getPosition());
+		loadLocationsForMarkerByKeyword(locationType, marker.getPosition());
 	}
 }
 

@@ -16,58 +16,94 @@
 
 	</head>
 	<body style="margin:0;width:100%;height:100%">
-	    <div id="sidebar" class="sidebar collapsed">
-        <!-- Nav tabs -->
-        <div class="sidebar-tabs">
-            <ul role="tablist">
-                <li><a href="#home" role="tab"><i class="fa fa-car"></i></a></li>
-                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-                <li><a href="#groups" role="tab"><i class="fa fa-users"></i></a></li>
-            </ul>
 
-            <ul role="tablist">
-            </ul>
+        <div id="optionModal" class="modal fade">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button id="optionModalClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Enter Location Type</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group" id="optionModalForm">
+                  <input type="text" class="form-control" id="optionModalInput">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button id="optionModalSave" type="button" class="btn btn-primary">Add Location</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
         </div>
 
-        <!-- Tab panes -->
-        <div class="sidebar-content">
-            <div class="sidebar-pane" id="home">
-                <h1 class="sidebar-header">
-                    Enter Locations
-                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-                </h1><br>
-                <p>Enter two locations. GroupMeet will automatically find the most central Starbucks location in between those two points!</p>
+	    <div id="sidebar" class="sidebar collapsed">
+            <!-- Nav tabs -->
+            <div class="sidebar-tabs">
+                <ul role="tablist">
+                    <li><a href="#home" role="tab"><i class="fa fa-car"></i></a></li>
+                    <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                    <li><a href="#groups" role="tab"><i class="fa fa-users"></i></a></li>
+                </ul>
 
-                <div id ="controls" style="height = 1em;">
-                    <span id="addressList">
-                    	Address 1: <input id="addr1" class="addrInput" type="text" name="addr1"><br>
-                    	Address 2: <input id="addr2" class="addrInput" type="text" name="addr2"><br>
-                    </span>
+                <ul role="tablist">
+                </ul>
+            </div>
 
-                    <br><button type="button" class="btn btn-secondary" onclick="addAddressHTML()"> Add Address</button>
-                    <button type="button" class="btn btn-primary" onclick="calculateAddr()">Submit</button>
+            <!-- Tab panes -->
+            <div class="sidebar-content">
+                <div class="sidebar-pane" id="home">
+                    <h1 class="sidebar-header">
+                        Enter Locations
+                        <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                    </h1><br>
+                    <p>Enter at least two locations. GroupMeet will automatically find the most central location to meet between those points!</p>
+
+                    <div id ="controls" style="height = 1em;">
+                        <span id="locationType">
+                            <div class="form-group">
+                              <label for="sel1">Select Location Type:</label>
+                              <select id="locList" class="form-control" id="locTypeControl">
+                                <option index="1" id="initOption">Coffee Shop</option>
+                                <option index="2">Restaurant</option>
+                                <option index="3">Park</option>
+                                <option index="4">Library</option>
+                                <option index="5" id="otherOption" data-toggle="modal" data-target="#optionModal">Other...</option>
+                              </select>
+                            </div>
+                        </span>
+
+                        <span id="addressList">
+                        	Address 1: <input id="addr1" class="addrInput" type="text" name="addr1"><br>
+                        	Address 2: <input id="addr2" class="addrInput" type="text" name="addr2"><br>
+                        </span>
+
+                        <br><button type="button" class="btn btn-secondary" onclick="addAddressHTML()"> Add Address</button>
+                        <button type="button" class="btn btn-primary" onclick="calculateAddr()">Submit</button>
+                    </div>
+                </div>
+                <div class="sidebar-pane" id="profile">
+                    <h1 class="sidebar-header">
+                        Profile
+                        <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                    </h1><br>
+                    <p>Register for a new account to save group coordinates!</p>
+                    <a href="/signup">Register</a><br>
+                    <a href="/login">Log-in</a>
+                </div>
+                <div class="sidebar-pane" id="groups">
+                    <h1 class="sidebar-header">
+                        Groups
+                        <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                    </h1><br>
+                    <p>This is a placeholder for future group-map integration.</p>
                 </div>
             </div>
-            <div class="sidebar-pane" id="profile">
-                <h1 class="sidebar-header">
-                    Profile
-                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-                </h1><br>
-                <p>Register for a new account to save group coordinates!</p>
-                <a href="/signup">Register</a><br>
-                <a href="/login">Log-in</a>
-            </div>
-            <div class="sidebar-pane" id="groups">
-                <h1 class="sidebar-header">
-                    Groups
-                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-                </h1><br>
-                <p>This is a placeholder for future group-map integration.</p>
-            </div>
         </div>
-    </div>
 
 		<div id="map"></div>
 		<script>var sidebar = $('#sidebar').sidebar();</script>
 	</body>
 </html>
+
