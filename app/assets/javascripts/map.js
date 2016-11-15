@@ -10,19 +10,27 @@ var addrCount = 2;
 var addrLength = 0;
 var addrMinimum = 2;
 
+//Document fully loaded
 $( document ).ready(function() {
-    console.log( "ready!" );
-		var options = {
-		  componentRestrictions: {country: 'ca'}
-		};
-
-		$('.addrInput').each(function() {
-			var autocomplete = new google.maps.places.Autocomplete($(this)[0], options);
-			autocompletes.push(autocomplete);
-		});
-
-
+		initAutoComplete();
 });
+
+function initAutoComplete() {
+	autocompletes= [];
+
+	$('.addrInput').each(function() {
+		addAutoCompleteToInputField($(this));
+	});
+}
+
+function addAutoCompleteToInputField(input) {
+	var options = {
+		  componentRestrictions: {country: 'ca'}
+	};
+
+	var autocomplete = new google.maps.places.Autocomplete(input[0], options);
+	autocompletes.push(autocomplete);
+}
 
 //Note: this gets called from a callback on the script include in the html!
 //Although, probably a better way to do it...
@@ -32,6 +40,7 @@ function addAddressHTML() {
 	var newHTML = 'Address ' + addrCount + ': <input id="' + addrStr + '" type="text" class="addrInput" name="'+ addrStr +'"><br>'
 
 	$( "#addressList" ).append(newHTML);
+	addAutoCompleteToInputField($('#' + addrStr));
 }
 
 function initMap() {
