@@ -82,10 +82,11 @@ function setOptionModal() {
 }
 
 function loadLocation() {
-	locationType = $("#locTypeControl").val();
-
 	if(locationType == undefined || locationType == null)
 		locationType = "";
+	else
+		locationType = $("#locList").val();
+
 }
 
 function calculateAddr() {
@@ -138,7 +139,6 @@ function addAddressToArray(data) {
 		addressPoints.push(address);
 
 		if(addressPoints.length == addrLength && addrLength >= addrMinimum) {
-			console.log("calculating midpoint...");
 			calculateMidpoint();
 		}
 	}
@@ -213,7 +213,7 @@ function addMarkerToMap(marker, infoWindow) {
 }
 
 function loadLocationsForMarkerByKeyword(keyword, markerPos) {
-	console.log("loading starbs...\n")
+	console.log("loading " + keyword +"...\n")
 	var request = {
 		location: markerPos,
 		radius: 2000,
