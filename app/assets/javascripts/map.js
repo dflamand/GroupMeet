@@ -19,7 +19,6 @@ $( document ).ready(function() {
 		$('.addrInput').each(function() {
 			var autocomplete = new google.maps.places.Autocomplete($(this)[0], options);
 			autocompletes.push(autocomplete);
-
 		});
 
 
