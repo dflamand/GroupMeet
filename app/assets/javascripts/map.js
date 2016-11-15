@@ -12,6 +12,7 @@ var addrMinimum = 2;
 
 //Document fully loaded
 $( document ).ready(function() {
+		initMap();
 		initAutoComplete();
 });
 
