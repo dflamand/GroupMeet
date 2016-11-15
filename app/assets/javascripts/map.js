@@ -4,10 +4,26 @@ var map;
 var addressPoints;
 var markers;
 var bounds;
+var autocompletes = [];
 
 var addrCount = 2;
 var addrLength = 0;
 var addrMinimum = 2;
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+		var options = {
+		  componentRestrictions: {country: 'ca'}
+		};
+
+		$('.addrInput').each(function() {
+			var autocomplete = new google.maps.places.Autocomplete($(this)[0], options);
+			autocompletes.push(autocomplete);
+
+		});
+
+
+});
 
 //Note: this gets called from a callback on the script include in the html!
 //Although, probably a better way to do it...
