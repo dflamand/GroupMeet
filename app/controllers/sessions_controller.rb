@@ -7,7 +7,11 @@ class SessionsController < ApplicationController
   	if user && user.authenticate(params[:user][:password])
   		login user
       puts "You are now logged in. Current user is " + currentUser.email + "\n"
-  		#redirect_to user
+  		if !user.isAdmin
+        redirect_to user
+      else
+        redirect_to admin_index_path
+      end
   	else
   		render 'new'
   	end

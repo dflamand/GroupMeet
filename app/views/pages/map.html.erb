@@ -22,7 +22,7 @@
           <p class="navbar-title">GroupMeet</p>
         </div>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/login">Log-in</a></li>
+          <li><a href="" data-toggle="modal" data-target="#Login-Modal">Login</a></li>
           <li><a href="/signup">Register</a></li>
         </ul>
       </div>
@@ -130,7 +130,7 @@
           </h1><br>
           <p>Register for a new account to save group coordinates!</p>
           <a href="/signup">Register</a><br>
-          <a href="/login">Log-in</a>
+          <a href="#" id="click-me">Log-in</a>
         </div>
 
         <div class="sidebar-pane" id="groups">
@@ -144,6 +144,33 @@
     </div>
 
     <div id="map"></div>
+
+    <!-- Login pop-up Modal -->
+    <div id="Login-Modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Log-In</h4>
+          </div>
+          <div class="modal-body">
+            <%= simple_form_for(:user, url: login_path) do |u|%>
+                <%= u.input :email%>
+                <%= u.input :password%>
+                <%= u.submit "login"%>
+            <% end %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
     <script>var sidebar = $('#sidebar').sidebar();</script>
   </body>
 </html>
