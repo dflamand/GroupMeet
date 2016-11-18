@@ -36,7 +36,8 @@ function addAutoCompleteToInputField(input) {
 function addAddressHTML() {
 	addrCount++;
 	var addrStr = 'addr' + addrCount;
-	var newHTML = 'Address ' + addrCount + ': <input id="' + addrStr + '" type="text" class="addrInput" name="'+ addrStr +'"><br>'
+	// var newHTML = '<tr><td><input type="checkbox" name="' + addrStr + '" checked></td><td><input id="' + addrStr +'" class="addrInput" type="text" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></td></tr>'
+	var newHTML = '<div class="input-group"><span class="input-group-addon"><input type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div><hr>'
 
 	$( "#addressList" ).append(newHTML);
 	addAutoCompleteToInputField($('#' + addrStr));
@@ -317,5 +318,6 @@ function addNearbyLocations(results, status) {
 		map.fitBounds(bounds);
 	}
 }
+
 
 

@@ -23,7 +23,7 @@ img {
     width: 40px; }
   @media (min-width: 768px) {
     .sidebar {
-      top: 10px;
+      top: 60px;
       bottom: 10px;
       transition: width 500ms; } }
   @media (min-width: 768px) and (max-width: 991px) {
@@ -100,7 +100,8 @@ img {
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.95);
   overflow-x: hidden;
-  overflow-y: auto; }
+  /*verflow-y: auto;*/
+}
   .sidebar-left .sidebar-content {
     left: 40px;
     right: 0; }
@@ -108,7 +109,8 @@ img {
     left: 0;
     right: 40px; }
   .sidebar.collapsed > .sidebar-content {
-    overflow-y: hidden; }
+  /*  overflow-y: hidden; */
+  }
 
 .sidebar-pane {
   display: none;
@@ -218,3 +220,107 @@ img {
 @media (min-width: 768px) {
   .sidebar-right.collapsed ~ .sidebar-map .gm-style > div.gmnoprint[style*="right: 28px"] {
     margin-right: 60px !important; } }
+
+/* Location Input Forms */
+
+.addrInput{
+    font: 95% Arial, Helvetica, sans-serif;
+    /*margin: 10px auto;*/
+    padding: 16px;
+    background: #F7F7F7;
+}
+
+input[type="text"]
+{
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    margin-bottom: 4%;
+    border: 1px solid #ccc;
+    padding: 3%;
+    color: #555;
+    font: 95% Arial, Helvetica, sans-serif;
+}
+input[type="text"]:focus
+{
+    box-shadow: 0 0 5px #4286f4;
+    padding: 3%;
+    border: 1px solid #4286f4;
+}
+
+/*input[type="submit"],
+input[type="button"]{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    padding: 3%;
+    background: #4286f4;
+    border-bottom: 2px solid #30C29E;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;    
+    color: #fff;
+}*/
+
+.addrInput input[type="submit"]:hover,
+.addrInput input[type="button"]:hover{
+    background: #2EBC99;
+    /*width: 40%;*/
+}
+
+.addressTable{
+  width: 100%;
+}
+
+.btn{
+  width: 100%;
+}
+
+.btn-secondary{
+  background-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+}
+
+.btn-secondary:hover{
+  background-color: #b2cfff;
+}
+
+.btn-primary{
+  vertical-align: right;
+}
+
+
+.input-group-addon{
+  background-color: white;
+}
+
+.input-group-addon:hover{
+  background-color: #b2cfff;
+}
+
+.navbar{
+  background-color: white;
+}
+
+.navbar-title{
+  color: grey;
+  font-size: 24px;
+  margin-top: 8px;
+}
+
+/*a:hover {
+  color:blue;
+}*/
+
+ul.nav a:hover { color: blue !important; }
