@@ -155,9 +155,10 @@
           </div>
           <div class="modal-body">
             <%= simple_form_for(:user, url: login_path) do |u|%>
-                <%= u.input :email%>
-                <%= u.input :password%>
-                <%= u.submit "login"%>
+                <%= u.input :email, :input_html =>{:class => "login-input"}, placeholder: "E-mail (required)"%>
+                <%= u.input :password, :input_html =>{:class => "login-input"}, placeholder: "Password (required)"%>
+                <hr>
+                <%= u.submit "Login", :class => "btn btn-default login-button" %>
             <% end %>
           </div>
           <div class="modal-footer">

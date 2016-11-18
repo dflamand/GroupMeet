@@ -10,3 +10,27 @@ html, body, #map {
 	margin: 0;
 	padding: 0;
 }
+
+.modal-header{
+	background-color: #4286f4;
+	color: white;
+}
+
+.close{
+	size: 20px;
+}
+
+.login-input{
+	height: 37px;
+
+}
+
+.login-button{
+	color: white;
+	background-color: #337ab7;
+}
+
+.login-button:hover{
+	color: white;
+	background-color: #2e6da4;
+}
