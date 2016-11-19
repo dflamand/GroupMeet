@@ -22,8 +22,12 @@
           <p class="navbar-title">GroupMeet</p>
         </div>
         <ul class="nav navbar-nav navbar-right">
-          <li><a data-toggle="modal" data-target="#Login-Modal">Login</a></li>
-          <li><a data-toggle="modal" data-target="#Register-Modal">Register</a></li>
+          <% if !loggedIn? %>
+            <li><a data-toggle="modal" data-target="#Login-Modal">Login</a></li>
+            <li><a data-toggle="modal" data-target="#Register-Modal">Register</a></li>
+          <% else %>
+            <li><%= link_to "Log Out", logout_path, method: :delete%><li/>
+          <% end %>
         </ul>
       </div>
     </nav>
@@ -128,7 +132,11 @@
             Profile
             <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
           </h1><br>
-          <p>Register for a new account to save group coordinates!</p>
+          <% if !loggedIn? %>
+            <p>Register for a new account to save group coordinates!</p>
+          <% else %>
+            <h3><%= currentUser.email%></h3>
+          <% end %>
         </div>
 
         <div class="sidebar-pane" id="groups">
@@ -136,7 +144,11 @@
             Groups
             <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
           </h1><br>
-          <p>This is a placeholder for future group-map integration.</p>
+          <% if !loggedIn? %>
+            <p>This is a placeholder for future group-map integration.</p>
+          <% else %>
+            <p>PUT GROUP INFO HERE</p>
+          <% end %>
         </div>
       </div>
     </div>

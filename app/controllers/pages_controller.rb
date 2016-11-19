@@ -7,6 +7,12 @@ class PagesController < ApplicationController
       end
     end
 
+  def map
+    if loggedIn? && currentUser.isAdmin
+      redirect_to admin_index_path
+    end
+  end
+
     private
     def valid_page?
       File.exist?(Pathname.new(Rails.root + "app/views/pages/#{params[:page]}.html.erb"))
