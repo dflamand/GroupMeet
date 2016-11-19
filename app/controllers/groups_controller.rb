@@ -20,6 +20,7 @@ class GroupsController < ApplicationController
 
 
     if @group.save
+      redirect_to root_path
       puts "Group created succesfully"
     else
       render('new')
@@ -29,7 +30,6 @@ class GroupsController < ApplicationController
 
 
   def show
-    #@group = Group.find(params[:id])
     @group = Group.find(params[:id])
 
     respond_to do |format|

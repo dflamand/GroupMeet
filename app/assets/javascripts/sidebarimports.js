@@ -13,7 +13,8 @@ $(document).ready(function(){
         success: function(users){
           console.log('success', users);
           $.each(users, function(i, user){
-            $users.append("<li>Name:" + user.firstName + " " + user.lastName + "</li>")
+            $users.append("<li>Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>")
+
           });
         },
         error: function(data){
@@ -25,10 +26,14 @@ $(document).ready(function(){
   });
 });
 
-$("#new_group").submit(function()
-{
-  $("#Group-Modal").modal('hide');
+$(document).ready(function(){
+  $("#newgroupform").submit(function()
+  {
+    alert("das");
+    $("#Group-Modal").modal('hide');
+  });
 });
+
 
 function loadpages()
 {

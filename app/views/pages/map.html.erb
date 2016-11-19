@@ -148,6 +148,25 @@
             				<td><%= currentUser.email %></td>
             			</tr>
             		</table>
+
+                <h4>Groups Joined:</h4>
+            		<table class ="groups">
+            			<tr>
+            				<th>Group Name</th>
+            				<th>Actions</th>
+            			</tr>
+            			<% currentUser.groups.each do |g| %>
+            			<tr>
+            				<td><%= g.gname %></td>
+            				<td>
+            					<%= link_to "View", g %>
+             		      <%= link_to "Delete", g, :method => :delete, :confirm => "are you sure?" %>
+            				</td>
+
+            			</tr>
+            			<% end %>
+            		</table>
+
             </h3>
           <% end %>
         </div>
@@ -247,7 +266,7 @@
             <h4 class="modal-title">Create Group</h4>
           </div>
           <div class="modal-body">
-            <%= simple_form_for(:group, url: {controller: "groups", action: "create"}) do |u|%>
+            <%= simple_form_for(:group, url: {controller: "groups", action: "create"}, html: {id: "newgroupform"}) do |u|%>
                 <%= u.input :gname, :input_html =>{:class => "login-input"}, placeholder: "Name (required)"%>
                 <hr>
                 <%= u.submit "Create", :class => "btn btn-default login-button" %>
