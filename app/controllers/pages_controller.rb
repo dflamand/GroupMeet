@@ -8,6 +8,7 @@ class PagesController < ApplicationController
     end
 
   def map
+		
     if loggedIn? && currentUser.isAdmin
       redirect_to admin_index_path
     end
