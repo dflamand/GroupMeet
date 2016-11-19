@@ -1,38 +1,44 @@
+$(document).ready(function(){
+  $("#user_group_ids").change(function(){
+    //Groupid is set to the value of the option in the dropdown. This should be the corresponding groupid
+    var $users = $("#userbox")
+    $users.empty();
+    var groupid = $("#user_group_ids").val();
+    console.log("GROUPIDFOUND", groupid);
+    $(function(){
+      $.ajax({
+        type: 'GET',
+        url: '/groups/'+groupid,
+        dataType: "json",
+        success: function(users){
+          console.log('success', users);
+          $.each(users, function(i, user){
+            $users.append("<li>Name:" + user.firstName + " " + user.lastName + "</li>")
+          });
+        },
+        error: function(data){
+          console.log("fail", data);
+        }
 
-$(function(){
-  var $lemail = $("#lemail");
-  var $lpassword = $("#lpassword");
-  
-  $(document).submit('#loginform', function(e)
-  {
-    e.stopImmediatePropagation();
-    var userdata = {
-      email: $lemail.val(),
-      password: $lpassword.val(),
-    };
-    
-    $.ajax({
-      type: "POST", 
-      url: "/login",
-      data: {user: userdata}, 
-      success: function(resp)
-      {
-        $("#loginspace").hide();
-      }
+      });
     });
   });
 });
 
+$("#new_group").submit(function()
+{
+  $("#Group-Modal").modal('hide');
+});
 
 function loadpages()
 {
   $(document).ready(function(){
     $("#loginholder").load("/login").hide();
     $("#regholder").load("/signup").hide();
-  });  
+  });
 }
 
-window.onload = loadpages;
+
 
 function togglelogin()
 {
@@ -44,7 +50,7 @@ function togglelogin()
       $("#loginholder").slideDown();
       login.value = "on";
     }
-      
+
     else if(login.value == "on")
     {
       login.textContent = "Login";
@@ -52,7 +58,7 @@ function togglelogin()
       login.value = "off";
     }
   });
-  
+
 }
 
 function togglereg()
@@ -63,7 +69,7 @@ function togglereg()
     $("#regholder").slideDown();
     reg.value = "on";
   }
-    
+
   else if(reg.value == "on")
   {
     $("#regholder").slideUp();
