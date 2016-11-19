@@ -34,7 +34,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json {render json: @group}
+      format.json {render json: @group.users}
     end
   end
 

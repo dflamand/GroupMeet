@@ -1,6 +1,8 @@
 $(document).ready(function(){
   $("#user_group_ids").change(function(){
-    alert(this.options[this.selectedIndex].val);
+    //Groupid is set to the value of the option in the dropdown. This should be the corresponding groupid
+    var $users = $("#userbox")
+    $users.empty();
     var groupid = $("#user_group_ids").val();
     console.log("GROUPIDFOUND", groupid);
     $(function(){
@@ -8,8 +10,11 @@ $(document).ready(function(){
         type: 'GET',
         url: '/groups/'+groupid,
         dataType: "json",
-        success: function(data){
-          console.log('success', data);
+        success: function(users){
+          console.log('success', users);
+          $.each(users, function(i, user){
+            $users.append("<li>Name:" + user.firstName + " " + user.lastName + "</li>")
+          });
         },
         error: function(data){
           console.log("fail", data);
@@ -22,7 +27,7 @@ $(document).ready(function(){
 
 $("#new_group").submit(function()
 {
-  $("#Group-Modal").modal('toggle');
+  $("#Group-Modal").modal('hide');
 });
 
 function loadpages()
