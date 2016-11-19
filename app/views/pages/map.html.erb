@@ -132,7 +132,11 @@
             Profile
             <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
           </h1><br>
-          <p>Register for a new account to save group coordinates!</p>
+          <% if !loggedIn? %>
+            <p>Register for a new account to save group coordinates!</p>
+          <% else %>
+            <h3><%= currentUser.email%></h3>
+          <% end %>
         </div>
 
         <div class="sidebar-pane" id="groups">
@@ -140,7 +144,11 @@
             Groups
             <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
           </h1><br>
-          <p>This is a placeholder for future group-map integration.</p>
+          <% if !loggedIn? %>
+            <p>This is a placeholder for future group-map integration.</p>
+          <% else %>
+            <p>PUT GROUP INFO HERE</p>
+          <% end %>
         </div>
       </div>
     </div>
