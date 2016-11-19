@@ -22,8 +22,12 @@
           <p class="navbar-title">GroupMeet</p>
         </div>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="" data-toggle="modal" data-target="#Login-Modal">Login</a></li>
-          <li><a href="/signup">Register</a></li>
+          <% if !loggedIn? %>
+            <li><a href="" data-toggle="modal" data-target="#Login-Modal">Login</a></li>
+            <li><a href="/signup">Register</a></li>
+          <% else %>
+            <li><%= link_to "Log Out", logout_path, method: :delete%><li/>
+          <% end %>
         </ul>
       </div>
     </nav>
