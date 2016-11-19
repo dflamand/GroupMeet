@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   		login user
       puts "You are now logged in. Current user is " + currentUser.email + "\n"
   		if !user.isAdmin
-        redirect_to user
+        redirect_to root_path
       else
         redirect_to admin_index_path
       end
