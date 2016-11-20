@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
         redirect_to admin_index_path
       end
   	else
-  		render 'new'
+  		render 'pages/map'
   	end
   end
 
