@@ -27,10 +27,30 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-  $("#newgroupform").submit(function()
+  $("#adduserbutton").click(function()
   {
-    alert("das");
-    $("#Group-Modal").modal('hide');
+    var addusers = [];
+    var groupid = $("#user_group_ids").val();
+    $("#selectaddusers > option").each(function(i){
+      if(this.selected == true){
+        alert("GOOD");
+        addusers.push(this.value);
+      }
+
+    });
+    alert(addusers);
+    $.ajax({
+      type: "POST",
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      url: "/adduser",
+      data: {addusers:addusers, groupid: groupid},
+      success: function(resp){
+        console.log("Success", resp);
+      },
+      error: function(resp){
+        console.log("Error", resp);
+      }
+    });
   });
 });
 
