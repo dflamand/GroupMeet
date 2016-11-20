@@ -135,39 +135,26 @@
           <% if !loggedIn? %>
             <p>Register for a new account to save group coordinates!</p>
           <% else %>
-            <h3>
-              <div align="center">
-            		<h4>Profile Information:</h4>
-            		<table class="profile_info">
-            			<tr>
-            				<th><b>Name:</b></th>
-            				<td><%= currentUser.firstName %><%= currentUser.lastName %></td>
-            			</tr>
-            			<tr>
-            				<th><b>Email:</b></th>
-            				<td><%= currentUser.email %></td>
-            			</tr>
-            		</table>
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading">Profile Information</div>
+              <!-- List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Name: <%= currentUser.firstName %><%= currentUser.lastName %></li>
+                <li class="list-group-item">Email: <%= currentUser.email %></li>
+              </ul>
+            </div>
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading">Groups Joined:</div>
 
-                <h4>Groups Joined:</h4>
-            		<table class ="groups">
-            			<tr>
-            				<th>Group Name</th>
-            				<th>Actions</th>
-            			</tr>
-            			<% currentUser.groups.each do |g| %>
-            			<tr>
-            				<td><%= g.gname %></td>
-            				<td>
-            					<%= link_to "View", g %>
-             		      <%= link_to "Delete", g, :method => :delete, :confirm => "are you sure?" %>
-            				</td>
-
-            			</tr>
-            			<% end %>
-            		</table>
-
-            </h3>
+              <!-- List group -->
+              <ul class="list-group">
+                <% currentUser.groups.each do |g| %>
+                  <li class="list-group-item"><%= g.gname %><span class="list-group-addon"><%= link_to "Delete", g, :method => :delete, :confirm => "are you sure?" %></span></li>
+                <% end %>
+              </ul>
+            </div>
           <% end %>
         </div>
 

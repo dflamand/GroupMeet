@@ -319,8 +319,25 @@ input[type="button"]{
   margin-top: 8px;
 }
 
-/*a:hover {
-  color:blue;
-}*/
-
 ul.nav a:hover { color: blue !important; }
+
+.list-group-addon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 10px 10px;
+  font-size: 15px;
+  display:inline;
+  font-weight: normal;
+  /*line-height: 1;*/
+  color: #555555;
+  text-align: center;
+  background-color: #eeeeee;
+  height:100%;
+  /*border: 1px solid #cccccc;*/
+  /*border-radius: 6px;*/
+}
+
+.panel{
+  border-radius: 0px;
+}
