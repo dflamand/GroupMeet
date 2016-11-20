@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   	if @user.save
       login @user
-  		redirect_to @user
+  		redirect_to root_path
   	else
   		render 'new'
   	end
