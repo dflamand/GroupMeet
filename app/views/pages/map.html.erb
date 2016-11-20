@@ -22,10 +22,10 @@
         <div class="navbar-header">
           <p class="navbar-title">GroupMeet</p>
         </div>
+        <ul class="nav navbar-nav navbar-right">
           <% flash.each do |message_type, message| %>
           <div class="alert alert-<%= message_type %> nav navbar-nav navbar-center"><%= message %></div>
           <% end %>
-        <ul class="nav navbar-nav navbar-right">
           <% if !loggedIn? %>
             <li><a class="btn" data-toggle="modal" data-target="#Login-Modal">Login</a></li>
             <li><a class="btn" data-toggle="modal" data-target="#Register-Modal">Register</a></li>
