@@ -34,3 +34,12 @@ html, body, #map {
 	color: white;
 	background-color: #2e6da4;
 }
+
+.alert{
+	margin-bottom: 0px;
+	border-radius: 0px;
+	text-align: center;
+}
+
+
+
