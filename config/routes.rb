@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get "/pages/:page" => "pages#show"
 
-  get "/groupinfo", to: "groups#show"
+  post "/adduser", to: "groups#add_user"
 
   root 'pages#map'
   resources :users
