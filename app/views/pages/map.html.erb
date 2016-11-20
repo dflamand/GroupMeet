@@ -21,10 +21,13 @@
         <div class="navbar-header">
           <p class="navbar-title">GroupMeet</p>
         </div>
+          <% flash.each do |message_type, message| %>
+          <div class="alert alert-<%= message_type %> nav navbar-nav navbar-center"><%= message %></div>
+          <% end %>
         <ul class="nav navbar-nav navbar-right">
           <% if !loggedIn? %>
-            <li><a data-toggle="modal" data-target="#Login-Modal">Login</a></li>
-            <li><a data-toggle="modal" data-target="#Register-Modal">Register</a></li>
+            <li><a class="btn" data-toggle="modal" data-target="#Login-Modal">Login</a></li>
+            <li><a class="btn" data-toggle="modal" data-target="#Register-Modal">Register</a></li>
           <% else %>
             <li><%= link_to "Log Out", logout_path, method: :delete%><li/>
           <% end %>
@@ -224,7 +227,7 @@
             <h4 class="modal-title">Register</h4>
           </div>
           <div class="modal-body">
-            <%= simple_form_for(:user, url: login_path) do |u|%>
+            <%= simple_form_for(:user, url: users_path) do |u|%>
                 <%= u.input :firstName, :input_html =>{:class => "login-input"}, placeholder: "First Name"%>
                 <%= u.input :lastName, :input_html =>{:class => "login-input"}, placeholder: "Last Name"%>
                 <%= u.input :email, :input_html =>{:class => "login-input"}, placeholder: "Email (required)"%>
