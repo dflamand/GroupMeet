@@ -10,6 +10,9 @@ class UsersController < ApplicationController
       login @user
   		redirect_to root_path
   	else
+      @user.errors.full_messages.each do |e|
+        flash.now[:danger] = e
+      end
   		render 'pages/map'
   	end
   end
