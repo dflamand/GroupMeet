@@ -143,9 +143,7 @@ function addAddress(addr) {
 		$.getJSON( {
 			url  : 'https://maps.googleapis.com/maps/api/geocode/json',
 			data : {
-				componentRestrictions: {
-					country: 'CA'
-				  },
+				componentRestrictions: { country: 'CA' },
 				sensor  : false,
 				address : addr
 			},
@@ -157,13 +155,17 @@ function addAddress(addr) {
 }
 
 function addAddressToArray(data) {
-	if(data != null) {
+	if(data != null && data.results.length > 0) {
 		var address = data.results[0].geometry.location;
 		addressPoints.push(address);
 
 		if(addressPoints.length == addrLength && addrLength >= addrMinimum) {
 			calculateMidpoint();
 		}
+	}
+	else {
+		console.log("Could not load address for location. Data:");
+		console.log(data);
 	}
 }
 
