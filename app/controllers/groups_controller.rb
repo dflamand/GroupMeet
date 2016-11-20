@@ -33,9 +33,8 @@ class GroupsController < ApplicationController
     userArray.each do |a|
       sUser = User.find(a)
 
+      #Add user without immediately committing to the database
       @group.association(:users).send(:build_through_record, sUser) unless @group.users.include? sUser
-      #@group.association(:users).add_to_target(sUser)
-      #@group.users << sUser unless @group.users.include? sUser
 
     end
 

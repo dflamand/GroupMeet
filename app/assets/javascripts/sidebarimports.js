@@ -33,12 +33,10 @@ $(document).ready(function(){
     var groupid = $("#user_group_ids").val();
     $("#selectaddusers > option").each(function(i){
       if(this.selected == true){
-        alert("GOOD");
         addusers.push(this.value);
       }
 
     });
-    alert(addusers);
     $.ajax({
       type: "POST",
       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
