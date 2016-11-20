@@ -192,7 +192,7 @@
             <h4 class="modal-title">Register</h4>
           </div>
           <div class="modal-body">
-            <%= simple_form_for(:user, url: login_path) do |u|%>
+            <%= simple_form_for(:user, url: users_path) do |u|%>
                 <%= u.input :firstName, :input_html =>{:class => "login-input"}, placeholder: "First Name"%>
                 <%= u.input :lastName, :input_html =>{:class => "login-input"}, placeholder: "Last Name"%>
                 <%= u.input :email, :input_html =>{:class => "login-input"}, placeholder: "Email (required)"%>
