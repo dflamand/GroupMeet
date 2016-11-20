@@ -28,11 +28,17 @@ class GroupsController < ApplicationController
   end
 
   def add_user
-    userArray = params[:addusers]
+    userNums = params[:addusers]
+    userArray = []
     @group = Group.find(params[:groupid])
-    userArray.each do |a|
-      sUser = User.find(a)
 
+    userNums.each do |a|
+      aUser = User.find(a)
+      userArray.push(aUser) unless @group.users.include? aUser
+    end
+
+    @group = Group.find(params[:groupid])
+    userArray.each do |sUser|
       #Add user without immediately committing to the database
       @group.association(:users).send(:build_through_record, sUser) unless @group.users.include? sUser
 
@@ -43,13 +49,16 @@ class GroupsController < ApplicationController
     else
       puts "BAD"
     end
+
+    respond_to do |format|
+      format.json {render json: userArray}
+    end
   end
 
   def show
     @group = Group.find(params[:id])
 
     respond_to do |format|
-      format.html
       format.json {render json: @group.users}
     end
   end

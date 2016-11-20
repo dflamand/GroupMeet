@@ -29,6 +29,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#adduserbutton").click(function()
   {
+    var $users = $("#userbox")
     var addusers = [];
     var groupid = $("#user_group_ids").val();
     $("#selectaddusers > option").each(function(i){
@@ -41,12 +42,16 @@ $(document).ready(function(){
       type: "POST",
       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
       url: "/adduser",
+      dataType: "json",
       data: {addusers:addusers, groupid: groupid},
-      success: function(resp){
-        console.log("Success", resp);
+      success: function(users){
+        $.each(users, function(i, user){
+          $users.append("<li>Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>")
+        });
+        console.log("Success", users);
       },
       error: function(resp){
-        console.log("Error", resp);
+        console.log("Error", users);
       }
     });
   });
