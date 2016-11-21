@@ -13,8 +13,8 @@ class SessionsController < ApplicationController
         redirect_to admin_index_path
       end
   	else
-      flash.now[:danger] = 'invalid email/password'
-  		render 'pages/map'
+      flash[:danger] = 'invalid email/password'
+  		redirect_to root_path
   	end
   end
 
