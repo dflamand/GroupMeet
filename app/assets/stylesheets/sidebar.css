@@ -13,7 +13,7 @@ img {
 
 .sidebar {
   position: absolute;
-  top: 0;
+  top: 160px;
   bottom: 0;
   width: 100%;
   font-family: Arial, Helvetica, sans-serif;
@@ -28,12 +28,15 @@ img {
       transition: width 500ms; } }
   @media (min-width: 768px) and (max-width: 991px) {
     .sidebar {
+      
       width: 305px; } }
   @media (min-width: 992px) and (max-width: 1199px) {
     .sidebar {
+      
       width: 390px; } }
   @media (min-width: 1200px) {
     .sidebar {
+      
       width: 460px; }
 }
 
@@ -341,3 +344,5 @@ ul.nav a:hover { color: blue !important; }
 .panel{
   border-radius: 0px;
 }
+
+

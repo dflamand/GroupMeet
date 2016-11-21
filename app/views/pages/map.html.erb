@@ -11,6 +11,7 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT1vykYc_wmmkjw6FSd3i_s58eQcI-OP4&libraries=places"
     async defer></script>
 
+    <%= csrf_meta_tag %>
     <%= javascript_include_tag('public') %>
     <%= stylesheet_link_tag('application', :media => 'all') %>
 
@@ -21,10 +22,10 @@
         <div class="navbar-header">
           <p class="navbar-title">GroupMeet</p>
         </div>
+        <ul class="nav navbar-nav navbar-right">
           <% flash.each do |message_type, message| %>
           <div class="alert alert-<%= message_type %> nav navbar-nav navbar-center"><%= message %></div>
           <% end %>
-        <ul class="nav navbar-nav navbar-right">
           <% if !loggedIn? %>
             <li><a class="btn" data-toggle="modal" data-target="#Login-Modal">Login</a></li>
             <li><a class="btn" data-toggle="modal" data-target="#Register-Modal">Register</a></li>
@@ -173,13 +174,18 @@
             <div id="GroupList">
               <%= label_tag "groupselect", "Select Group" %>
               <%= collection_select(:user, :group_ids, currentUser.groups, :id, :g_name, html: {id: :groupselect}) %>
-              <button id="testing" type="button" onclick="test()">CLICK ME</button>
               <br>
             </div>
             <div id="MemberList">
               <h5>Members:</h5>
               <ul id="userbox">
               </ul>
+            </div>
+            <div id="AddUsers">
+              <h5>Select users to add to the group (CTRL+click for multiple)</h5>
+              <%= collection_select(:group, :user_ids, User.all.where.not(id: currentUser.id), :id, :u_email, {}, {:multiple => true, :id => "selectaddusers"}) %>
+              <br>
+              <button type="button" id="adduserbutton">Add User(s)</button>
             </div>
 
 
