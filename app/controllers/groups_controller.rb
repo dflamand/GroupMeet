@@ -14,14 +14,12 @@ class GroupsController < ApplicationController
     @group.users << currentUser
     @group.groupowner = currentUser.id
 
-    puts "***"
-    puts @group.users
-    puts "***"
+ 
 
 
     if @group.save
       redirect_to root_path
-      puts "Group created successfully"
+      
     else
       render('new')
     end
@@ -45,9 +43,9 @@ class GroupsController < ApplicationController
     end
 
     if @group.save(validate: false)
-      puts "GOOD"
+      
     else
-      puts "BAD"
+      
     end
 
     respond_to do |format|
