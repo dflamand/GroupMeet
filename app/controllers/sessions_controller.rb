@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   	user = User.find_by(email: params[:user][:email])
   	if user && user.authenticate(params[:user][:password])
   		login user
-      puts "You are now logged in. Current user is " + currentUser.email + "\n"
+      
   		if !user.isAdmin
         redirect_to root_path
       else
