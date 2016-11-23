@@ -29,7 +29,15 @@ function addAutoCompleteToInputField(input) {
 		  componentRestrictions: {country: 'ca'}
 	};
 
+	console.log(input);
+
 	var autocomplete = new google.maps.places.Autocomplete(input[0], options);
+	google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            $(input).attr('addr', $(input).val());
+            $(input).attr('lat', place.geometry.location.lat());
+            $(input).attr('lng', place.geometry.location.lng());
+        });
 	autocompletes.push(autocomplete);
 }
 
@@ -40,6 +48,7 @@ function addAddressHTML() {
 	var newHTML = '<div class="input-group"><span class="input-group-addon"><input type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div><hr>'
 
 	$( "#addressList" ).append(newHTML);
+	console.log(addrStr);
 	addAutoCompleteToInputField($('#' + addrStr));
 }
 
@@ -131,33 +140,52 @@ function calculateAddr() {
 
 	$(".addrInput").each(function() {
 		var addr = $(this).val();
-		addAddress(addr);
+		console.log(addr);
+		console.log($(this));
+		console.log($(this).attr('lat'));
+		addAddress($(this));
 	});
 
 }
 
 function addAddress(addr) {
 	if(addr != null && addr.length > 0) {
-		console.log(addr);
-		//load the data
-		$.getJSON( {
-			url  : 'https://maps.googleapis.com/maps/api/geocode/json',
-			data : {
-				componentRestrictions: { country: 'CA' },
-				sensor  : false,
-				address : addr
-			},
-			success : function( data, textStatus ) {
-				addAddressToArray(data);
-			} //should add popup window on error
-		} );
+
+		var location = {};
+
+		var isLastAddr = addr.attr('addr') == addr.val();
+		if(isLastAddr && addr.attr('lat') != null && addr.attr('lng') != null) {
+			console.log("MOST RECENT");
+			location.lat = addr.attr('lat');
+			location.lng = addr.attr('lng');
+			console.log(location);
+			addAddressToArray(location);
+		}
+		else {
+			console.log("NOT most recent");
+			var address = addr.val();
+			console.log(addr);
+
+			//load the data
+			$.getJSON( {
+				url  : 'https://maps.googleapis.com/maps/api/geocode/json',
+				data : {
+					componentRestrictions: { country: 'CA' },
+					sensor  : false,
+					address : address
+				},
+				success : function( data, textStatus ) {
+					if(data.results.length > 0)
+						addAddressToArray(data.results[0].geometry.location);
+				} //should add popup window on error
+			} );
+		}
 	}
 }
 
-function addAddressToArray(data) {
-	if(data != null && data.results.length > 0) {
-		var address = data.results[0].geometry.location;
-		addressPoints.push(address);
+function addAddressToArray(addr) {
+	if(addr != null) {
+		addressPoints.push(addr);
 
 		if(addressPoints.length == addrLength && addrLength >= addrMinimum) {
 			calculateMidpoint();
@@ -191,7 +219,7 @@ function addUserPointsToMap() {
 }
 
 function calculateMidpoint() {
-
+	console.log("calculating point...");
 	addUserPointsToMap();
 
 	var lat = 0.0;
@@ -201,8 +229,8 @@ function calculateMidpoint() {
 
 	for(var i = 0; i < addressPoints.length; i++) {
 		console.log("adding: lat:" + addressPoints[i].lat + " lng: " + addressPoints[i].lng);
-		lat = lat + addressPoints[i].lat;
-		lng = lng + addressPoints[i].lng;
+		lat = lat + parseFloat(addressPoints[i].lat);
+		lng = lng + parseFloat(addressPoints[i].lng);
 	}
 
 	lat = lat / addressPoints.length;
