@@ -10,11 +10,30 @@ var addrCount = 2;
 var addrLength = 0;
 var addrMinimum = 2;
 
+var directionsService;
+var directionsDisplay;
 //Document fully loaded
 $( document ).ready(function() {
 		initMap();
 		initAutoComplete();
 });
+
+function initMap() {
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat: 49.277469, lng: -122.914338},
+		zoom: 13,
+		mapTypeControl: false,
+		streetViewControl: false,
+  		mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
+
+	directionsService = new google.maps.DirectionsService;
+	directionsDisplay = new google.maps.DirectionsRenderer;
+
+	directionsDisplay.setMap(map);
+
+	setOptionModal();
+}
 
 function initAutoComplete() {
 	autocompletes= [];
@@ -41,27 +60,39 @@ function addAutoCompleteToInputField(input) {
 	autocompletes.push(autocomplete);
 }
 
-function addAddressHTML() {
-	addrCount++;
-	var addrStr = 'addr' + addrCount;
-	// var newHTML = '<tr><td><input type="checkbox" name="' + addrStr + '" checked></td><td><input id="' + addrStr +'" class="addrInput" type="text" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></td></tr>'
-	var newHTML = '<div class="input-group"><span class="input-group-addon"><input type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div><hr>'
+function calculateAddr() {
+	addressPoints = [];
+	bounds = new google.maps.LatLngBounds();
 
-	$( "#addressList" ).append(newHTML);
-	console.log(addrStr);
-	addAutoCompleteToInputField($('#' + addrStr));
-}
+	locationType = "";
+	clearMarkers();
+	markers = [];
+	addrLength = 0;
 
-function initMap() {
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: 49.277469, lng: -122.914338},
-		zoom: 13,
-		mapTypeControl: false,
-		streetViewControl: false,
-  		mapTypeId: google.maps.MapTypeId.ROADMAP
+	loadLocation();
+
+	//gets expected count of addresses, so not calculating >1 time
+	$(".addrInput").each(function() {
+		if($(this) != null && $(this).val().length > 0)
+			addrLength += 1;
 	});
 
-	setOptionModal();
+	$(".addrInput").each(function() {
+		var addr = $(this).val();
+		console.log(addr);
+		console.log($(this));
+		console.log($(this).attr('lat'));
+		addAddress($(this));
+	});
+
+	if(addrLength > 0) {
+		//add paths
+		$(".addrInput").each(function() {
+			var addr = $(this).val();
+	//		calculatePathToPoint(addr, "Vancouver, BC");
+		});
+	}
+
 }
 
 function clearMarkers() {
@@ -119,33 +150,6 @@ function loadLocation() {
 		locationType = "";
 	else
 		locationType = $("#locList").val();
-}
-
-function calculateAddr() {
-	addressPoints = [];
-	bounds = new google.maps.LatLngBounds();
-
-	locationType = "";
-	clearMarkers();
-	markers = [];
-	addrLength = 0;
-
-	loadLocation();
-
-	//gets expected count of addresses, so not calculating >1 time
-	$(".addrInput").each(function() {
-		if($(this) != null && $(this).val().length > 0)
-			addrLength += 1;
-	});
-
-	$(".addrInput").each(function() {
-		var addr = $(this).val();
-		console.log(addr);
-		console.log($(this));
-		console.log($(this).attr('lat'));
-		addAddress($(this));
-	});
-
 }
 
 function addAddress(addr) {
@@ -348,6 +352,21 @@ function addNearbyLocations(results, status) {
 		map.fitBounds(bounds);
 	}
 }
+
+function calculatePathToPoint(startPoint, destPoint) {
+  directionsService.route({
+    origin: startPoint,
+    destination: destPoint,
+    travelMode: 'DRIVING'
+  }, function(response, status) {
+    if (status === 'OK') {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+
 
 
 
