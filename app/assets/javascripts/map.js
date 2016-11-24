@@ -316,7 +316,7 @@ function loadLocationsForMarkerByKeyword(keyword, markerPos) {
 	service.nearbySearch(request, addNearbyLocations);
 }
 
-function buildContentString(title, subtitle) {
+function buildContentString(title, subtitle, isDestination) {
 	var contentString;
 	if(title != null) {
 		contentString =
@@ -327,6 +327,10 @@ function buildContentString(title, subtitle) {
 		contentString += '<p id="secondHeading" class="secondHeading">'
 		+ subtitle + '</p>';
 	}
+
+	if(isDestination != undefined && isDestination == true) {
+		contentString += '<button type="button" class="btn btn-primary btn-sm">Set as Destination</button>'
+	}
 	return contentString;
 }
 
@@ -336,7 +340,7 @@ function addNearbyLocations(results, status) {
 			var addr = results[i];
 
 			var infoWindow = new google.maps.InfoWindow({
-				  content: buildContentString(addr.name, addr.vicinity)
+				  content: buildContentString(addr.name, addr.vicinity, true)
 				});
 
 			var marker = new google.maps.Marker({
