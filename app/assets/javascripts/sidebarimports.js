@@ -1,6 +1,7 @@
-$(document).ready(function(){
-  $("#user_group_ids").change(function(){
-    //Groupid is set to the value of the option in the dropdown. This should be the corresponding groupid
+
+function load_group()
+{
+  $(document).ready(function(){
     var $users = $("#userbox")
     $users.empty();
     var groupid = $("#user_group_ids").val();
@@ -23,6 +24,15 @@ $(document).ready(function(){
 
       });
     });
+  });
+}
+
+window.onload = load_group();
+
+$(document).ready(function(){
+  $("#user_group_ids").change(function(){
+    //Groupid is set to the value of the option in the dropdown. This should be the corresponding groupid
+    load_group();
   });
 });
 

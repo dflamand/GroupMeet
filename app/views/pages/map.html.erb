@@ -161,7 +161,7 @@
                     <% if currentUser.id == g.groupowner %>
                       <%= link_to "Delete", g, :method => :delete, data: {confirm: "Are you sure?"} %>
                     <% end %>
-                    <%= link_to "Leave Group", removeuser_path(:groupid => g.id), :method => :delete %>
+                    <%= link_to "Leave Group", removeuser_path(:groupid => g.id), :method => :delete, data: {confirm: "Are you sure you want to leave this group?"} %>
                     </span>
                   </li>
                 <% end %>
@@ -183,7 +183,6 @@
             <div id="GroupList">
               <%= label_tag "groupselect", "Select Group" %>
               <%= collection_select(:user, :group_ids, currentUser.groups, :id, :g_name, {}, html_options = {class: "form-control"}) %>
-
               <br>
             </div>
             <hr>
