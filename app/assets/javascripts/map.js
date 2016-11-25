@@ -10,6 +10,8 @@ var addrCount = 2;
 var addrLength = 0;
 var addrMinimum = 2;
 
+var selectedDestination = "";
+
 var directionsService;
 var directionsDisplay;
 //Document fully loaded
@@ -41,6 +43,7 @@ function initAutoComplete() {
 	$('.addrInput').each(function() {
 		addAutoCompleteToInputField($(this));
 	});
+
 }
 
 function addAutoCompleteToInputField(input) {
@@ -182,7 +185,7 @@ function addAddress(addr) {
 					if(data.results.length > 0)
 						addAddressToArray(data.results[0].geometry.location);
 				} //should add popup window on error
-			} );
+			});
 		}
 	}
 }
@@ -329,7 +332,7 @@ function buildContentString(title, subtitle, isDestination) {
 	}
 
 	if(isDestination != undefined && isDestination == true) {
-		contentString += '<button type="button" class="btn btn-primary btn-sm">Set as Destination</button>'
+		contentString += '<button type="button" onclick="setAsDestination(event)" class="btn btn-primary btn-sm destButton">Set as Destination</button>'
 	}
 	return contentString;
 }
@@ -370,6 +373,14 @@ function calculatePathToPoint(startPoint, destPoint) {
     }
   });
 }
+
+function setAsDestination(event) {
+	console.log("setting as destination...");
+	selectedDestination = $(event.target).prev().text();
+	console.log(selectedDestination);
+}
+
+
 
 
 
