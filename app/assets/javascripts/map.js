@@ -395,14 +395,33 @@ function calculatePathToPoint(startPoint, destPoint) {
 }
 
 function calculateTravelTime(startAddr, endAddr) {
-
+	console.log("!!!calculating travel time");
+	var service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix(
+      {
+        origins: [startAddr],
+        destinations: [endAddr],
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+        durationInTraffic: true,
+        avoidHighways: false,
+        avoidTolls: false
+      }, addCalculatedTime);
 }
+
+	function addCalculatedTime(response, status) {
+		var timeString = response.rows[0].elements[0].duration.text;
+		console.log(timeString);
+		var distanceString = response.rows[0].elements[0].distance.text;
+		console.log(distanceString);
+	}
+
 
 function setAsDestination(event) {
 	console.log("setting as destination...");
 	selectedDestination = $(event.target).prev().text();
 	$.each( formattedAddrs, function( key, value ) {
-		console.log(value);
+		calculateTravelTime(value, selectedDestination);
 	});
 }
 
