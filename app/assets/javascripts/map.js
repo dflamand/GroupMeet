@@ -1,7 +1,10 @@
 var locationType;
 var locationIndex = 5;
 var map;
+
 var addressPoints;
+var formattedAddrs;
+
 var markers;
 var bounds;
 var autocompletes = [];
@@ -65,6 +68,7 @@ function addAutoCompleteToInputField(input) {
 
 function calculateAddr() {
 	addressPoints = [];
+	formattedAddrs = [];
 	bounds = new google.maps.LatLngBounds();
 
 	locationType = "";
@@ -270,8 +274,10 @@ function addPointToMap(addr, isUserLocation) {
 
 		if(isUserLocation == undefined || isUserLocation == false)
 			infoString = 'Calculated Location';
-		else
+		else {
 			infoString = 'User Location';
+			formattedAddrs.push(addr.formatted_address);
+		}
 
 
 		var infoWindow = new google.maps.InfoWindow({
@@ -309,6 +315,7 @@ function addMarkerToMap(marker, infoWindow) {
 
 function loadLocationsForMarkerByKeyword(keyword, markerPos) {
 	console.log("loading " + keyword +"...\n")
+
 	var request = {
 		location: markerPos,
 		radius: 2000,
@@ -374,10 +381,16 @@ function calculatePathToPoint(startPoint, destPoint) {
   });
 }
 
+function calculateTravelTime(startAddr, endAddr) {
+
+}
+
 function setAsDestination(event) {
 	console.log("setting as destination...");
 	selectedDestination = $(event.target).prev().text();
-	console.log(selectedDestination);
+	$.each( formattedAddrs, function( key, value ) {
+		console.log(value);
+	});
 }
 
 
