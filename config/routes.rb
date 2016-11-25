@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get "/pages/:page" => "pages#show"
 
   post "/adduser", to: "groups#add_user"
+  delete "/removeuser", to: "groups#remove_user"
 
   root 'pages#map'
   resources :users

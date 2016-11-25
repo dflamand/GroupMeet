@@ -14,12 +14,12 @@ class GroupsController < ApplicationController
     @group.users << currentUser
     @group.groupowner = currentUser.id
 
- 
+
 
 
     if @group.save
       redirect_to root_path
-      
+
     else
       render('new')
     end
@@ -42,14 +42,20 @@ class GroupsController < ApplicationController
 
     end
 
-    if @group.save(validate: false)
-      
-    else
-      
-    end
+    @group.save(validate: false)
 
     respond_to do |format|
       format.json {render json: userArray}
+    end
+  end
+
+  def remove_user
+    @group = Group.find(params[:groupid])
+    @user = currentUser
+
+    if @group
+      @user.groups.delete(@group)
+      redirect_to root_path
     end
   end
 

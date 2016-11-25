@@ -155,7 +155,8 @@
               <!-- List group -->
               <ul class="list-group">
                 <% currentUser.groups.each do |g| %>
-                  <li class="list-group-item"><%= g.gname %><span class="list-group-addon"><%= link_to "Delete", g, :method => :delete, data: {confirm: "Are you sure?"} %></span></li>
+                  <li class="list-group-item"><%= g.gname %><span class="list-group-addon"><%= link_to "Delete", g, :method => :delete, data: {confirm: "Are you sure?"} %>
+                  <%= link_to "Leave Group", removeuser_path(:groupid => g.id), :method => :delete %></span></li>
                 <% end %>
               </ul>
             </div>
