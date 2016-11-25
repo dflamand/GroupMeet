@@ -85,11 +85,13 @@ function calculateAddr() {
 	});
 
 	$(".addrInput").each(function() {
-		var addr = $(this).val();
-		console.log(addr);
-		console.log($(this));
-		console.log($(this).attr('lat'));
-		addAddress($(this));
+		if($(this) != null && $(this).val().length > 0) {
+			var addr = $(this).val();
+			console.log(addr);
+			console.log($(this));
+			console.log($(this).attr('lat'));
+			addAddress($(this));
+		}
 	});
 
 	if(addrLength > 0) {
@@ -101,6 +103,17 @@ function calculateAddr() {
 	}
 
 }
+
+function addAddressHTML() {
+  addrCount++;
+  var addrStr = 'addr' + addrCount;
+  var newHTML = '<div class="input-group"><span class="input-group-addon"><input type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div><hr>'
+
+  $( "#addressList" ).append(newHTML);
+  console.log(addrStr);
+  addAutoCompleteToInputField($('#' + addrStr));
+}
+
 
 function clearMarkers() {
 	if(markers != null || markers && undefined) {
