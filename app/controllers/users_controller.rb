@@ -38,10 +38,13 @@ class UsersController < ApplicationController
 
   def update
 
-    if currentUser.update_attributes(get_user_update_params)
+    if currentUser.update(get_user_update_params)
       redirect_to root_path
     else
-      
+      currentUser.errors.full_messages.each do |e|
+        flash[:danger] = e
+      end
+      redirect_to root_path
     end
 
   end
@@ -55,4 +58,5 @@ class UsersController < ApplicationController
     def get_user_update_params
       params.require(:user).permit(:email, :firstName, :lastName)
     end
+
 end
