@@ -36,9 +36,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+
+    if currentUser.update_attributes(get_user_update_params)
+      redirect_to root_path
+    else
+      
+    end
+
+  end
+
   private
 
 	  def get_user_params
 	  	params.require(:user).permit(:email, :firstName, :lastName, :password, :password_confirmation)
 	  end
+
+    def get_user_update_params
+      params.require(:user).permit(:email, :firstName, :lastName)
+    end
 end
