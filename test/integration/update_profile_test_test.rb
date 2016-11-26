@@ -25,7 +25,7 @@ class UpdateProfileTestTest < ActionDispatch::IntegrationTest
 	assert_redirected_to root_url
 	follow_redirect!
 
-	assert_select 'li[class=list-group-item]', 'Name: FchangedLchanged'
+	assert_select 'li[class=list-group-item]', 'Name: Fchanged Lchanged'
 
 	delete logout_url
 
