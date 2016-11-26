@@ -10,7 +10,7 @@
             <h4 class="modal-title">Update Profile</h4>
           </div>
           <div class="modal-body">
-            <%= simple_form_for(currentUser, url: users_path) do |u|%>
+            <%= simple_form_for(currentUser, url: user_path(currentUser)) do |u|%>
                 <%= u.input :firstName, :input_html =>{:class => "login-input"}%>
                 <%= u.input :lastName, :input_html =>{:class => "login-input"}%>
                 <%= u.input :email, :input_html =>{:class => "login-input"}%>
