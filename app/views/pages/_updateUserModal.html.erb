@@ -1,0 +1,28 @@
+<% if loggedIn? %>
+<!-- UpdateInfo pop-up Modal -->
+    <div id="UpdateInfo-Modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Update Profile</h4>
+          </div>
+          <div class="modal-body">
+            <%= simple_form_for(currentUser, url: user_path(currentUser)) do |u|%>
+                <%= u.input :firstName, :input_html =>{:class => "login-input"}%>
+                <%= u.input :lastName, :input_html =>{:class => "login-input"}%>
+                <%= u.input :email, :input_html =>{:class => "login-input"}%>
+                <hr>
+                <%= u.submit "Update", :class => "btn btn-default login-button" %>
+            <% end %>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+<% end %>
