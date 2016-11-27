@@ -179,8 +179,10 @@
               <div class="panel-heading">Profile Information</div>
               <!-- List group -->
               <ul class="list-group">
-                <li class="list-group-item">Name: <%= currentUser.firstName %><%= currentUser.lastName %></li>
+                <li class="list-group-item">Name: <%= currentUser.firstName %> <%= currentUser.lastName %></li>
                 <li class="list-group-item">Email: <%= currentUser.email %></li>
+                <li class="list-group-item"><a class="btn" data-toggle="modal" data-target="#UpdateInfo-Modal">Update Profile</a></li>
+                <li class="list-group-item"><a class="btn" data-toggle="modal" data-target="#ChangePassword-Modal">Change Password</a></li>
               </ul>
             </div>
             <div class="panel panel-default">
@@ -313,6 +315,9 @@
         </div>
       </div>
     </div>
+
+    <%= render 'updateUserModal'%>
+    <%= render 'changePasswordModal'%>
 
 
     <script>var sidebar = $('#sidebar').sidebar();</script>
