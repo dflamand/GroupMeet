@@ -1,7 +1,10 @@
 var locationType;
 var locationIndex = 5;
 var map;
+
 var addressPoints;
+var formattedAddrs;
+
 var markers;
 var bounds;
 var autocompletes = [];
@@ -10,11 +13,33 @@ var addrCount = 2;
 var addrLength = 0;
 var addrMinimum = 2;
 
+var selectedDestination = "";
+
+var directionsService;
+var directionsDisplay;
+
 //Document fully loaded
 $( document ).ready(function() {
 		initMap();
 		initAutoComplete();
 });
+
+function initMap() {
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat: 49.277469, lng: -122.914338},
+		zoom: 13,
+		mapTypeControl: false,
+		streetViewControl: false,
+  		mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
+
+	directionsService = new google.maps.DirectionsService;
+	directionsDisplay = new google.maps.DirectionsRenderer;
+
+	directionsDisplay.setMap(map);
+
+	setOptionModal();
+}
 
 function initAutoComplete() {
 	autocompletes= [];
@@ -22,6 +47,7 @@ function initAutoComplete() {
 	$('.addrInput').each(function() {
 		addAutoCompleteToInputField($(this));
 	});
+
 }
 
 function addAutoCompleteToInputField(input) {
@@ -41,28 +67,52 @@ function addAutoCompleteToInputField(input) {
 	autocompletes.push(autocomplete);
 }
 
-function addAddressHTML() {
-	addrCount++;
-	var addrStr = 'addr' + addrCount;
-	// var newHTML = '<tr><td><input type="checkbox" name="' + addrStr + '" checked></td><td><input id="' + addrStr +'" class="addrInput" type="text" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></td></tr>'
-	var newHTML = '<div class="input-group"><span class="input-group-addon"><input type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div><hr>'
+function calculateAddr() {
+	addressPoints = [];
+	formattedAddrs = [];
+	bounds = new google.maps.LatLngBounds();
 
-	$( "#addressList" ).append(newHTML);
-	console.log(addrStr);
-	addAutoCompleteToInputField($('#' + addrStr));
-}
+	locationType = "";
+	clearMarkers();
+	markers = [];
+	addrLength = 0;
 
-function initMap() {
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: 49.277469, lng: -122.914338},
-		zoom: 13,
-		mapTypeControl: false,
-		streetViewControl: false,
-  		mapTypeId: google.maps.MapTypeId.ROADMAP
+	loadLocation();
+
+	//gets expected count of addresses, so not calculating >1 time
+	$(".addrInput").each(function() {
+		if($(this) != null && $(this).val().length > 0) {
+			if($(this).siblings().find('.addressCheck').is(":checked"))
+				addrLength += 1;
+		}
 	});
 
-	setOptionModal();
+	$(".addrInput").each(function() {
+		if($(this) != null && $(this).val().length > 0) {
+			if($(this).siblings().find('.addressCheck').is(":checked")){
+				var addr = $(this).val();
+				console.log(addr);
+				console.log($(this));
+				console.log($(this).attr('lat'));
+				addAddress($(this));
+			}
+		}
+	});
 }
+
+function addAddressHTML() {
+  addrCount++;
+  var addrStr = 'addr' + addrCount;
+
+  var newHTML = '<div class="address"> <div class="address-header">' + 'Address ' + addrCount +'</div> <div class="transport-options"> <a class="carMode"><i class="fa fa-car"></i></a> <a class="transitMode"><i class="fa fa-subway"></i></a> <a class="walkMode"><i class="fa fa-male"></i></a> <a class="bicycleMode"><i class="fa fa-bicycle"></i></a></div>' +
+  '<div class="input-group"><span class="input-group-addon"><input class="addressCheck" type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div>'
+  + '<div class="row tripInfo"><div class="tripDuration col-md-6"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"> 10 Minutes </span> </div> <div class="tripDistance col-md-6"> <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"> 10 KM </span></div> </div> </div><hr>';
+
+  $( "#addressList" ).append(newHTML);
+  console.log(addrStr);
+  addAutoCompleteToInputField($('#' + addrStr));
+}
+
 
 function clearMarkers() {
 	if(markers != null || markers && undefined) {
@@ -121,33 +171,6 @@ function loadLocation() {
 		locationType = $("#locList").val();
 }
 
-function calculateAddr() {
-	addressPoints = [];
-	bounds = new google.maps.LatLngBounds();
-
-	locationType = "";
-	clearMarkers();
-	markers = [];
-	addrLength = 0;
-
-	loadLocation();
-
-	//gets expected count of addresses, so not calculating >1 time
-	$(".addrInput").each(function() {
-		if($(this) != null && $(this).val().length > 0)
-			addrLength += 1;
-	});
-
-	$(".addrInput").each(function() {
-		var addr = $(this).val();
-		console.log(addr);
-		console.log($(this));
-		console.log($(this).attr('lat'));
-		addAddress($(this));
-	});
-
-}
-
 function addAddress(addr) {
 	if(addr != null && addr.length > 0) {
 
@@ -178,7 +201,7 @@ function addAddress(addr) {
 					if(data.results.length > 0)
 						addAddressToArray(data.results[0].geometry.location);
 				} //should add popup window on error
-			} );
+			});
 		}
 	}
 }
@@ -263,8 +286,10 @@ function addPointToMap(addr, isUserLocation) {
 
 		if(isUserLocation == undefined || isUserLocation == false)
 			infoString = 'Calculated Location';
-		else
+		else {
 			infoString = 'User Location';
+			formattedAddrs.push(addr.formatted_address);
+		}
 
 
 		var infoWindow = new google.maps.InfoWindow({
@@ -302,6 +327,7 @@ function addMarkerToMap(marker, infoWindow) {
 
 function loadLocationsForMarkerByKeyword(keyword, markerPos) {
 	console.log("loading " + keyword +"...\n")
+
 	var request = {
 		location: markerPos,
 		radius: 2000,
@@ -312,7 +338,7 @@ function loadLocationsForMarkerByKeyword(keyword, markerPos) {
 	service.nearbySearch(request, addNearbyLocations);
 }
 
-function buildContentString(title, subtitle) {
+function buildContentString(title, subtitle, isDestination) {
 	var contentString;
 	if(title != null) {
 		contentString =
@@ -323,6 +349,10 @@ function buildContentString(title, subtitle) {
 		contentString += '<p id="secondHeading" class="secondHeading">'
 		+ subtitle + '</p>';
 	}
+
+	if(isDestination != undefined && isDestination == true) {
+		contentString += '<button type="button" onclick="setAsDestination(event)" class="btn btn-primary btn-sm destButton">Set as Destination</button>'
+	}
 	return contentString;
 }
 
@@ -332,7 +362,7 @@ function addNearbyLocations(results, status) {
 			var addr = results[i];
 
 			var infoWindow = new google.maps.InfoWindow({
-				  content: buildContentString(addr.name, addr.vicinity)
+				  content: buildContentString(addr.name, addr.vicinity, true)
 				});
 
 			var marker = new google.maps.Marker({
@@ -349,5 +379,60 @@ function addNearbyLocations(results, status) {
 	}
 }
 
+function calculatePathToPoint(startPoint, destPoint) {
+  directionsService.route({
+    origin: startPoint,
+    destination: destPoint,
+    travelMode: 'DRIVING'
+  }, function(response, status) {
+    if (status === 'OK') {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+
+function calculateTravelTime(key, startAddr, endAddr) {
+	console.log("!!!calculating travel time");
+	var service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix(
+      {
+        origins: [startAddr],
+        destinations: [endAddr],
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+        durationInTraffic: true,
+        avoidHighways: false,
+        avoidTolls: false
+      }, function(response, status) {addCalculatedTime(key, response, status)});
+}
+
+	function addCalculatedTime(key, response, status) {
+		var timeString = response.rows[0].elements[0].duration.text;
+		var distanceString = response.rows[0].elements[0].distance.text;
+
+		var index = 0;
+		console.log('key is ' + key);
+		$(".addrInput").each(function() {
+			if($(this) != undefined && $(this).val().length > 0 && $(this).siblings().find('.addressCheck').is(":checked")) {
+				if(index == key) {
+					$(this).parent().next().find('#timeText').text(' ' + timeString);
+					$(this).parent().next().find('#distanceText').text(' ' + distanceString);
+					return false;
+				}
+				else {
+					index++;
+				}
+			}
+		});
+	}
 
 
+function setAsDestination(event) {
+	console.log("setting as destination...");
+	selectedDestination = $(event.target).prev().text();
+	$.each( formattedAddrs, function( key, value ) {
+		calculateTravelTime(key, value, selectedDestination);
+	});
+}
