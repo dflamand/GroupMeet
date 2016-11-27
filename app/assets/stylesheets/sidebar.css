@@ -381,3 +381,19 @@ ul.nav a:hover { color: blue !important; }
   display: inline-block;
 }
 
+.transitMode, .walkMode, .bicycleMode{
+  color: black;
+}
+
+.carMode{
+  color: #4286F4;
+}
+
+/*.carMode:hover{
+  color: inherit;
+}
+
+.transitMode:hover, .walkMode:hover, .bicycleMode:hover{
+  color: inherit;
+}
+*/
