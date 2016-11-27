@@ -17,6 +17,7 @@ var selectedDestination = "";
 
 var directionsService;
 var directionsDisplay;
+
 //Document fully loaded
 $( document ).ready(function() {
 		initMap();
@@ -392,7 +393,7 @@ function calculatePathToPoint(startPoint, destPoint) {
   });
 }
 
-function calculateTravelTime(startAddr, endAddr) {
+function calculateTravelTime(key, startAddr, endAddr) {
 	console.log("!!!calculating travel time");
 	var service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
@@ -404,14 +405,27 @@ function calculateTravelTime(startAddr, endAddr) {
         durationInTraffic: true,
         avoidHighways: false,
         avoidTolls: false
-      }, addCalculatedTime);
+      }, function(response, status) {addCalculatedTime(key, response, status)});
 }
 
-	function addCalculatedTime(response, status) {
+	function addCalculatedTime(key, response, status) {
 		var timeString = response.rows[0].elements[0].duration.text;
-		console.log(timeString);
 		var distanceString = response.rows[0].elements[0].distance.text;
-		console.log(distanceString);
+
+		var index = 0;
+		console.log('key is ' + key);
+		$(".addrInput").each(function() {
+			if($(this) != undefined && $(this).val().length > 0 && $(this).siblings().find('.addressCheck').is(":checked")) {
+				if(index == key) {
+					$(this).parent().next().find('#timeText').text(' ' + timeString);
+					$(this).parent().next().find('#distanceText').text(' ' + distanceString);
+					return false;
+				}
+				else {
+					index++;
+				}
+			}
+		});
 	}
 
 
@@ -419,12 +433,6 @@ function setAsDestination(event) {
 	console.log("setting as destination...");
 	selectedDestination = $(event.target).prev().text();
 	$.each( formattedAddrs, function( key, value ) {
-		calculateTravelTime(value, selectedDestination);
+		calculateTravelTime(key, value, selectedDestination);
 	});
 }
-
-
-
-
-
-
