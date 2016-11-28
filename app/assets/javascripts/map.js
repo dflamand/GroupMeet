@@ -106,7 +106,7 @@ function addAddressHTML() {
 
   var newHTML = '<div class="address"> <div class="address-header">' + 'Address ' + addrCount +'</div> <div class="transport-options"> <a class="carMode" id="car' + addrCount +'" active="1" onclick="setColour(event)"><i class="fa fa-car"></i></a> <a class="transitMode" id="transit' + addrCount +'" onclick="setColour(event)"><i class="fa fa-subway"></i></a> <a class="walkMode" id="walk' + addrCount +'" onclick="setColour(event)"><i class="fa fa-male"></i></a> <a class="bicycleMode" id="bicycle' + addrCount +'" onclick="setColour(event)"><i class="fa fa-bicycle"></i></a></div>' +
   '<div class="input-group"><span class="input-group-addon"><input class="addressCheck" type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div>'
-  + '<div class="row tripInfo"><div class="tripDuration col-md-6"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"> 10 Minutes </span> </div> <div class="tripDistance col-md-6"> <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"> 10 KM </span></div> </div> </div><hr>';
+  + '<div class="row tripInfo"><div class="tripDuration col-md-6"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"></span> </div> <div class="tripDistance col-md-6"> <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"></span></div> </div> </div><hr>';
 
   $( "#addressList" ).append(newHTML);
   console.log(addrStr);
