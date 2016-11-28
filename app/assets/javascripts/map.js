@@ -393,14 +393,14 @@ function calculatePathToPoint(startPoint, destPoint) {
   });
 }
 
-function calculateTravelTime(key, startAddr, endAddr) {
+function calculateTravelTime(key, startAddr, endAddr, transportMode) {
 	console.log("!!!calculating travel time");
 	var service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
       {
         origins: [startAddr],
         destinations: [endAddr],
-        travelMode: 'DRIVING',
+        travelMode: transportMode,
         unitSystem: google.maps.UnitSystem.METRIC,
         durationInTraffic: true,
         avoidHighways: false,
@@ -408,33 +408,84 @@ function calculateTravelTime(key, startAddr, endAddr) {
       }, function(response, status) {addCalculatedTime(key, response, status)});
 }
 
-	function addCalculatedTime(key, response, status) {
-		var timeString = response.rows[0].elements[0].duration.text;
-		var distanceString = response.rows[0].elements[0].distance.text;
+function addCalculatedTime(key, response, status) {
+	var timeString = response.rows[0].elements[0].duration.text;
+	var distanceString = response.rows[0].elements[0].distance.text;
 
-		var index = 0;
-		console.log('key is ' + key);
-		$(".addrInput").each(function() {
-			if($(this) != undefined && $(this).val().length > 0 && $(this).siblings().find('.addressCheck').is(":checked")) {
-				if(index == key) {
-					$(this).parent().next().find('#timeText').text(' ' + timeString);
-					$(this).parent().next().find('#distanceText').text(' ' + distanceString);
-					return false;
-				}
-				else {
-					index++;
-				}
-			}
-		});
+	var index = 0;
+
+	var els = getAddressElementForKey(key);
+	if(els.length > 0) {
+		var element = els[0];
+		if(element != null && element != undefined) {
+			element.parent().next().find('#timeText').text(' ' + timeString);
+			element.parent().next().find('#distanceText').text(' ' + distanceString);
+		}
 	}
+}
+
+function getAddressElementForKey(key) {
+	var index = 0;
+
+	var elements = [];
+	$(".addrInput").each(function() {
+		if($(this) != undefined && $(this).val().length > 0 && $(this).siblings().find('.addressCheck').is(":checked")) {
+			if(index == key) {
+				elements.push($(this));
+				return false;
+			}
+			else {
+				index++;
+			}
+		}
+	});
+
+	return elements;
+}
 
 
 function setAsDestination(event) {
 	console.log("setting as destination...");
 	selectedDestination = $(event.target).prev().text();
+
 	$.each( formattedAddrs, function( key, value ) {
-		calculateTravelTime(key, value, selectedDestination);
+		var elements = getAddressElementForKey(key);
+		var element = elements[0];
+		var str = []
+
+		element.parent().prev().children().each(function () {
+			if($(this).attr('active') == '1') {
+				str.push(getTransportStringByID($(this).attr('id')));
+				return false;
+			}
+		});
+
+		var transportString = 'DRIVING'; //default
+		if(str[0] != undefined && str[0] != null)
+			transportString = str[0];
+
+		calculateTravelTime(key, value, selectedDestination, transportString);
 	});
+}
+
+function getTransportStringByID(id) {
+
+	if(id != undefined && id != null) {
+		if(id.indexOf('walk') >= 0) {
+			return 'WALKING';
+		}
+		else if(id.indexOf('car') >= 0) {
+			return 'DRIVING';
+		}
+		else if(id.indexOf('transit') >= 0) {
+			return 'TRANSIT';
+		}
+		else if(id.indexOf('bicycle') >= 0) {
+			return 'BICYCLING';
+		}
+	}
+
+	return null;
 }
 
 function setColour(event) {
