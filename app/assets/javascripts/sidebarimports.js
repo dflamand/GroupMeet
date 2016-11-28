@@ -27,7 +27,7 @@ function load_group()
   });
 }
 
-window.onload = load_group();
+
 
 $(document).ready(function(){
   $("#user_group_ids").change(function(){

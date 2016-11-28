@@ -327,6 +327,10 @@
     <%= render 'changePasswordModal'%>
 
 
-    <script>var sidebar = $('#sidebar').sidebar();</script>
+    <script>var sidebar = $('#sidebar').sidebar();
+    <% if loggedIn? %>
+    window.onload = load_group();
+    <% end %>
+    </script>
   </body>
 </html>
