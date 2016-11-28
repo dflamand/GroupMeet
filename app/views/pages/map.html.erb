@@ -36,27 +36,6 @@
       </div>
     </nav>
 
-    <div id="optionModal" class="modal fade">
-      <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-        <button id="optionModalClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Enter Location Type</h4>
-        </div>
-        <div class="modal-body">
-        <div class="form-group" id="optionModalForm">
-          <input type="text" class="form-control" id="optionModalInput">
-        </div>
-        </div>
-        <div class="modal-footer">
-        <button id="optionModalSave" type="button" class="btn btn-primary">Add Location</button>
-        </div>
-      </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div>
-
     <div id="sidebar" class="sidebar collapsed">
       <!-- Nav tabs -->
       <div class="sidebar-tabs">
@@ -65,259 +44,28 @@
           <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
           <li><a href="#groups" role="tab"><i class="fa fa-users"></i></a></li>
         </ul>
-
         <ul role="tablist">
         </ul>
       </div>
 
       <!-- Tab panes -->
       <div class="sidebar-content">
-        <div class="sidebar-pane" id="home">
-          <h1 class="sidebar-header">
-            Enter Locations
-            <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-          </h1><br>
-          <div class="top-part">
-            <p>Enter at least two locations. GroupMeet will automatically find the most central location to meet between those points!</p>
 
-            <div id ="controls">
-              <div id="locationType">
-                <div class="form-group">
-                  <label for="sel1">Select Location Type:</label>
-                  <select id="locList" class="form-control">
-                  <option index="1" id="initOption">Coffee Shop</option>
-                  <option index="2">Restaurant</option>
-                  <option index="3">Park</option>
-                  <option index="4">Library</option>
-                  <option index="5" id="otherOption" data-toggle="modal" data-target="#optionModal">Other...</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
+        <%= render 'enterLocations'%>
+        <%= render 'profile'%>
+        <%= render 'groups'%>
 
-          <hr>
-
-          <div class="row">
-            <div class="col-md-6">
-              <button type="button" class="btn btn-secondary" onclick="addAddressHTML()"> Add Address</button>
-            </div>
-            <div class="col-md-6">
-              <button type="button" class="btn btn-primary" onclick="calculateAddr()">Submit</button>
-            </div>
-          </div>
-
-          <hr>
-
-          <div class="row content">
-            <div id="addressList" class="col-md-12">
-              <div class="address">
-                <div class="address-header">Address 1</div>
-                <div class="transport-options">
-                  <a class = "carMode" id="car1" active="1" onclick="setColour(event)"><i class="fa fa-car"></i></a>
-                  <a class = "transitMode" id="transit1" onclick="setColour(event)"><i class="fa fa-subway"></i></a>
-                  <a class = "walkMode" id="walk1" onclick="setColour(event)"><i class="fa fa-male"></i></a>
-                  <a class = "bicycleMode" id="bicycle1" onclick="setColour(event)"><i class="fa fa-bicycle"></i></a>
-                </div>
-                <div class="input-group">
-                  <span class="input-group-addon">
-                    <input class="addressCheck" type="checkbox" checked>
-                  </span>
-                  <input type="text" class="form-control addrInput" placeholder="Address 1">
-                </div>
-                <div class="row tripInfo">
-                  <div class="tripDuration col-md-6">
-                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"> 10 Minutes </span>
-                  </div>
-                  <div class="tripDistance col-md-6">
-                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"> 10 KM </span>
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <div class="address">
-                <div class="address-header">Address 2</div>
-                <div class="transport-options">
-                  <a class = "carMode" id="car2" active="1" onclick="setColour(event)" ><i class="fa fa-car"></i></a>
-                  <a class = "transitMode" id="transit2" onclick="setColour(event)"><i class="fa fa-subway"></i></a>
-                  <a class = "walkMode" id="walk2" onclick="setColour(event)"><i class="fa fa-male"></i></a>
-                  <a class = "bicycleMode" id="bicycle2" onclick="setColour(event)"><i class="fa fa-bicycle"></i></a>
-                </div>
-                <div class="input-group">
-                  <span class="input-group-addon">
-                    <input class="addressCheck" type="checkbox" checked>
-                  </span>
-                  <input type="text" class="form-control addrInput" placeholder="Address 2">
-                </div>
-                <div class="row tripInfo">
-                  <div class="tripDuration col-md-6">
-                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"> 10 Minutes </span>
-                  </div>
-                  <div class="tripDistance col-md-6">
-                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"> 10 KM </span>
-                  </div>
-                </div>
-              </div>
-              <hr>
-
-            </div>
-          </div>
-
-        </div>
-
-
-        <div class="sidebar-pane" id="profile">
-          <h1 class="sidebar-header">
-            Profile
-            <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-          </h1><br>
-          <% if !loggedIn? %>
-            <p>Register for a new account to save group coordinates!</p>
-          <% else %>
-            <div class="panel panel-default">
-              <!-- Default panel contents -->
-              <div class="panel-heading">Profile Information</div>
-              <!-- List group -->
-              <ul class="list-group">
-                <li class="list-group-item">Name: <%= currentUser.firstName %> <%= currentUser.lastName %></li>
-                <li class="list-group-item">Email: <%= currentUser.email %></li>
-                <li class="list-group-item"><a class="btn" data-toggle="modal" data-target="#UpdateInfo-Modal">Update Profile</a></li>
-                <li class="list-group-item"><a class="btn" data-toggle="modal" data-target="#ChangePassword-Modal">Change Password</a></li>
-              </ul>
-            </div>
-            <div class="panel panel-default">
-              <!-- Default panel contents -->
-              <div class="panel-heading">Groups Joined:</div>
-
-              <!-- List group -->
-              <ul class="list-group">
-                <% currentUser.groups.each do |g| %>
-                  <li class="list-group-item"><%= g.gname %><span class="list-group-addon"><%= link_to "Delete", g, :method => :delete, :confirm => "are you sure?" %></span></li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
-        </div>
-
-        <div class="sidebar-pane" id="groups">
-          <h1 class="sidebar-header">
-            Groups
-            <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-          </h1><br>
-          <% if !loggedIn? %>
-            <p>Register for a new account to save group coordinates!</p>
-          <% else %>
-            <button data-toggle="modal" data-target="#Group-Modal" class="btn btn-default login-button">Create Group</button>
-            <hr>
-            <div id="GroupList">
-              <%= label_tag "groupselect", "Select Group" %>
-              <%= collection_select(:user, :group_ids, currentUser.groups, :id, :g_name, {}, html_options = {class: "form-control"}) %>
-
-              <br>
-            </div>
-            <hr>
-            <%= label_tag "MemberList", "Group Members" %>
-            <div id="MemberList">
-              <ul id="userbox">
-              </ul>
-            </div>
-            <hr>
-            <div id="AddUsers">
-
-              <%= label_tag "selectaddusers", "Select Users To Add" %>
-              <%= collection_select(:group, :user_ids, User.all.where.not(id: currentUser.id), :id, :u_email, {}, {:multiple => true, :id => "selectaddusers", :class => "form-control"}) %>
-              <br>
-              <button type="button" id="adduserbutton" class="btn btn-default login-button">Add User(s)</button>
-            </div>
-
-
-          <% end %>
-        </div>
       </div>
     </div>
 
     <div id="map"></div>
 
-    <!-- Login pop-up Modal -->
-    <div id="Login-Modal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Log-In</h4>
-          </div>
-          <div class="modal-body">
-            <%= simple_form_for(:user, url: login_path) do |u|%>
-                <%= u.input :email, :input_html =>{:class => "login-input"}, placeholder: "E-mail (required)"%>
-                <%= u.input :password, :input_html =>{:class => "login-input"}, placeholder: "Password (required)"%>
-                <hr>
-                <%= u.submit "Login", :class => "btn btn-default login-button" %>
-            <% end %>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Register pop-up Modal -->
-    <div id="Register-Modal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Register</h4>
-          </div>
-          <div class="modal-body">
-            <%= simple_form_for(:user, url: users_path) do |u|%>
-                <%= u.input :firstName, :input_html =>{:class => "login-input"}, placeholder: "First Name"%>
-                <%= u.input :lastName, :input_html =>{:class => "login-input"}, placeholder: "Last Name"%>
-                <%= u.input :email, :input_html =>{:class => "login-input"}, placeholder: "Email (required)"%>
-                <%= u.input :password, :input_html =>{:class => "login-input"}, placeholder: "Password (required)"%>
-                <%= u.input :password_confirmation, :input_html =>{:class => "login-input"}, placeholder: "Confirm Password (required)"%>
-                <hr>
-                <%= u.submit "Register", :class => "btn btn-default login-button" %>
-            <% end %>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Group Modal -->
-    <div id="Group-Modal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Create Group</h4>
-          </div>
-          <div class="modal-body">
-            <%= simple_form_for(:group, url: {controller: "groups", action: "create"}, html: {id: "newgroupform"}) do |u|%>
-                <%= u.input :gname, :input_html =>{:class => "login-input"}, placeholder: "Name (required)"%>
-                <hr>
-                <%= u.submit "Create", :class => "btn btn-default login-button" %>
-            <% end %>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <%= render 'updateUserModal'%>
     <%= render 'changePasswordModal'%>
+    <%= render 'locationOptionModal'%>
+    <%= render 'loginModal'%>
+    <%= render 'registerModal'%>
+    <%= render 'groupModal'%>
 
 
     <script>var sidebar = $('#sidebar').sidebar();</script>
