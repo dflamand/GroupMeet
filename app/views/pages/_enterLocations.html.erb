@@ -1,0 +1,92 @@
+<div class="sidebar-pane" id="home">
+  <h1 class="sidebar-header">
+    Enter Locations
+    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+  </h1><br>
+  <div class="top-part">
+    <p>Enter at least two locations. GroupMeet will automatically find the most central location to meet between those points!</p>
+
+    <div id ="controls">
+      <div id="locationType">
+        <div class="form-group">
+          <label for="sel1">Select Location Type:</label>
+          <select id="locList" class="form-control">
+          <option index="1" id="initOption">Coffee Shop</option>
+          <option index="2">Restaurant</option>
+          <option index="3">Park</option>
+          <option index="4">Library</option>
+          <option index="5" id="otherOption" data-toggle="modal" data-target="#optionModal">Other...</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-secondary" onclick="addAddressHTML()"> Add Address</button>
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-primary" onclick="calculateAddr()">Submit</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row content">
+    <div id="addressList" class="col-md-12">
+      <div class="address">
+        <div class="address-header">Address 1</div>
+        <div class="transport-options">
+          <a class = "carMode" id="car1" active="1" onclick="setColour(event)"><i class="fa fa-car"></i></a>
+          <a class = "transitMode" id="transit1" onclick="setColour(event)"><i class="fa fa-subway"></i></a>
+          <a class = "walkMode" id="walk1" onclick="setColour(event)"><i class="fa fa-male"></i></a>
+          <a class = "bicycleMode" id="bicycle1" onclick="setColour(event)"><i class="fa fa-bicycle"></i></a>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input class="addressCheck" type="checkbox" checked>
+          </span>
+          <input type="text" class="form-control addrInput" placeholder="Address 1">
+        </div>
+        <div class="row tripInfo">
+          <div class="tripDuration col-md-6">
+            <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"></span>
+          </div>
+          <div class="tripDistance col-md-6">
+            <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"></span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="address">
+        <div class="address-header">Address 2</div>
+        <div class="transport-options">
+          <a class = "carMode" id="car2" active="1" onclick="setColour(event)" ><i class="fa fa-car"></i></a>
+          <a class = "transitMode" id="transit2" onclick="setColour(event)"><i class="fa fa-subway"></i></a>
+          <a class = "walkMode" id="walk2" onclick="setColour(event)"><i class="fa fa-male"></i></a>
+          <a class = "bicycleMode" id="bicycle2" onclick="setColour(event)"><i class="fa fa-bicycle"></i></a>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input class="addressCheck" type="checkbox" checked>
+          </span>
+          <input type="text" class="form-control addrInput" placeholder="Address 2">
+        </div>
+        <div class="row tripInfo">
+          <div class="tripDuration col-md-6">
+            <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"></span>
+          </div>
+          <div class="tripDistance col-md-6">
+            <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"></span>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+    </div>
+  </div>
+
+</div>

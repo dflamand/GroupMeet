@@ -1,0 +1,34 @@
+<div class="sidebar-pane" id="groups">
+  <h1 class="sidebar-header">
+    Groups
+    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+  </h1><br>
+  <% if !loggedIn? %>
+    <p>Register for a new account to save group coordinates!</p>
+  <% else %>
+    <button data-toggle="modal" data-target="#Group-Modal" class="btn btn-default login-button">Create Group</button>
+    <hr>
+    <div id="GroupList">
+      <%= label_tag "groupselect", "Select Group" %>
+      <%= collection_select(:user, :group_ids, currentUser.groups, :id, :g_name, {}, html_options = {class: "form-control"}) %>
+
+      <br>
+    </div>
+    <hr>
+    <%= label_tag "MemberList", "Group Members" %>
+    <div id="MemberList">
+      <ul id="userbox">
+      </ul>
+    </div>
+    <hr>
+    <div id="AddUsers">
+
+      <%= label_tag "selectaddusers", "Select Users To Add" %>
+      <%= collection_select(:group, :user_ids, User.all.where.not(id: currentUser.id), :id, :u_email, {}, {:multiple => true, :id => "selectaddusers", :class => "form-control"}) %>
+      <br>
+      <button type="button" id="adduserbutton" class="btn btn-default login-button">Add User(s)</button>
+    </div>
+
+
+  <% end %>
+</div>

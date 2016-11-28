@@ -1,0 +1,25 @@
+<!-- Login pop-up Modal -->
+<div id="Login-Modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Log-In</h4>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(:user, url: login_path) do |u|%>
+        <%= u.input :email, :input_html =>{:class => "login-input"}, placeholder: "E-mail (required)"%>
+        <%= u.input :password, :input_html =>{:class => "login-input"}, placeholder: "Password (required)"%>
+        <hr>
+        <%= u.submit "Login", :class => "btn btn-default login-button" %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
