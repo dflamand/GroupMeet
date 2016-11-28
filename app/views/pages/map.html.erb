@@ -235,7 +235,6 @@
             </div>
             <hr>
             <div id="AddUsers">
-
               <%= label_tag "selectaddusers", "Select Users To Add" %>
               <%= collection_select(:group, :user_ids, User.all.where.not(id: currentUser.id), :id, :u_email, {}, {:multiple => true, :id => "selectaddusers", :class => "form-control"}) %>
               <br>

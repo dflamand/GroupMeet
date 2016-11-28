@@ -62,10 +62,10 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @group = Group.find(params[:id])
+    @currentGroup = Group.find(params[:id])
 
     respond_to do |format|
-      format.json {render json: @group.users}
+      format.json {render json: @currentGroup.users}
     end
   end
 
