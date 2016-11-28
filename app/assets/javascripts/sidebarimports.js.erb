@@ -2,8 +2,10 @@
 function load_group()
 {
   $(document).ready(function(){
-    var $users = $("#userbox")
+    var $users = $("#userbox");
+    var $kickcand = $("#kicklist");
     $users.empty();
+    $kickcand.empty();
     var groupid = $("#user_group_ids").val();
     console.log("GROUPIDFOUND", groupid);
     $(function(){
@@ -14,8 +16,8 @@ function load_group()
         success: function(users){
           console.log('success', users);
           $.each(users, function(i, user){
-            $users.append("<li>Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>")
-
+            $users.append("<li id=\"user" + user.id + "\">Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>");
+            $kickcand.append("<option value=" + String(user.id) + ">" + user.email + "</option>" );
           });
         },
         error: function(data){
@@ -58,6 +60,29 @@ $(document).ready(function(){
         $.each(users, function(i, user){
           $users.append("<li>Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>")
         });
+        console.log("Success", users);
+      },
+      error: function(resp){
+        console.log("Error", users);
+      }
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#sendkick").click(function()
+  {
+    var $users = $("#userbox")
+    var groupid = $("#user_group_ids").val();
+    var user = $("#kickbox").text();
+    $.ajax({
+      type: "DELETE",
+      //beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      url: "/removeuser",
+      dataType: "json",
+      data: {userid:addusers, groupid: groupid},
+      success: function(users){
+
         console.log("Success", users);
       },
       error: function(resp){

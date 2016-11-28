@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
 
   def remove_user
     @group = Group.find(params[:groupid])
-    @user = currentUser
+    @user = User.find(params[:userid])
 
     if @group
       @user.groups.delete(@group)

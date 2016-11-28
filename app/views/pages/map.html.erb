@@ -198,7 +198,7 @@
                     <% if currentUser.id == g.groupowner %>
                       <%= link_to "Delete", g, :method => :delete, data: {confirm: "Are you sure?"} %>
                     <% end %>
-                    <%= link_to "Leave Group", removeuser_path(:groupid => g.id), :method => :delete, data: {confirm: "Are you sure you want to leave this group?"} %>
+                    <%= link_to "Leave Group", removeuser_path(:groupid => g.id, :userid => currentUser.id), :method => :delete, data: {confirm: "Are you sure you want to leave this group?"} %>
                     </span>
                   </li>
                 <% end %>
@@ -227,6 +227,10 @@
             <div id="MemberList">
               <ul id="userbox">
               </ul>
+            </div>
+            <div id="kickusers">
+              <select id="kicklist">
+              </select>
             </div>
             <hr>
             <div id="AddUsers">
@@ -327,7 +331,9 @@
     <%= render 'changePasswordModal'%>
 
 
-    <script>var sidebar = $('#sidebar').sidebar();
+    <script>
+    var sidebar = $('#sidebar').sidebar();
+    //Check if user logged in before loading 'default' group
     <% if loggedIn? %>
     window.onload = load_group();
     <% end %>
