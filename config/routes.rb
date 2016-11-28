@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
 
-
+  patch '/changepassword', to: 'users#change_password'
 
 
   get "/pages/:page" => "pages#show"

@@ -345,4 +345,55 @@ ul.nav a:hover { color: blue !important; }
   border-radius: 0px;
 }
 
+.tripInfo{
+  margin-top: 10px;
+  margin-bottom: -10px;
+  color: grey;
+}
 
+.tripDuration:hover{
+  color: #4286f4;
+}
+
+.tripDistance:hover{
+  color: #4286f4;
+}
+
+.address-header{
+  color:grey;
+  vertical-align:top;
+  /*margin-top: -15px;*/
+  /*margin-bottom: 10px;*/
+  font-weight: bold;
+  display: inline-block;
+}
+
+.address-divider{
+  margin-bottom: 4px;
+
+}
+
+.transport-options{
+  /*position: absolute;*/
+  font-size: 20px;
+  margin-left: 212px;
+  /*margin-bottom: 10px;*/
+  display: inline-block;
+}
+
+.transitMode, .walkMode, .bicycleMode{
+  color: black;
+}
+
+.carMode{
+  color: #4286F4;
+}
+
+/*.carMode:hover{
+  color: inherit;
+}
+
+.transitMode:hover, .walkMode:hover, .bicycleMode:hover{
+  color: inherit;
+}
+*/
