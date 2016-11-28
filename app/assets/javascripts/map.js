@@ -104,7 +104,7 @@ function addAddressHTML() {
   addrCount++;
   var addrStr = 'addr' + addrCount;
 
-  var newHTML = '<div class="address"> <div class="address-header">' + 'Address ' + addrCount +'</div> <div class="transport-options"> <a class="carMode"><i class="fa fa-car"></i></a> <a class="transitMode"><i class="fa fa-subway"></i></a> <a class="walkMode"><i class="fa fa-male"></i></a> <a class="bicycleMode"><i class="fa fa-bicycle"></i></a></div>' +
+  var newHTML = '<div class="address"> <div class="address-header">' + 'Address ' + addrCount +'</div> <div class="transport-options"> <a class="carMode" id="car' + addrCount +'" active="1" onclick="setColour(event)"><i class="fa fa-car"></i></a> <a class="transitMode" id="transit' + addrCount +'" onclick="setColour(event)"><i class="fa fa-subway"></i></a> <a class="walkMode" id="walk' + addrCount +'" onclick="setColour(event)"><i class="fa fa-male"></i></a> <a class="bicycleMode" id="bicycle' + addrCount +'" onclick="setColour(event)"><i class="fa fa-bicycle"></i></a></div>' +
   '<div class="input-group"><span class="input-group-addon"><input class="addressCheck" type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div>'
   + '<div class="row tripInfo"><div class="tripDuration col-md-6"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"> 10 Minutes </span> </div> <div class="tripDistance col-md-6"> <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"> 10 KM </span></div> </div> </div><hr>';
 
@@ -437,26 +437,14 @@ function setAsDestination(event) {
 	});
 }
 
-function setColour(btn,group) {
-	console.log("starting")
-	var current = document.getElementById(btn);
+function setColour(event) {
 
-	var car = document.getElementById('car' + group);
-	var transit = document.getElementById('transit' + group);
-	var walk = document.getElementById('walk' + group);
-	var bicycle = document.getElementById('bicycle' + group);
+	var element = $(event.target);
 
-	console.log(current);
+	element.parent().attr('active', '1');
+	element.parent().css('color', 'rgb(66,134,244)');
 
-	var arr = [car, transit, walk, bicycle]; 
+	element.parent().siblings().attr('active', '0');
+	element.parent().siblings().css('color', 'black');
 
-	
-	for (var i = 0; i < 4; i++){
-		arr[i].style.color = 'black';
-		console.log(arr[i]);
-	}
-
-	current.style.color = "rgb(66,134,244)";
-
-	console.log("done");
 }
