@@ -436,3 +436,27 @@ function setAsDestination(event) {
 		calculateTravelTime(key, value, selectedDestination);
 	});
 }
+
+function setColour(btn,group) {
+	console.log("starting")
+	var current = document.getElementById(btn);
+
+	var car = document.getElementById('car' + group);
+	var transit = document.getElementById('transit' + group);
+	var walk = document.getElementById('walk' + group);
+	var bicycle = document.getElementById('bicycle' + group);
+
+	console.log(current);
+
+	var arr = [car, transit, walk, bicycle]; 
+
+	
+	for (var i = 0; i < 4; i++){
+		arr[i].style.color = 'black';
+		console.log(arr[i]);
+	}
+
+	current.style.color = "rgb(66,134,244)";
+
+	console.log("done");
+}
