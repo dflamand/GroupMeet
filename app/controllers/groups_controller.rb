@@ -53,9 +53,11 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:groupid])
     @user = User.find(params[:userid])
 
-    if @group
+    if @group && @user
       @user.groups.delete(@group)
-      redirect_to root_path
+      respond_to do |format|
+        format.json {render json: @user}
+      end
     end
   end
 
