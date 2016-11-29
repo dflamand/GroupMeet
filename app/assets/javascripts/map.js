@@ -19,6 +19,8 @@ var directionsService;
 var directionsDisplay;
 
 var lastOpenInfoWindow;
+var lastOpenMarker;
+
 
 //Document fully loaded
 $( document ).ready(function() {
@@ -281,7 +283,7 @@ function addPointToMap(addr, isUserLocation) {
 	if(addr != null) { //don't really need to check for null, as this only gets called on success of ajax function
 		var iconColor = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
 		if(isUserLocation != undefined && isUserLocation == true)
-			iconColor = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+			iconColor = 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png';
 
 		//Build Location popup window
 		var infoString;
@@ -305,7 +307,7 @@ function addPointToMap(addr, isUserLocation) {
 			icon: iconColor
 		});
 
-		addMarkerToMap(marker, infoWindow);
+		addMarkerToMap(marker, infoWindow, isUserLocation);
 
 		//Only looks up locations if this is not a user provided location
 		if(isUserLocation == undefined || isUserLocation == false)
@@ -318,14 +320,22 @@ function isInfoWindowOpen(infoWindow){
     return (map !== null && typeof map !== "undefined");
 }
 
-function addMarkerToMap(marker, infoWindow) {
+function addMarkerToMap(marker, infoWindow, isUserLocation) {
+
 	marker.addListener('click', function() {
 		if(infoWindow != null) {
 			if(!isInfoWindowOpen(infoWindow)) {
-				if(lastOpenInfoWindow != null)
+				if(lastOpenInfoWindow != null) {
+					if(isUserLocation == false)
+						lastOpenMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
 					lastOpenInfoWindow.close()
+				}
 		  	infoWindow.open(map, marker);
 		  	lastOpenInfoWindow = infoWindow;
+		  	lastOpenMarker = marker;
+
+		  	if(isUserLocation == false)
+		  		marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
 			}
 		}
 	});
@@ -381,10 +391,11 @@ function addNearbyLocations(results, status) {
 			var marker = new google.maps.Marker({
 				position: addr.geometry.location,
 				map: map,
+				icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
 				title: addr.formatted_address
 			});
 
-			addMarkerToMap(marker, infoWindow);
+			addMarkerToMap(marker, infoWindow, false);
 		}
 
 		//now set bounds to include our calculated locations
