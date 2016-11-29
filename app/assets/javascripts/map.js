@@ -20,6 +20,7 @@ var directionsDisplay;
 
 var lastOpenInfoWindow;
 var lastOpenMarker;
+var lastIsUserLocation;
 
 
 //Document fully loaded
@@ -307,7 +308,7 @@ function addPointToMap(addr, isUserLocation) {
 			icon: iconColor
 		});
 
-		addMarkerToMap(marker, infoWindow, isUserLocation);
+		addMarkerToMap(marker, infoWindow, true);
 
 		//Only looks up locations if this is not a user provided location
 		if(isUserLocation == undefined || isUserLocation == false)
@@ -326,13 +327,14 @@ function addMarkerToMap(marker, infoWindow, isUserLocation) {
 		if(infoWindow != null) {
 			if(!isInfoWindowOpen(infoWindow)) {
 				if(lastOpenInfoWindow != null) {
-					if(isUserLocation == false)
+					if(lastIsUserLocation == false)
 						lastOpenMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
 					lastOpenInfoWindow.close()
 				}
 		  	infoWindow.open(map, marker);
 		  	lastOpenInfoWindow = infoWindow;
 		  	lastOpenMarker = marker;
+		  	lastIsUserLocation = isUserLocation;
 
 		  	if(isUserLocation == false)
 		  		marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
