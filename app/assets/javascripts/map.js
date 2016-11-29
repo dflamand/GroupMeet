@@ -18,6 +18,8 @@ var selectedDestination = "";
 var directionsService;
 var directionsDisplay;
 
+var lastOpenInfoWindow;
+
 //Document fully loaded
 $( document ).ready(function() {
 		initMap();
@@ -311,11 +313,22 @@ function addPointToMap(addr, isUserLocation) {
 	}
 }
 
+function isInfoWindowOpen(infoWindow){
+    var map = infoWindow.getMap();
+    return (map !== null && typeof map !== "undefined");
+}
+
 function addMarkerToMap(marker, infoWindow) {
 	marker.addListener('click', function() {
-		if(infoWindow)
-		  infoWindow.open(map, marker);
-		});
+		if(infoWindow != null) {
+			if(!isInfoWindowOpen(infoWindow)) {
+				if(lastOpenInfoWindow != null)
+					lastOpenInfoWindow.close()
+		  	infoWindow.open(map, marker);
+		  	lastOpenInfoWindow = infoWindow;
+			}
+		}
+	});
 
 	markers.push(marker);
 
