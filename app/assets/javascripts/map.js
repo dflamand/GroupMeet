@@ -18,6 +18,11 @@ var selectedDestination = "";
 var directionsService;
 var directionsDisplay;
 
+var lastOpenInfoWindow;
+var lastOpenMarker;
+var lastIsUserLocation;
+
+
 //Document fully loaded
 $( document ).ready(function() {
 		initMap();
@@ -279,7 +284,7 @@ function addPointToMap(addr, isUserLocation) {
 	if(addr != null) { //don't really need to check for null, as this only gets called on success of ajax function
 		var iconColor = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
 		if(isUserLocation != undefined && isUserLocation == true)
-			iconColor = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+			iconColor = 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png';
 
 		//Build Location popup window
 		var infoString;
@@ -303,7 +308,7 @@ function addPointToMap(addr, isUserLocation) {
 			icon: iconColor
 		});
 
-		addMarkerToMap(marker, infoWindow);
+		addMarkerToMap(marker, infoWindow, true);
 
 		//Only looks up locations if this is not a user provided location
 		if(isUserLocation == undefined || isUserLocation == false)
@@ -311,11 +316,36 @@ function addPointToMap(addr, isUserLocation) {
 	}
 }
 
-function addMarkerToMap(marker, infoWindow) {
+function isInfoWindowOpen(infoWindow){
+    var map = infoWindow.getMap();
+    return (map !== null && typeof map !== "undefined");
+}
+
+function addMarkerToMap(marker, infoWindow, isUserLocation) {
+
 	marker.addListener('click', function() {
-		if(infoWindow)
-		  infoWindow.open(map, marker);
-		});
+		if(infoWindow != null) {
+			if(!isInfoWindowOpen(infoWindow)) {
+				if(lastOpenInfoWindow != null) {
+					if(lastIsUserLocation == false)
+						lastOpenMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+					lastOpenInfoWindow.close()
+				}
+		  	infoWindow.open(map, marker);
+		  	lastOpenInfoWindow = infoWindow;
+		  	lastOpenMarker = marker;
+		  	lastIsUserLocation = isUserLocation;
+
+		  	if(isUserLocation == false) {
+		  		var windowHTML = $.parseHTML(infoWindow.content);
+		  		var loc = $(windowHTML).find('.secondHeading').text();
+					setAsDestination(loc);
+		  		marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+		  	}
+
+			}
+		}
+	});
 
 	markers.push(marker);
 
@@ -350,9 +380,6 @@ function buildContentString(title, subtitle, isDestination) {
 		+ subtitle + '</p>';
 	}
 
-	if(isDestination != undefined && isDestination == true) {
-		contentString += '<button type="button" onclick="setAsDestination(event)" class="btn btn-primary btn-sm destButton">Set as Destination</button>'
-	}
 	return contentString;
 }
 
@@ -368,10 +395,11 @@ function addNearbyLocations(results, status) {
 			var marker = new google.maps.Marker({
 				position: addr.geometry.location,
 				map: map,
+				icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
 				title: addr.formatted_address
 			});
 
-			addMarkerToMap(marker, infoWindow);
+			addMarkerToMap(marker, infoWindow, false);
 		}
 
 		//now set bounds to include our calculated locations
@@ -444,9 +472,9 @@ function getAddressElementForKey(key) {
 }
 
 
-function setAsDestination(event) {
+function setAsDestination(dest) {
 	console.log("setting as destination...");
-	selectedDestination = $(event.target).prev().text();
+	selectedDestination = dest;
 
 	$.each( formattedAddrs, function( key, value ) {
 		var elements = getAddressElementForKey(key);
