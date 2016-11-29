@@ -336,8 +336,13 @@ function addMarkerToMap(marker, infoWindow, isUserLocation) {
 		  	lastOpenMarker = marker;
 		  	lastIsUserLocation = isUserLocation;
 
-		  	if(isUserLocation == false)
+		  	if(isUserLocation == false) {
+		  		var windowHTML = $.parseHTML(infoWindow.content);
+		  		var loc = $(windowHTML).find('.secondHeading').text();
+					setAsDestination(loc);
 		  		marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+		  	}
+
 			}
 		}
 	});
@@ -375,9 +380,6 @@ function buildContentString(title, subtitle, isDestination) {
 		+ subtitle + '</p>';
 	}
 
-	if(isDestination != undefined && isDestination == true) {
-		contentString += '<button type="button" onclick="setAsDestination(event)" class="btn btn-primary btn-sm destButton">Set as Destination</button>'
-	}
 	return contentString;
 }
 
@@ -470,9 +472,9 @@ function getAddressElementForKey(key) {
 }
 
 
-function setAsDestination(event) {
+function setAsDestination(dest) {
 	console.log("setting as destination...");
-	selectedDestination = $(event.target).prev().text();
+	selectedDestination = dest;
 
 	$.each( formattedAddrs, function( key, value ) {
 		var elements = getAddressElementForKey(key);
