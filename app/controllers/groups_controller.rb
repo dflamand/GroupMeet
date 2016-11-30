@@ -16,7 +16,6 @@ class GroupsController < ApplicationController
 
     if @group.save
       redirect_to root_path
-
     else
       render('new')
     end
@@ -62,8 +61,7 @@ class GroupsController < ApplicationController
     @Group = Group.find(params[:id])
 
     respond_to do |format|
-      format.json {render json: array}
-      format.json {render json: @Group}
+      format.json {render json: @Group.users}
     end
   end
 

@@ -182,6 +182,15 @@
                 <% end %>
               </ul>
             </div>
+
+            <div class="panel-heading">Group Invites</div>
+            <div class="group-invites">
+              <% currentUser.invites.each do |i| %>
+                <li class="invite-list">
+                  <%= Group.find_by(i.group_id).gname %>
+                </li>
+              <% end %>
+            </div>
           <% end %>
         </div>
 
@@ -213,10 +222,10 @@
             </div>
             <hr>
             <div id="AddUsers">
-              <%= label_tag "selectaddusers", "Select Users To Add" %>
-              <%= collection_select(:group, :user_ids, User.all.where.not(id: currentUser.id), :id, :u_email, {}, {:multiple => true, :id => "selectaddusers", :class => "form-control"}) %>
+              <%= label_tag "selectaddusers", "Invite a User:" %>
+              <input id="adduserbox" />
               <br>
-              <button type="button" id="adduserbutton" class="btn btn-default login-button">Add User(s)</button>
+              <button type="button" id="adduserbutton" class="btn btn-default login-button">Invite</button>
             </div>
 
 
