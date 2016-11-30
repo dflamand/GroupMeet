@@ -103,23 +103,18 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#kickbutton").click(function()
   {
-    var $users = $("#userbox");
-    var $kickcand = $("#kicklist");
     var groupid = $("#user_group_ids").val();
-    var userid = $("#kicklist").val();
     $.ajax({
-      type: "DELETE",
+      type: "PUT",
       beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-      url: "/removeuser",
+      url: "/invited",
       dataType: "json",
       data: {userid: userid, groupid: groupid},
-      success: function(user){
-        $(".user"+String(user.id)).remove();
-          //$kickcand.remove("#user"+String(userid));
-        console.log("Success", user);
+      success: function(resp){
+        console.log("Success", resp);
       },
       error: function(user){
-        console.log("Error", user);
+        console.log("Error", resp);
       }
     });
   });
