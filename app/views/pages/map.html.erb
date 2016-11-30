@@ -170,9 +170,31 @@
               <!-- List group -->
               <ul class="list-group">
                 <% currentUser.groups.each do |g| %>
-                  <li class="list-group-item"><%= g.gname %><span class="list-group-addon"><%= link_to "Delete", g, :method => :delete, :confirm => "are you sure?" %></span></li>
+                  <li class="list-group-item">
+                    <%= g.gname %>
+                    <span class="list-group-addon">
+                    <% if currentUser.id == g.groupowner %>
+                      <%= link_to "Delete", g, :method => :delete, data: {confirm: "Are you sure?"} %>
+                    <% end %>
+                    <%= link_to "Leave Group", removeuser_path(:groupid => g.id, :userid => currentUser.id), :method => :delete, data: {confirm: "Are you sure you want to leave this group?"} %>
+                    </span>
+                  </li>
                 <% end %>
               </ul>
+            </div>
+
+            <div class="panel-heading">Invites</div>
+            <div class="group-invites">
+              <% currentUser.invites.each do |i| %>
+                <li class="invite-list" id="<%='ig_invite' + String(i.id) %>">
+                  <%= i.gname %>
+                  <span>
+                    <%= link_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "invite-links" %>
+                    <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id), :method => :post, id: "invite"+String(i.id), class: "invite-links" %>
+                  </span>
+
+                </li>
+              <% end %>
             </div>
           <% end %>
         </div>
@@ -190,7 +212,6 @@
             <div id="GroupList">
               <%= label_tag "groupselect", "Select Group" %>
               <%= collection_select(:user, :group_ids, currentUser.groups, :id, :g_name, {}, html_options = {class: "form-control"}) %>
-
               <br>
             </div>
             <hr>
@@ -199,13 +220,17 @@
               <ul id="userbox">
               </ul>
             </div>
+            <div id="kickusers">
+              <select id="kicklist">
+              </select>
+              <button id="kickbutton" type="button">Kick User</button>
+            </div>
             <hr>
             <div id="AddUsers">
-
-              <%= label_tag "selectaddusers", "Select Users To Add" %>
-              <%= collection_select(:group, :user_ids, User.all.where.not(id: currentUser.id), :id, :u_email, {}, {:multiple => true, :id => "selectaddusers", :class => "form-control"}) %>
+              <%= label_tag "selectaddusers", "Invite a User:" %>
+              <input id="adduserbox" />
               <br>
-              <button type="button" id="adduserbutton" class="btn btn-default login-button">Add User(s)</button>
+              <button type="button" id="adduserbutton" class="btn btn-default login-button">Invite</button>
             </div>
 
 
@@ -224,6 +249,12 @@
     <%= render 'groupModal'%>
 
 
-    <script>var sidebar = $('#sidebar').sidebar();</script>
+    <script>
+    var sidebar = $('#sidebar').sidebar();
+    //Check if user logged in before loading 'default' group
+    <% if loggedIn? %>
+    window.onload = load_group();
+    <% end %>
+    </script>
   </body>
 </html>

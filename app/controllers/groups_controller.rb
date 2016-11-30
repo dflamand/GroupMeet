@@ -14,50 +14,50 @@ class GroupsController < ApplicationController
     @group.users << currentUser
     @group.groupowner = currentUser.id
 
- 
-
-
     if @group.save
       redirect_to root_path
-      
     else
       render('new')
     end
   end
 
   def add_user
-    userNums = params[:addusers]
-    userArray = []
+    userid = params[:adduser]
     @group = Group.find(params[:groupid])
-
-    userNums.each do |a|
-      aUser = User.find(a)
-      userArray.push(aUser) unless @group.users.include? aUser
-    end
+    @user = User.find(userid)
 
     @group = Group.find(params[:groupid])
-    userArray.each do |sUser|
-      #Add user without immediately committing to the database
-      @group.association(:users).send(:build_through_record, sUser) unless @group.users.include? sUser
+    #Add user without immediately committing to the database
+    @group.association(:users).send(:build_through_record, @user) unless @group.users.include? @user
+    @group.save(validate: false)
 
-    end
+    #Just in case I need my beautiful ajax again :'(
+    #respond_to do |format|
+    #  format.json {render json: userArray}
+    #end
+  end
 
-    if @group.save(validate: false)
-      
-    else
-      
-    end
+  def remove_user
+    @group = Group.find(params[:groupid])
+    @user = User.find(params[:userid])
 
-    respond_to do |format|
-      format.json {render json: userArray}
+    if @group && @user
+      @user.groups.delete(@group)
+      if currentUser == @user
+        redirect_to root_path
+      else
+        respond_to do |format|
+          format.json {render json: @user}
+        end
+      end
     end
   end
 
   def show
-    @group = Group.find(params[:id])
+    @Group = Group.find(params[:id])
 
     respond_to do |format|
-      format.json {render json: @group.users}
+      format.json {render json: @Group.users}
     end
   end
 
