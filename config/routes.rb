@@ -10,13 +10,17 @@ Rails.application.routes.draw do
 
   get "/pages/:page" => "pages#show"
 
+  #Group addition/deletion
   post "/adduser", to: "groups#add_user"
   delete "/removeuser", to: "groups#remove_user"
+  #invites
+  post "/invited", to: "invites#create"
 
   root 'pages#map'
   resources :users
   resources :groups
   resources :admin
+
 
   get '/admin/group/:id', to: 'admin#showGroup', as: 'admin_group'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

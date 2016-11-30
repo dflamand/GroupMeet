@@ -14,9 +14,6 @@ class GroupsController < ApplicationController
     @group.users << currentUser
     @group.groupowner = currentUser.id
 
-
-
-
     if @group.save
       redirect_to root_path
 
@@ -62,10 +59,11 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @currentGroup = Group.find(params[:id])
+    @Group = Group.find(params[:id])
 
     respond_to do |format|
-      format.json {render json: @currentGroup.users}
+      format.json {render json: array}
+      format.json {render json: @Group}
     end
   end
 

@@ -13,11 +13,15 @@ function load_group()
         type: 'GET',
         url: '/groups/'+groupid,
         dataType: "json",
-        success: function(users){
-          console.log('success', users);
+        success: function(data){
+          var array_data = String(data).split("\n");
+          console.log('success', data);
+          console.log("Groupowner", data[1]);
           $.each(users, function(i, user){
-            $users.append("<li id=\"user" + user.id + "\">Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>");
-            $kickcand.append("<option value=" + String(user.id) + ">" + user.email + "</option>" );
+            $users.append("<li class=\"user" + user.id + "\">Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>");
+            $kickcand.append("<option class=\"user" + user.id + "\" value=" + String(user.id) + ">" + user.email + "</option>" );
+
+            //$("#kickusers")
           });
         },
         error: function(data){
@@ -59,8 +63,8 @@ $(document).ready(function(){
       data: {addusers:addusers, groupid: groupid},
       success: function(users){
         $.each(users, function(i, user){
-          $users.append("<li>Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>")
-          $kickcand.append("<option id=\"user" + user.id + "\" value=" + String(user.id) + ">" + user.email + "</option>" );
+          $users.append("<li class=\"user" + user.id + "\">Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>")
+          $kickcand.append("<option class=\"user" + user.id + "\" value=" + String(user.id) + ">" + user.email + "</option>" );
         });
         console.log("Success", users);
       },
@@ -85,12 +89,32 @@ $(document).ready(function(){
       dataType: "json",
       data: {userid: userid, groupid: groupid},
       success: function(user){
-        $users.remove("#user" + String(user.id));
+        $(".user"+String(user.id)).remove();
           //$kickcand.remove("#user"+String(userid));
         console.log("Success", user);
       },
       error: function(user){
         console.log("Error", user);
+      }
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#kickbutton").click(function()
+  {
+    var groupid = $("#user_group_ids").val();
+    $.ajax({
+      type: "PUT",
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      url: "/invited",
+      dataType: "json",
+      data: {userid: userid, groupid: groupid},
+      success: function(resp){
+        console.log("Success", resp);
+      },
+      error: function(user){
+        console.log("Error", resp);
       }
     });
   });
