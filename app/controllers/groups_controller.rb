@@ -51,8 +51,12 @@ class GroupsController < ApplicationController
 
     if @group && @user
       @user.groups.delete(@group)
-      respond_to do |format|
-        format.json {render json: @user}
+      if currentUser == @user
+        redirect_to root_path
+      else
+        respond_to do |format|
+          format.json {render json: @user}
+        end
       end
     end
   end
