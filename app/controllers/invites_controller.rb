@@ -12,5 +12,7 @@ class InvitesController < ApplicationController
   end
 
   def destroy
+    @invite = Invite.find(params[:id])
+    @invite.destroy
   end
 end

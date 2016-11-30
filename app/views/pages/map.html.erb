@@ -183,11 +183,15 @@
               </ul>
             </div>
 
-            <div class="panel-heading">Group Invites</div>
+            <div class="panel-heading">Invites</div>
             <div class="group-invites">
               <% currentUser.invites.each do |i| %>
-                <li class="invite-list">
-                  <%= Group.find_by(i.group_id).gname %>
+                <li class="invite-list" id="<%='ig_invite' + String(i.id) %>">
+                  <%= i.gname %>
+                  <span>
+                    <%= link_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "ignore_invites" %>
+                  </span>
+
                 </li>
               <% end %>
             </div>

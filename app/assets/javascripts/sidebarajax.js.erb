@@ -119,6 +119,12 @@ $(document).ready(function(){
   });
 });
 
+$(document).ready(function(){
+  $(".ignore_invites").on("click", function(){
+    var id = this.id;
+    $("#ig_"+id).remove();
+  });
+});
 
 
 function loadpages()
