@@ -5,9 +5,8 @@
     <meta name="viewport" content="initial-scale=1.0, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"">
     <meta charset="utf-8">
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT1vykYc_wmmkjw6FSd3i_s58eQcI-OP4&libraries=places"
     async defer></script>
 
@@ -35,27 +34,6 @@
         </ul>
       </div>
     </nav>
-
-    <div id="optionModal" class="modal fade">
-      <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-        <button id="optionModalClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Enter Location Type</h4>
-        </div>
-        <div class="modal-body">
-        <div class="form-group" id="optionModalForm">
-          <input type="text" class="form-control" id="optionModalInput">
-        </div>
-        </div>
-        <div class="modal-footer">
-        <button id="optionModalSave" type="button" class="btn btn-primary">Add Location</button>
-        </div>
-      </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div>
 
     <div id="sidebar" class="sidebar collapsed">
       <!-- Nav tabs -->
@@ -127,10 +105,10 @@
                 </div>
                 <div class="row tripInfo">
                   <div class="tripDuration col-md-6">
-                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"> 10 Minutes </span>
+                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"></span>
                   </div>
                   <div class="tripDistance col-md-6">
-                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"> 10 KM </span>
+                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"></span>
                   </div>
                 </div>
               </div>
@@ -151,10 +129,10 @@
                 </div>
                 <div class="row tripInfo">
                   <div class="tripDuration col-md-6">
-                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"> 10 Minutes </span>
+                    <span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"></span>
                   </div>
                   <div class="tripDistance col-md-6">
-                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"> 10 KM </span>
+                    <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"></span>
                   </div>
                 </div>
               </div>
@@ -249,86 +227,12 @@
 
     <div id="map"></div>
 
-    <!-- Login pop-up Modal -->
-    <div id="Login-Modal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Log-In</h4>
-          </div>
-          <div class="modal-body">
-            <%= simple_form_for(:user, url: login_path) do |u|%>
-                <%= u.input :email, :input_html =>{:class => "login-input"}, placeholder: "E-mail (required)"%>
-                <%= u.input :password, :input_html =>{:class => "login-input"}, placeholder: "Password (required)"%>
-                <hr>
-                <%= u.submit "Login", :class => "btn btn-default login-button" %>
-            <% end %>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Register pop-up Modal -->
-    <div id="Register-Modal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Register</h4>
-          </div>
-          <div class="modal-body">
-            <%= simple_form_for(:user, url: users_path) do |u|%>
-                <%= u.input :firstName, :input_html =>{:class => "login-input"}, placeholder: "First Name"%>
-                <%= u.input :lastName, :input_html =>{:class => "login-input"}, placeholder: "Last Name"%>
-                <%= u.input :email, :input_html =>{:class => "login-input"}, placeholder: "Email (required)"%>
-                <%= u.input :password, :input_html =>{:class => "login-input"}, placeholder: "Password (required)"%>
-                <%= u.input :password_confirmation, :input_html =>{:class => "login-input"}, placeholder: "Confirm Password (required)"%>
-                <hr>
-                <%= u.submit "Register", :class => "btn btn-default login-button" %>
-            <% end %>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Group Modal -->
-    <div id="Group-Modal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Create Group</h4>
-          </div>
-          <div class="modal-body">
-            <%= simple_form_for(:group, url: {controller: "groups", action: "create"}, html: {id: "newgroupform"}) do |u|%>
-                <%= u.input :gname, :input_html =>{:class => "login-input"}, placeholder: "Name (required)"%>
-                <hr>
-                <%= u.submit "Create", :class => "btn btn-default login-button" %>
-            <% end %>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <%= render 'updateUserModal'%>
     <%= render 'changePasswordModal'%>
+    <%= render 'locationOptionModal'%>
+    <%= render 'loginModal'%>
+    <%= render 'registerModal'%>
+    <%= render 'groupModal'%>
 
 
     <script>
