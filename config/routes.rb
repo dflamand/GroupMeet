@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   delete "/removeuser", to: "groups#remove_user"
   #invites
   post "/invited", to: "invites#create"
+  delete "/invited", to: "invites#destroy"
 
   root 'pages#map'
   resources :users
