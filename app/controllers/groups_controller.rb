@@ -29,7 +29,6 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:groupid])
     #Add user without immediately committing to the database
     @group.association(:users).send(:build_through_record, @user) unless @group.users.include? @user
-
     @group.save(validate: false)
 
     #Just in case I need my beautiful ajax again :'(
