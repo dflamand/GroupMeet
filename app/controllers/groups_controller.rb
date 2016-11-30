@@ -22,27 +22,20 @@ class GroupsController < ApplicationController
   end
 
   def add_user
-    userNums = params[:addusers]
-    userArray = []
+    userid = params[:adduser]
     @group = Group.find(params[:groupid])
-
-    userNums.each do |a|
-      aUser = User.find(a)
-      userArray.push(aUser) unless @group.users.include? aUser
-    end
+    @user = User.find(userid)
 
     @group = Group.find(params[:groupid])
-    userArray.each do |sUser|
-      #Add user without immediately committing to the database
-      @group.association(:users).send(:build_through_record, sUser) unless @group.users.include? sUser
-
-    end
+    #Add user without immediately committing to the database
+    @group.association(:users).send(:build_through_record, @user) unless @group.users.include? @user
 
     @group.save(validate: false)
 
-    respond_to do |format|
-      format.json {render json: userArray}
-    end
+    #Just in case I need my beautiful ajax again :'(
+    #respond_to do |format|
+    #  format.json {render json: userArray}
+    #end
   end
 
   def remove_user
