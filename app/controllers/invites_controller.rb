@@ -3,9 +3,16 @@ class InvitesController < ApplicationController
   def create
     iparams = params.require(:invite).permit(:user_email, :group_id)
     @user = User.find_by_email(iparams[:user_email])
-    @group = Group.find_by(params[:groupid])
+    @group = Group.find_by_id(iparams[:group_id])
 
-    if not @group.users.include? @user
+    if @user.invites
+      @check = @user.invites.find_by_group_id(@group.id)
+      puts "***"
+      puts @check
+      puts "***"
+    end
+
+    if (not @group.users.include? @user) && @check == nil
       @invite = Invite.new
 
       @invite.user_id = @user.id

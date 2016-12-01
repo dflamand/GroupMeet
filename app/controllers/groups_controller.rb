@@ -21,7 +21,6 @@ class GroupsController < ApplicationController
     end
   end
 
-  
 
   def remove_user
     @group = Group.find(params[:groupid])
