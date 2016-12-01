@@ -239,19 +239,77 @@
           <% if !loggedIn? %>
             <p>Register for a new account to save group coordinates!</p>
           <% else %>
-            <div class="panel-heading">Invites</div>
-            <div class="group-invites">
+            <%= label_tag "InviteList", "Pending Group Invitations" %>
+            <div class="panel panel-default">
+              <div class="panel-heading">Invitations</div>
+              <div class="row">
+                  <div class="col-md-12">
+                    <table class="table table-filter">
+                      <tbody>
+                        <% currentUser.invites.each do |i| %>
+                          <tr class="invite-list" id="<%='ig_invite' + String(i.id) %>">
+                            <td style="border-top: 0px;">
+                              <div class="media">
+                                <div class="media-body">
+                                  <h4 class="title">Group Name: <%= i.gname %></h4>
+                                    <br>
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <%= button_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "invite-links btn btn-secondary btn-invite" %>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id), :method => :post, id: "invite"+String(i.id), class: "invite-links btn btn-primary btn-invite" %>
+                                      </div>
+                                    </div>                              
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--             <ul class="group-invites list-group" id="InviteList">
               <% currentUser.invites.each do |i| %>
-                <li class="invite-list" id="<%='ig_invite' + String(i.id) %>">
+                <li class="invite-list list-group-item" id="<%='ig_invite' + String(i.id) %>">
                   <%= i.gname %>
-                  <span>
+                  <span class="list-group-addon">
                     <%= link_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "invite-links" %>
                     <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id), :method => :post, id: "invite"+String(i.id), class: "invite-links" %>
                   </span>
 
                 </li>
               <% end %>
-            </div>
+            </ul> -->
           <% end %>
         </div>
       </div>
