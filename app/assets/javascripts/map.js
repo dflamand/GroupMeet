@@ -18,6 +18,11 @@ var selectedDestination = "";
 var directionsService;
 var directionsDisplay;
 
+var lastOpenInfoWindow;
+var lastOpenMarker;
+var lastIsUserLocation;
+
+
 //Document fully loaded
 $( document ).ready(function() {
 		initMap();
@@ -106,7 +111,7 @@ function addAddressHTML() {
 
   var newHTML = '<div class="address"> <div class="address-header">' + 'Address ' + addrCount +'</div> <div class="transport-options"> <a class="carMode" id="car' + addrCount +'" active="1" onclick="setColour(event)"><i class="fa fa-car"></i></a> <a class="transitMode" id="transit' + addrCount +'" onclick="setColour(event)"><i class="fa fa-subway"></i></a> <a class="walkMode" id="walk' + addrCount +'" onclick="setColour(event)"><i class="fa fa-male"></i></a> <a class="bicycleMode" id="bicycle' + addrCount +'" onclick="setColour(event)"><i class="fa fa-bicycle"></i></a></div>' +
   '<div class="input-group"><span class="input-group-addon"><input class="addressCheck" type="checkbox" name="' + addrStr + '"checked></span><input id="' + addrStr + '" type="text" class="form-control addrInput" name="' + addrStr + '" placeholder="Address ' + addrCount + '"></div>'
-  + '<div class="row tripInfo"><div class="tripDuration col-md-6"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"> 10 Minutes </span> </div> <div class="tripDistance col-md-6"> <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"> 10 KM </span></div> </div> </div><hr>';
+  + '<div class="row tripInfo"><div class="tripDuration col-md-6"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span><span id="timeText"></span> </div> <div class="tripDistance col-md-6"> <span class="glyphicon glyphicon-flag" aria-hidden="true"></span><span id="distanceText"></span></div> </div> </div><hr>';
 
   $( "#addressList" ).append(newHTML);
   console.log(addrStr);
@@ -279,7 +284,7 @@ function addPointToMap(addr, isUserLocation) {
 	if(addr != null) { //don't really need to check for null, as this only gets called on success of ajax function
 		var iconColor = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
 		if(isUserLocation != undefined && isUserLocation == true)
-			iconColor = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+			iconColor = 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png';
 
 		//Build Location popup window
 		var infoString;
@@ -303,7 +308,7 @@ function addPointToMap(addr, isUserLocation) {
 			icon: iconColor
 		});
 
-		addMarkerToMap(marker, infoWindow);
+		addMarkerToMap(marker, infoWindow, true);
 
 		//Only looks up locations if this is not a user provided location
 		if(isUserLocation == undefined || isUserLocation == false)
@@ -311,11 +316,36 @@ function addPointToMap(addr, isUserLocation) {
 	}
 }
 
-function addMarkerToMap(marker, infoWindow) {
+function isInfoWindowOpen(infoWindow){
+    var map = infoWindow.getMap();
+    return (map !== null && typeof map !== "undefined");
+}
+
+function addMarkerToMap(marker, infoWindow, isUserLocation) {
+
 	marker.addListener('click', function() {
-		if(infoWindow)
-		  infoWindow.open(map, marker);
-		});
+		if(infoWindow != null) {
+			if(!isInfoWindowOpen(infoWindow)) {
+				if(lastOpenInfoWindow != null) {
+					if(lastIsUserLocation == false)
+						lastOpenMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+					lastOpenInfoWindow.close()
+				}
+		  	infoWindow.open(map, marker);
+		  	lastOpenInfoWindow = infoWindow;
+		  	lastOpenMarker = marker;
+		  	lastIsUserLocation = isUserLocation;
+
+		  	if(isUserLocation == false) {
+		  		var windowHTML = $.parseHTML(infoWindow.content);
+		  		var loc = $(windowHTML).find('.secondHeading').text();
+					setAsDestination(loc);
+		  		marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+		  	}
+
+			}
+		}
+	});
 
 	markers.push(marker);
 
@@ -350,9 +380,6 @@ function buildContentString(title, subtitle, isDestination) {
 		+ subtitle + '</p>';
 	}
 
-	if(isDestination != undefined && isDestination == true) {
-		contentString += '<button type="button" onclick="setAsDestination(event)" class="btn btn-primary btn-sm destButton">Set as Destination</button>'
-	}
 	return contentString;
 }
 
@@ -368,10 +395,11 @@ function addNearbyLocations(results, status) {
 			var marker = new google.maps.Marker({
 				position: addr.geometry.location,
 				map: map,
+				icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
 				title: addr.formatted_address
 			});
 
-			addMarkerToMap(marker, infoWindow);
+			addMarkerToMap(marker, infoWindow, false);
 		}
 
 		//now set bounds to include our calculated locations
@@ -393,14 +421,14 @@ function calculatePathToPoint(startPoint, destPoint) {
   });
 }
 
-function calculateTravelTime(key, startAddr, endAddr) {
+function calculateTravelTime(key, startAddr, endAddr, transportMode) {
 	console.log("!!!calculating travel time");
 	var service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
       {
         origins: [startAddr],
         destinations: [endAddr],
-        travelMode: 'DRIVING',
+        travelMode: transportMode,
         unitSystem: google.maps.UnitSystem.METRIC,
         durationInTraffic: true,
         avoidHighways: false,
@@ -408,33 +436,84 @@ function calculateTravelTime(key, startAddr, endAddr) {
       }, function(response, status) {addCalculatedTime(key, response, status)});
 }
 
-	function addCalculatedTime(key, response, status) {
-		var timeString = response.rows[0].elements[0].duration.text;
-		var distanceString = response.rows[0].elements[0].distance.text;
+function addCalculatedTime(key, response, status) {
+	var timeString = response.rows[0].elements[0].duration.text;
+	var distanceString = response.rows[0].elements[0].distance.text;
 
-		var index = 0;
-		console.log('key is ' + key);
-		$(".addrInput").each(function() {
-			if($(this) != undefined && $(this).val().length > 0 && $(this).siblings().find('.addressCheck').is(":checked")) {
-				if(index == key) {
-					$(this).parent().next().find('#timeText').text(' ' + timeString);
-					$(this).parent().next().find('#distanceText').text(' ' + distanceString);
-					return false;
-				}
-				else {
-					index++;
-				}
+	var index = 0;
+
+	var els = getAddressElementForKey(key);
+	if(els.length > 0) {
+		var element = els[0];
+		if(element != null && element != undefined) {
+			element.parent().next().find('#timeText').text(' ' + timeString);
+			element.parent().next().find('#distanceText').text(' ' + distanceString);
+		}
+	}
+}
+
+function getAddressElementForKey(key) {
+	var index = 0;
+
+	var elements = [];
+	$(".addrInput").each(function() {
+		if($(this) != undefined && $(this).val().length > 0 && $(this).siblings().find('.addressCheck').is(":checked")) {
+			if(index == key) {
+				elements.push($(this));
+				return false;
+			}
+			else {
+				index++;
+			}
+		}
+	});
+
+	return elements;
+}
+
+
+function setAsDestination(dest) {
+	console.log("setting as destination...");
+	selectedDestination = dest;
+
+	$.each( formattedAddrs, function( key, value ) {
+		var elements = getAddressElementForKey(key);
+		var element = elements[0];
+		var str = []
+
+		element.parent().prev().children().each(function () {
+			if($(this).attr('active') == '1') {
+				str.push(getTransportStringByID($(this).attr('id')));
+				return false;
 			}
 		});
+
+		var transportString = 'DRIVING'; //default
+		if(str[0] != undefined && str[0] != null)
+			transportString = str[0];
+
+		calculateTravelTime(key, value, selectedDestination, transportString);
+	});
+}
+
+function getTransportStringByID(id) {
+
+	if(id != undefined && id != null) {
+		if(id.indexOf('walk') >= 0) {
+			return 'WALKING';
+		}
+		else if(id.indexOf('car') >= 0) {
+			return 'DRIVING';
+		}
+		else if(id.indexOf('transit') >= 0) {
+			return 'TRANSIT';
+		}
+		else if(id.indexOf('bicycle') >= 0) {
+			return 'BICYCLING';
+		}
 	}
 
-
-function setAsDestination(event) {
-	console.log("setting as destination...");
-	selectedDestination = $(event.target).prev().text();
-	$.each( formattedAddrs, function( key, value ) {
-		calculateTravelTime(key, value, selectedDestination);
-	});
+	return null;
 }
 
 function setColour(event) {
