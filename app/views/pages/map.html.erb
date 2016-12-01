@@ -42,6 +42,13 @@
           <li><a href="#home" role="tab"><i class="fa fa-car"></i></a></li>
           <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
           <li><a href="#groups" role="tab"><i class="fa fa-users"></i></a></li>
+          <%if loggedIn? %>
+            <% if !currentUser.invites.empty? %>
+              <li><a class="messages" href="#messages" role="tab"><i class="fa fa-envelope messages-waiting"></i></a></li>
+            <% else %>
+              <li><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+            <% end %>
+          <%end%>
         </ul>
 
         <ul role="tablist">
@@ -182,20 +189,6 @@
                 <% end %>
               </ul>
             </div>
-
-            <div class="panel-heading">Invites</div>
-            <div class="group-invites">
-              <% currentUser.invites.each do |i| %>
-                <li class="invite-list" id="<%='ig_invite' + String(i.id) %>">
-                  <%= i.gname %>
-                  <span>
-                    <%= link_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "invite-links" %>
-                    <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id), :method => :post, id: "invite"+String(i.id), class: "invite-links" %>
-                  </span>
-
-                </li>
-              <% end %>
-            </div>
           <% end %>
         </div>
 
@@ -212,28 +205,53 @@
             <div id="GroupList">
               <%= label_tag "groupselect", "Select Group" %>
               <%= collection_select(:user, :group_ids, currentUser.groups, :id, :g_name, {}, html_options = {class: "form-control"}) %>
-              <br>
             </div>
             <hr>
             <%= label_tag "MemberList", "Group Members" %>
             <div id="MemberList">
-              <ul id="userbox">
+              <ul class="list-group" id="userbox">
               </ul>
             </div>
+            <hr>
+            <%= label_tag "kickusers", "Select A User To Remove From Group" %>
             <div id="kickusers">
-              <select id="kicklist">
+              <select class="form-control" id="kicklist">
               </select>
-              <button id="kickbutton" type="button">Kick User</button>
+              <br>
+              <button class="btn btn-default login-button" id="kickbutton" type="button">Remove User</button>
             </div>
             <hr>
-            <div id="AddUsers">
+            <div class="form-group" id="AddUsers">
               <%= label_tag "selectaddusers", "Invite a User:" %>
-              <input id="adduserbox" />
+              <input class="form-control" id="adduserbox" />
               <br>
               <button type="button" id="adduserbutton" class="btn btn-default login-button">Invite</button>
             </div>
 
 
+          <% end %>
+        </div>
+        <div class="sidebar-pane" id="messages">
+          <h1 class="sidebar-header">
+            Messages
+            <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+          </h1><br>
+          <% if !loggedIn? %>
+            <p>Register for a new account to save group coordinates!</p>
+          <% else %>
+            <div class="panel-heading">Invites</div>
+            <div class="group-invites">
+              <% currentUser.invites.each do |i| %>
+                <li class="invite-list" id="<%='ig_invite' + String(i.id) %>">
+                  <%= i.gname %>
+                  <span>
+                    <%= link_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "invite-links" %>
+                    <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id), :method => :post, id: "invite"+String(i.id), class: "invite-links" %>
+                  </span>
+
+                </li>
+              <% end %>
+            </div>
           <% end %>
         </div>
       </div>
