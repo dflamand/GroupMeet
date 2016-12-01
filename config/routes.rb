@@ -10,12 +10,13 @@ Rails.application.routes.draw do
 
   get "/pages/:page" => "pages#show"
 
-  #Group addition/deletion
-  post "/adduser", to: "groups#add_user"
+  #Group deletion
+
   delete "/removeuser", to: "groups#remove_user"
   #invites
   post "/invited", to: "invites#create"
   delete "/ignoreinvite", to: "invites#destroy"
+  post "/adduser", to: "invites#accept"
 
   root 'pages#map'
   resources :users
