@@ -74,10 +74,10 @@ img {
       overflow: hidden;
       transition: all 80ms; }
       .sidebar-tabs > li:hover, .sidebar-tabs > ul > li:hover {
-        color: #000;
+        color: #FFF;
         background-color: #b2cfff; }
       .sidebar-tabs > li.active, .sidebar-tabs > ul > li.active {
-        color: #000;
+        color: #FFF;
         background-color: #4286f4;
       }
       .sidebar-tabs > li.disabled, .sidebar-tabs > ul > li.disabled {
@@ -388,6 +388,16 @@ ul.nav a:hover { color: blue !important; }
 .carMode{
   color: #4286F4;
 }
+
+.messages:hover{
+  color: white;
+}
+
+.messages-waiting{
+  color: red;
+}
+
+
 
 /*.carMode:hover{
   color: inherit;
