@@ -189,6 +189,7 @@
                 <% end %>
               </ul>
             </div>
+
           <% end %>
         </div>
 
@@ -246,7 +247,7 @@
                   <%= i.gname %>
                   <span>
                     <%= link_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "invite-links" %>
-                    <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id), :method => :post, id: "invite"+String(i.id), class: "invite-links" %>
+                    <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id, :id => i.id), :method => :post, id: "invite"+String(i.id), class: "invite-links" %>
                   </span>
 
                 </li>
