@@ -17,7 +17,7 @@ function load_group()
         success: function(users){
           console.log('success', users);
           $.each(users, function(i, user){
-            $users.append("<li class=\"user" + user.id + "\">Name:" + user.firstName + " " + user.lastName + " | Email:" + user.email + "</li>");
+            $users.append("<li class=\"user" + user.id + " list-group-item\">" + user.firstName + " " + user.lastName + " | " + user.email + "</li>");
             $kickcand.append("<option class=\"user" + user.id + "\" value=" + String(user.id) + ">" + user.email + "</option>" );
 
             //$("#kickusers")
