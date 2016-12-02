@@ -14,8 +14,14 @@ function load_group()
         type: 'GET',
         url: '/groups/'+groupid,
         dataType: "json",
-        success: function(users){
-          console.log('success', users);
+        success: function(resp){
+          console.log('success', resp);
+          if(resp.owner == false)
+            $("#kickusers").hide();
+          else
+            $("#kickusers").show();
+
+          users = resp.users
           $.each(users, function(i, user){
             $users.append("<li class=\"user" + user.id + " list-group-item\">" + user.firstName + " " + user.lastName + " | " + user.email + "</li>");
             $kickcand.append("<option class=\"user" + user.id + "\" value=" + String(user.id) + ">" + user.email + "</option>" );

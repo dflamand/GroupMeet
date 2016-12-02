@@ -42,7 +42,7 @@ class GroupsController < ApplicationController
     @Group = Group.find(params[:id])
 
     respond_to do |format|
-      format.json {render json: @Group.users}
+      format.json {render :json => {:owner => currentUser.id == @Group.groupowner, :users => @Group.users}}
     end
   end
 
