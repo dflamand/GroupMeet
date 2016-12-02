@@ -68,7 +68,12 @@ class GroupsController < ApplicationController
   end
 
   def save_locations
-    
+    @group = Group.find(params[:id])
+
+    params[:locations].each do |l|
+      @group.locations.create(:address => l)
+    end
+
   end
 
   private
