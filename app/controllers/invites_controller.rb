@@ -4,13 +4,15 @@ class InvitesController < ApplicationController
     iparams = params.require(:invite).permit(:user_email, :group_id)
     @user = User.find_by_email(iparams[:user_email])
     @group = Group.find_by_id(iparams[:group_id])
+
+    if @user.id == currentUser.id
+      @user = nil
+    end
+
     @invite = Invite.new
 
     if @user.invites
       @check = @user.invites.find_by_group_id(@group.id)
-      puts "***"
-      puts @check
-      puts "***"
     end
 
     if (not @group.users.include? @user) && @check == nil
@@ -18,16 +20,10 @@ class InvitesController < ApplicationController
       @invite.user_id = @user.id
       @invite.group_id = @group.id
       @invite.gname = @group.gname
-      if !@invite.save
-          respond_to do |format|
-            format.json{render json: @invite.errors, status: :unprocessable_entity}
-          end
-      end
+      @invite.save
     end
 
-    if @user.id == currentUser.id
-      #Respond with you can't invite yourself you dingbat
-    end
+
   end
 
   def accept
@@ -42,6 +38,7 @@ class InvitesController < ApplicationController
     if @group.save(validate: false)
       @invite = Invite.find(params[:id])
       @invite.destroy
+      redirect_to root
     end
 
 

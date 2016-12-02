@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/loadlocations/:id', to: 'groups#load_locations'
 
   #Group addition/deletion
-  post "/adduser", to: "groups#add_user"
+  post "/adduser", to: "invites#accept"
   delete "/removeuser", to: "groups#remove_user"
   #invites
   post "/invited", to: "invites#create"
