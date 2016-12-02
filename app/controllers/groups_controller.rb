@@ -67,6 +67,10 @@ class GroupsController < ApplicationController
     redirect_to root_path
   end
 
+  def save_locations
+    
+  end
+
   private
     def get_group_params
       params.require(:group).permit(:gname, :user_ids => [])
