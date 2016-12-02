@@ -30,14 +30,30 @@ function loadLocations()
 		datatype: "json",
 		success: function (locations){
 			increaseAddrInput(locations.length);
+			fillAddresses(locations);
 		},
 	});
 }
 
 function increaseAddrInput(count)
 {
-	while addrCount < count
+	while (addrCount < count)
 	{
 		addAddressHTML();
 	}
 }
+
+function fillAddresses(locations)
+{
+	var inputs = $('.addrInput');
+	console.log(inputs);
+
+	for (var i = 0; i < locations.length; i++)
+	{
+		inputs[i].value = (locations[i].address);
+	}
+
+}
+
+
+
