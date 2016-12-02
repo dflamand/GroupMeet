@@ -10,8 +10,11 @@ Rails.application.routes.draw do
 
   get "/pages/:page" => "pages#show"
 
-  #Group deletion
+  post '/savelocations/:id', to: 'groups#save_locations'
+  get '/loadlocations/:id', to: 'groups#load_locations'
 
+  #Group addition/deletion
+  post "/adduser", to: "groups#add_user"
   delete "/removeuser", to: "groups#remove_user"
   #invites
   post "/invited", to: "invites#create"

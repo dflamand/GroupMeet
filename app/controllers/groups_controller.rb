@@ -52,6 +52,27 @@ class GroupsController < ApplicationController
     redirect_to root_path
   end
 
+  def save_locations
+    @group = Group.find(params[:id])
+
+    @group.clear_locations
+
+    params[:locations].each do |l|
+      @group.locations.create(:address => l)
+    end
+  end
+
+  def load_locations
+    @group = Group.find(params[:id])
+
+    @locations = @group.locations
+
+    respond_to do |format|
+      format.json {render json: @locations}
+    end
+
+  end
+
   private
     def get_group_params
       params.require(:group).permit(:gname, :user_ids => [])
