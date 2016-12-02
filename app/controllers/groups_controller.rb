@@ -75,6 +75,16 @@ class GroupsController < ApplicationController
     params[:locations].each do |l|
       @group.locations.create(:address => l)
     end
+  end
+
+  def load_locations
+    @group = Group.find(params[:id])
+
+    @locations = @group.locations
+
+    respond_to do |format|
+      format.json {render json: @locations}
+    end
 
   end
 
