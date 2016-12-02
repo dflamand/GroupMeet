@@ -29,12 +29,15 @@ function loadLocations()
 		url: "/loadlocations/" + groupid,
 		datatype: "json",
 		success: function (locations){
-			
+			increaseAddrInput(locations.length);
 		},
 	});
 }
 
 function increaseAddrInput(count)
 {
-	
+	while addrCount < count
+	{
+		addAddressHTML();
+	}
 }
