@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get "/pages/:page" => "pages#show"
 
   post '/savelocations/:id', to: 'groups#save_locations'
+  get '/loadlocations/:id', to: 'groups#load_locations'
 
   #Group addition/deletion
   post "/adduser", to: "groups#add_user"
