@@ -115,7 +115,10 @@ $(document).ready(function(){
         console.log("Success", resp);
       },
       error: function(resp){
-        console.log("Error", resp);
+        $("#inviteError").append("<p id='error' style=color:red;position:absolute>Invalid User</p>")
+        setTimeout(function(){
+          $("#error").remove();
+        }, 1000);
       }
     });
   });

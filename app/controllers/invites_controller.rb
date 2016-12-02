@@ -4,6 +4,7 @@ class InvitesController < ApplicationController
     iparams = params.require(:invite).permit(:user_email, :group_id)
     @user = User.find_by_email(iparams[:user_email])
     @group = Group.find_by_id(iparams[:group_id])
+    @invite = Invite.new
 
     if @user.invites
       @check = @user.invites.find_by_group_id(@group.id)
@@ -13,12 +14,19 @@ class InvitesController < ApplicationController
     end
 
     if (not @group.users.include? @user) && @check == nil
-      @invite = Invite.new
 
       @invite.user_id = @user.id
       @invite.group_id = @group.id
       @invite.gname = @group.gname
-      @invite.save
+      if !@invite.save
+          respond_to do |format|
+            format.json{render json: @invite.errors, status: :unprocessable_entity}
+          end
+      end
+    end
+
+    if @user.id == currentUser.id
+      #Respond with you can't invite yourself you dingbat
     end
   end
 
