@@ -17,3 +17,24 @@ function saveLocations()
 		data: {locations: addresses}
 	});
 }
+
+function loadLocations()
+{
+	var addresses = [];
+	var groupid = $("#user_group_ids").val();
+
+	$.ajax({
+		type: "GET",
+		beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+		url: "/loadlocations/" + groupid,
+		datatype: "json",
+		success: function (locations){
+			
+		},
+	});
+}
+
+function increaseAddrInput(count)
+{
+	
+}
