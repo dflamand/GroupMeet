@@ -38,6 +38,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'capybara'
   gem 'rspec-rails'
+  gem 'selenium-webdriver'
 end
 
 group :development do
