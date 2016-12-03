@@ -38,7 +38,7 @@ class InvitesController < ApplicationController
     if @group.save(validate: false)
       @invite = Invite.find(params[:id])
       @invite.destroy
-      redirect_to root
+      redirect_to root_path
     end
 
 
