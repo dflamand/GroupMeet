@@ -148,6 +148,15 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-md-6">
+              <button type="button" class="btn btn-secondary" onclick="loadLocations()">Load Locations</button>
+            </div>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary" onclick="saveLocations()">Save Locations</button>
+            </div>
+          </div>
+
         </div>
 
 
@@ -231,9 +240,6 @@
               <br>
               <button type="button" id="adduserbutton" class="btn btn-default login-button">Invite</button>
             </div>
-            <button type="button" class="btn btn-default" onclick="saveLocations()">Save Locations</button>
-            <button type="button" class="btn btn-default" onclick="loadLocations()">Load Locations</button>
-
           <% end %>
         </div>
         <div class="sidebar-pane" id="messages">
@@ -277,44 +283,6 @@
               </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--             <ul class="group-invites list-group" id="InviteList">
-              <% currentUser.invites.each do |i| %>
-                <li class="invite-list list-group-item" id="<%='ig_invite' + String(i.id) %>">
-                  <%= i.gname %>
-                  <span class="list-group-addon">
-                    <%= link_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "invite-links" %>
-                    <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id, :id => i.id), :method => :post, id: "invite"+String(i.id), class: "invite-links" %>
-                  </span>
-
-                </li>
-              <% end %>
-            </ul> -->
           <% end %>
         </div>
       </div>
