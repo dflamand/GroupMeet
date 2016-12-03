@@ -198,6 +198,7 @@
                 <% end %>
               </ul>
             </div>
+
           <% end %>
         </div>
 
@@ -222,8 +223,9 @@
               </ul>
             </div>
             <hr>
-            <%= label_tag "kickusers", "Select A User To Remove From Group" %>
+
             <div id="kickusers">
+              <%= label_tag "kicklist", "Select A User To Remove From Group" %>
               <select class="form-control" id="kicklist">
               </select>
               <br>
@@ -231,6 +233,8 @@
             </div>
             <hr>
             <div class="form-group" id="AddUsers">
+              <div id="inviteError"></div>
+              <br>
               <%= label_tag "selectaddusers", "Invite a User:" %>
               <input class="form-control" id="adduserbox" />
               <br>
@@ -265,9 +269,9 @@
                                         <%= button_to "Ignore", ignoreinvite_path(:id => i.id), :method => :delete, id: "invite"+String(i.id), class: "invite-links btn btn-secondary btn-invite" %>
                                       </div>
                                       <div class="col-md-6">
-                                        <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id), :method => :post, id: "invite"+String(i.id), class: "invite-links btn btn-primary btn-invite" %>
+                                        <%= link_to "Accept", adduser_path(:groupid => i.group_id, :adduser => currentUser.id, :id => i.id), :method => :post, id: "invite"+String(i.id), class: "invite-links btn btn-primary btn-invite" %>
                                       </div>
-                                    </div>                              
+                                    </div>
                                 </div>
                               </div>
                             </td>
@@ -278,6 +282,7 @@
                   </div>
               </div>
             </div>
+
           <% end %>
         </div>
       </div>
