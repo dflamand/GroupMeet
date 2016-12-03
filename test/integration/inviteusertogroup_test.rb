@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class AddusertogroupTest < ActionDispatch::IntegrationTest
-  test "add user" do
+class InviteusertogroupTest < ActionDispatch::IntegrationTest
+  test "invite user" do
     @user = User.create(:firstName => "hi", :lastName => "last", :email => "test@test.com", :password => "das", :password_confirmation => "das")
     @user2 = User.create(:firstName => "hi", :lastName => "last", :email => "test2@test2.com", :password => "das", :password_confirmation => "das")
     @user3 = User.create(:firstName => "hi", :lastName => "last", :email => "test3@test3.com", :password => "das", :password_confirmation => "das")
@@ -18,10 +18,12 @@ class AddusertogroupTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     @group = Group.find_by(:gname => "Das Salad")
+    assert @group
 
     testdas = [@user2.id, @user3.id]
-    post adduser_url, as: :json, params: {addusers: testdas, groupid: @group.id}
+    post invited_url, as: :json, params: {invite: {user_email: "test2@test2.com", group_id: @group.id}}
     assert_response :success
+    assert @user2.invites.present?
 
   end
 
