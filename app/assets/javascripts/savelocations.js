@@ -24,7 +24,7 @@ function saveLocations()
 		beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 		url: "/savelocations/" + groupid,
 		datatype: "json",
-		data: {locations: { address: addresses, modes: transports}}}
+		data: {address: addresses, modes: transports}
 	});
 }
 
