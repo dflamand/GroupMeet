@@ -55,13 +55,35 @@ function increaseAddrInput(count)
 
 function fillAddresses(locations)
 {
-	var inputs = $('.addrInput');
-	console.log(inputs);
+	$(".address").each(function(i){
+		$(this).children(".input-group").children(".addrInput").val(setAddress(locations[i].address));
 
-	for (var i = 0; i < locations.length; i++)
-	{
-		inputs[i].value = (locations[i].address);
-	}
+		console.log($(this).children(".input-group").children(".addrInput"));
+
+		setModes($(this).children(".transport-options").children(), locations[i].tMode);
+	});
+}
+
+function setAddress(str)
+{
+	return str;
+}
+
+function setModes(set, type)
+{
+
+	set.each(function(){
+		if ($(this).attr("class") == type)
+		{
+			$(this).attr("active", "1");
+			$(this).css("color", "rgb(66,134,244)");
+		}
+		else
+		{
+			$(this).attr("active", "0");
+			$(this).css("color", "black");
+		}
+	});
 }
 
 
