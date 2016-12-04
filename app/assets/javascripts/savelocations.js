@@ -3,11 +3,22 @@
 function saveLocations()
 {
 	var addresses = [];
+	var transports = [];
 	var groupid = $("#user_group_ids").val();
 
 	$(".addrInput").each(function (){
 		addresses.push($(this).val());
 	});
+
+	$(".transport-options").each(function(){
+		$(this).children().each(function(){
+			if ($(this).attr("active") == 1)
+			{
+				transports.push($(this).attr("class"));
+			}
+		});
+	});
+
 
 	$.ajax({
 		type: "POST",
@@ -52,8 +63,9 @@ function fillAddresses(locations)
 	{
 		inputs[i].value = (locations[i].address);
 	}
-
 }
+
+
 
 
 
