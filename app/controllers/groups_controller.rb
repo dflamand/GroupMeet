@@ -55,11 +55,10 @@ class GroupsController < ApplicationController
   def save_locations
     @group = Group.find(params[:id])
 
-    #@group.clear_locations
+    @group.clear_locations
 
     params[:address].each_with_index do |a, i|
-      puts a + " " + params[:modes][i]
-      #@group.locations.create(:address => l)
+      @group.locations.create(:address => a, :tMode => params[:modes][i])
     end
   end
 
