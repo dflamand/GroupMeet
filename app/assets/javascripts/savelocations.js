@@ -3,10 +3,20 @@
 function saveLocations()
 {
 	var addresses = [];
+	var transports = [];
 	var groupid = $("#user_group_ids").val();
 
 	$(".addrInput").each(function (){
 		addresses.push($(this).val());
+	});
+
+	$(".transport-options").each(function(){
+		$(this).children().each(function(){
+			if ($(this).attr("active") == 1)
+			{
+				transports.push($(this).attr("class"));
+			}
+		});
 	});
 
 	$.ajax({
@@ -14,7 +24,7 @@ function saveLocations()
 		beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 		url: "/savelocations/" + groupid,
 		datatype: "json",
-		data: {locations: addresses}
+		data: {address: addresses, modes: transports}
 	});
 }
 
@@ -45,15 +55,38 @@ function increaseAddrInput(count)
 
 function fillAddresses(locations)
 {
-	var inputs = $('.addrInput');
-	console.log(inputs);
+	$(".address").each(function(i){
+		$(this).children(".input-group").children(".addrInput").val(setAddress(locations[i].address));
 
-	for (var i = 0; i < locations.length; i++)
-	{
-		inputs[i].value = (locations[i].address);
-	}
+		console.log($(this).children(".input-group").children(".addrInput"));
 
+		setModes($(this).children(".transport-options").children(), locations[i].tMode);
+	});
 }
+
+function setAddress(str)
+{
+	return str;
+}
+
+function setModes(set, type)
+{
+
+	set.each(function(){
+		if ($(this).attr("class") == type)
+		{
+			$(this).attr("active", "1");
+			$(this).css("color", "rgb(66,134,244)");
+		}
+		else
+		{
+			$(this).attr("active", "0");
+			$(this).css("color", "black");
+		}
+	});
+}
+
+
 
 
 

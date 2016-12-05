@@ -57,8 +57,8 @@ class GroupsController < ApplicationController
 
     @group.clear_locations
 
-    params[:locations].each do |l|
-      @group.locations.create(:address => l)
+    params[:address].each_with_index do |a, i|
+      @group.locations.create(:address => a, :tMode => params[:modes][i])
     end
   end
 

@@ -148,6 +148,7 @@
             </div>
           </div>
 
+          <% if loggedIn?%>
           <div class="row">
             <div class="col-md-6">
               <button type="button" class="btn btn-secondary" onclick="loadLocations()">Load Locations</button>
@@ -156,6 +157,7 @@
               <button type="button" class="btn btn-primary" onclick="saveLocations()">Save Locations</button>
             </div>
           </div>
+          <% end %>
 
         </div>
 
