@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class LocationTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  
+  test "is connected to group" do
+  	@l = Location.new
+
+  	assert_not @l.valid?
+  end
 end
