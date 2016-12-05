@@ -5,5 +5,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 	test "get root" do 
 		get root_url
 		assert_response :success
+
+		assert_select "div[id=map]"
 	end
 end
