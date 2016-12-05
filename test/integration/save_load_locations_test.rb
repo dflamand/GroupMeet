@@ -27,10 +27,15 @@ class SaveLoadLocationsTest < ActionDispatch::IntegrationTest
     	
     	assert_select "a", "Leave Group"
 
-    	post "/savelocation/1", as: :json, params:{address: "123 fake street", modes:"driveMode"}
+    	@g = Group.find_by(:gname => "Group")
+
+    	post "/savelocations/" + @g.id.to_s, as: :json, params:{locations:{ address:"123 fake street", modes: "driveMode"}}
     	assert_response :success
     	
+    	@l = Location.last
 
+    	assert_equal @l.address, "123 fake street"
+    	assert_equal @l.tMode, "driveMode"
 
 	end
 end
