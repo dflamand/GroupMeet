@@ -317,7 +317,8 @@ input[type="button"]{
 }
 
 .navbar-title{
-  color: grey;
+  font-family: 'Lobster', sans-serif;
+  color: #4286f4;
   font-size: 24px;
   margin-top: 8px;
 }
